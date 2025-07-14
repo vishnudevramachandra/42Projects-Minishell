@@ -4,8 +4,8 @@ RED         = \033[0;31m
 RESET       = \033[0m
 
 CC = cc
-LDFLAGS = -lreadline
-CFLAGS = -Wextra -Wall -Werror
+LDFLAGS = -lreadline -L/usr/local/opt/readline/lib
+CFLAGS = -Wextra -Wall -Werror -I/usr/local/opt/readline/include
 
 NAME = minishell
 

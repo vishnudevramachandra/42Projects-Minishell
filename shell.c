@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/07/09 15:41:29 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/07/14 09:28:17 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,30 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <unistd.h>
 
-//ignore Ctrl-C Ctrl-\ Ctrl-Z signals
-void	ignore_signal_in_parent(void)
+void	sig_handler(int signum, siginfo_t *info, void *context)
+{
+	(void)context;
+	(void)info;
+	if (signum == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+	}
+	rl_redisplay();
+}
+
+//replicates Ctrl-C Ctrl-\ behaviour in bash
+void	handle_signal_in_msh(void)
 {
 	struct sigaction	act;
 
 	sigemptyset(&act.sa_mask);
-	act.sa_flags = 0;
-	act.sa_handler = SIG_IGN;
+	act.sa_flags = SA_SIGINFO;
+	act.sa_sigaction = sig_handler;
 	sigaction(SIGINT, &act, NULL);
-	sigaction(SIGTSTP, &act, NULL);
 	sigaction(SIGQUIT, &act, NULL);
 }
 
@@ -44,13 +57,27 @@ void	restore_signal_in_child(void)
 
 int	main(void)
 {
-	const char	*prompt = "minishell-$";
+	const char	*prompt = "msh-1.0$ ";
 	char		*linebuffer;
+	int			len;
 	
-	ignore_signal_in_parent();
+	handle_signal_in_msh();
+	linebuffer = NULL;
 	while (1)
 	{
+		if (linebuffer)
+		{
+			free(linebuffer);
+			linebuffer = NULL;
+		}
 		linebuffer = readline(prompt);
-		free(linebuffer);
+		if (!linebuffer)
+			exit(EXIT_SUCCESS);
+		len = 0;
+		while(linebuffer[len])
+			len++;
+		printf("len:%i\n", len);
+		if (*linebuffer)
+			add_history(linebuffer);
 	}
 }
