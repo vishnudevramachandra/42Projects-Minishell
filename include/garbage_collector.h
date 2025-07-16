@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_utils.c                                    :+:      :+:    :+:   */
+/*   garbage_collector.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/14 23:28:15 by swied             #+#    #+#             */
-/*   Updated: 2025/07/15 02:00:50 by swied            ###   ########.fr       */
+/*   Created: 2025/07/15 00:50:34 by swied             #+#    #+#             */
+/*   Updated: 2025/07/15 00:59:25 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/execute.h"
+#ifndef	GARBAGE_COLLECTOR_H
+# define GARBAGE_COLLECTOR_H
 
-int	ft_strcmp(const char *s1, const char *s2)
+typedef struct s_garbage
 {
-	size_t	i;
+	void *ptr;
+	struct s_garbage *next;
+} t_garbage;
 
-	i = 1;
-	while (s1[i])
-	{
-		if (*s1 == '\0' || *s2 == '\0')
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		else if (*s1 == *s2)
-		{
-			s1++;
-			s2++;
-		}
-		else
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		i++;
-	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
-}
+t_garbage **get_garbage_list(void);
+void 		add_to_garbage(void *ptr);
+void 		free_all_garbage(void);
+
+#endif

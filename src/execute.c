@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:36 by swied             #+#    #+#             */
-/*   Updated: 2025/07/14 23:54:59 by swied            ###   ########.fr       */
+/*   Updated: 2025/07/16 18:51:02 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,48 +72,98 @@ char	*get_correct_path(char *cmd, char **envp)
 		return (free(suffix), NULL);
 	result = get_correct_path_second(path_array, suffix);
 	if (!result)
-		return (perror("Cmd not found"), NULL);
+		return (printf("Cmd not found\n"), NULL);
 	else
 		return (result);
 }
 
-int	execute(t_data *data, char **envp)
+int	execute(t_cmd *cmd, char **envp)
 {
 	pid_t	pid;
 	char	*path;
-	char	*args[3];
 
-	data->cmd = "ls";
-	data->env = "-la";
-	path = get_correct_path(data->cmd, envp);
+	path = get_correct_path(cmd->args[0], envp);
 	if (!path)
 		return(printf("Cmd not found\n"), 0);
-	args[0] = data->cmd;
-	args[1] = data->env;
-	args[2] = NULL;
 	pid = fork();
 	if (pid == -1)
 		return(printf("Fork failed\n"), 1);
 	if (pid == 0)
 	{
-		execve(path, args, envp);
-		return (printf("Execve failed\n"), 1);
+		execve(path, cmd->args, envp);
+		perror("Execve failed");
+		exit(EXIT_FAILURE);
 	}
 	waitpid(pid, NULL, 0);
 	free(path);
 	return (0);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_data	*data;
-	(void)argc;
-	(void)argv;
+// int main(int argc, char **argv, char **envp)
+// {
+// 	t_cmd *cmd;
+// 	(void)argc;
+// 	(void)argv;
 	
-	data = malloc(sizeof(t_data));
-	if (!data)
-		return(printf("Malloc failed\n"), 1);
-	execute(data, envp);
-	free(data);
-	return (0);
-}
+// 	printf("=== Testing pwd ===\n");
+// 	builtin_pwd();
+	
+// 	printf("=== Testing echo ===\n");
+// 	char *echo_args[] = {"echo", "hello", "world", NULL};
+// 	builtin_echo(echo_args);
+	
+// 	printf("=== Testing echo -n ===\n");
+// 	char *echo_n_args[] = {"echo", "-n", "test", "hallo", NULL};
+// 	builtin_echo(echo_n_args);
+	
+// 	printf("=== Testing external command ===\n");
+// 	cmd = malloc(sizeof(t_cmd));
+// 	if (!cmd)
+// 		return 1;
+// 	add_to_garbage(cmd);
+// 	cmd->args = ft_split("ls -la", ' ');
+// 	add_to_garbage(cmd->args);
+// 	execute(cmd, envp);
+	
+// 	free_all_garbage();
+// 	return 0;
+// }
+
+// Test main for builtin cd
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	char	*test_args[3];
+// 	int		result;
+// 	char	*cwd;
+	
+// 	(void)argc;
+// 	(void)argv;
+
+// 	printf("Start env:\n%s\nOld pwd:\n%s\n", getenv("PWD"), getenv("OLDPWD"));
+// 	printf("Test 1: cd (no argument)\n");
+// 	test_args[0] = "cd";
+// 	test_args[1] = NULL;
+// 	result = builtin_cd(test_args, &envp);
+// 	cwd = getcwd(NULL, 0);
+// 	printf("%s\n", cwd);
+// 	printf("After Test 1 env:\n%s\nOld pwd:\n%s\n", getenv("PWD"), getenv("OLDPWD"));
+
+// 	printf("Test 2: cd ..\n");
+// 	test_args[0] = "cd";
+// 	test_args[1] = "..";
+// 	test_args[2] = NULL;
+// 	result = builtin_cd(test_args, &envp);
+// 	cwd = getcwd(NULL, 0);
+// 	printf("%s\n", cwd);
+// 	printf("After Test 2 env:\n%s\nOld pwd:\n%s\n", getenv("PWD"), getenv("OLDPWD"));
+
+// 	printf("Test 3: cd /bin\n");
+// 	test_args[0] = "cd";
+// 	test_args[1] = "/bin";
+// 	test_args[2] = NULL;
+// 	result = builtin_cd(test_args, &envp);
+// 	cwd = getcwd(NULL, 0);
+// 	printf("%s\n", cwd);
+// 	printf("After Test 3 env:\n%s\nOld pwd:\n%s\n", getenv("PWD"), getenv("OLDPWD"));
+// 	return (0);
+// }

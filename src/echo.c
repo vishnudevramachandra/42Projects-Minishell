@@ -1,34 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_utils.c                                    :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/14 23:28:15 by swied             #+#    #+#             */
-/*   Updated: 2025/07/15 02:00:50 by swied            ###   ########.fr       */
+/*   Created: 2025/07/15 01:49:43 by swied             #+#    #+#             */
+/*   Updated: 2025/07/15 15:14:47 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	builtin_echo(char **args)
 {
-	size_t	i;
+	int	i;
+	int	newline;
 
+	newline = 1;
 	i = 1;
-	while (s1[i])
+	while (args[i] && ft_strcmp(args[i], "-n") == 0)
 	{
-		if (*s1 == '\0' || *s2 == '\0')
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		else if (*s1 == *s2)
-		{
-			s1++;
-			s2++;
-		}
-		else
-			return ((unsigned char)*s1 - (unsigned char)*s2);
+		newline = 0;
 		i++;
 	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
+	while (args[i])
+	{
+		ft_putstr_fd(args[i], 1);
+		if (args[i + 1])
+			ft_putchar_fd(' ', 1);
+		i++;
+	}
+	if (newline)
+		ft_putchar_fd('\n', 1);
+	return (0);
 }

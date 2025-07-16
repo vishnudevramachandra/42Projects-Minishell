@@ -6,7 +6,7 @@
 #    By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
-#    Updated: 2025/07/14 23:54:31 by swied            ###   ########.fr        #
+#    Updated: 2025/07/16 14:36:39 by swied            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,13 @@ YELLOW := \033[0;33m
 RED := \033[0;31m
 NC := \033[0m # No Color
 
-SRCS :=			$(SRCD)/execute.c
+SRCS :=			$(SRCD)/execute.c \
+				$(SRCD)/garbage.c \
+				$(SRCD)/pwd.c \
+				$(SRCD)/echo.c \
+				$(SRCD)/cd.c \
+				$(SRCD)/execute_utils.c \
+				$(SRCD)/env.c
 
 OBJS := $(SRCS:$(SRCD)/%.c=$(OBJD)/%.o)
 

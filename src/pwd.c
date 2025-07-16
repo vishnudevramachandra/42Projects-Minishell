@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_utils.c                                    :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/14 23:28:15 by swied             #+#    #+#             */
-/*   Updated: 2025/07/15 02:00:50 by swied            ###   ########.fr       */
+/*   Created: 2025/07/15 01:40:52 by swied             #+#    #+#             */
+/*   Updated: 2025/07/15 15:15:01 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+int	builtin_pwd(void)
 {
-	size_t	i;
+	char	*cwd;
 
-	i = 1;
-	while (s1[i])
+	cwd = getcwd(NULL, 0);
+	if (cwd == NULL)
 	{
-		if (*s1 == '\0' || *s2 == '\0')
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		else if (*s1 == *s2)
-		{
-			s1++;
-			s2++;
-		}
-		else
-			return ((unsigned char)*s1 - (unsigned char)*s2);
-		i++;
+		printf("getcwd failed\n");
+		return (1);
 	}
-	return ((unsigned char)*s1 - (unsigned char)*s2);
+	add_to_garbage(cwd);
+	ft_putstr_fd(cwd, 1);
+	ft_putstr_fd("\n", 1);
+	return (0);
 }
