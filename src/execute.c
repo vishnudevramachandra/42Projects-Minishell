@@ -6,83 +6,50 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:36 by swied             #+#    #+#             */
-/*   Updated: 2025/07/16 18:51:02 by swied            ###   ########.fr       */
+/*   Updated: 2025/07/17 17:57:15 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-char	*get_total_path(char **envp)
+int	execute_cmd_or_builtin(t_cmd_node *cmd_node, char **envp)
 {
-	char	*correct_path;
-	int		i;
-
-	correct_path = NULL;
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-		{
-			correct_path = envp[i] + 5;
-			break ;
-		}
-		i++;
-	}
-	return (correct_path);
-}
-
-char	*get_correct_path_second(char **path_array, char *suffix)
-{
-	int		i;
-	char	*result;
-
-	i = 0;
-	while (path_array[i])
-	{
-		result = ft_strjoin(path_array[i], suffix);
-		free(path_array[i]);
-		path_array[i] = result;
-		if (path_array[i] == NULL)
-			return (free(suffix), free(path_array), NULL);
-		if (access(path_array[i], X_OK) == 0)
-		{
-			result = ft_strdup(path_array[i]);
-			return (free(suffix), result);
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-char	*get_correct_path(char *cmd, char **envp)
-{
-	char	**path_array;
-	char	*suffix;
-	char	*correct_path;
-	char	*result;
-
-	correct_path = get_total_path(envp);
-	if (!correct_path)
-		return (NULL);
-	suffix = ft_strjoin("/", cmd);
-	if (!suffix)
-		return (NULL);
-	path_array = ft_split(correct_path, ':');
-	if (!path_array)
-		return (free(suffix), NULL);
-	result = get_correct_path_second(path_array, suffix);
-	if (!result)
-		return (printf("Cmd not found\n"), NULL);
+	if (cmd_node->cmd_type == 1)
+		execute_builtin(cmd_node, envp);
 	else
-		return (result);
+		execute_cmd(cmd_node, envp);
+	//clean_up();
+	return (0);
 }
 
-int	execute(t_cmd *cmd, char **envp)
+int	execute_cmd_loop(t_cmd_node *cmd_node, char **envp)
+{
+	execute_cmd_or_builtin(cmd_node, envp);
+	return (0);
+}
+
+int	execute_loop(t_cmd_list *cmd_list, char **envp)
+{
+	t_cmd_node	*cmd_node;
+
+	cmd_node = cmd_list->head;
+	while (cmd_node)
+	{
+		if (execute_cmd_loop(cmd_node, envp))
+			return (1);
+		cmd_node = cmd_node->next;
+	}
+	return (0);
+}
+
+int	execute_cmd(t_cmd_node *cmd_node, char **envp)
 {
 	pid_t	pid;
 	char	*path;
 
-	path = get_correct_path(cmd->args[0], envp);
+	if (!cmd_node || !cmd_node->cmd)
+		return(0);
+	path = get_correct_path(cmd_node->cmd[0], envp);
 	if (!path)
 		return(printf("Cmd not found\n"), 0);
 	pid = fork();
@@ -90,14 +57,45 @@ int	execute(t_cmd *cmd, char **envp)
 		return(printf("Fork failed\n"), 1);
 	if (pid == 0)
 	{
-		execve(path, cmd->args, envp);
-		perror("Execve failed");
+		execve(path, cmd_node->cmd, envp);
+		printf("Execve failed\n%s | %s\n", cmd_node->cmd[0], cmd_node->cmd[1]);
 		exit(EXIT_FAILURE);
 	}
 	waitpid(pid, NULL, 0);
 	free(path);
 	return (0);
 }
+
+int	main(int argc, char **argv, char **envp)
+{
+	(void)argc;
+	(void)argv;
+	t_cmd_list	*cmd_list;
+	t_cmd_node	*cmd_node;
+
+	cmd_list = malloc(sizeof(t_cmd_list));
+	cmd_node = malloc(sizeof(t_cmd_node));
+	cmd_list->head = malloc(sizeof(t_cmd_node));
+	cmd_node->cmd = malloc(sizeof(char*) * 3);
+	cmd_node->cmd[0] = "ls";
+	cmd_node->cmd[1] = "-l";
+	cmd_node->cmd_type = 0;
+	cmd_list->head = cmd_node;
+	execute_loop(cmd_list, envp);
+	return (0);
+}
+
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	(void)argc;
+// 	t_cmd	*cmd;
+// 	if (!argv[1])
+// 		return (0);
+// 	cmd = malloc(sizeof(t_cmd));
+// 	cmd->args = &argv[1];
+// 	execute_cmd(cmd, envp);
+// 	return (0);
+// }
 
 // int main(int argc, char **argv, char **envp)
 // {

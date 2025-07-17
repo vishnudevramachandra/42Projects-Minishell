@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/07/16 18:49:57 by swied            ###   ########.fr       */
+/*   Updated: 2025/07/17 16:07:47 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,16 @@ int	builtin_cd(char **args, char ***env);
 //env.c
 int	update_env_var(char ***env, char *key, char *value);
 int	add_env_var(char ***env, char *new_entry, int i);
+
+//get_path.c
+char	*get_total_path(char **envp);
+char	*get_correct_path_second(char **path_array, char *suffix);
+char	*get_correct_path(char *cmd, char **envp);
+
+//builtin.c
+int	execute_builtin(t_cmd_node *cmd_node, char **envp);
+
+//execute.c
+int	execute_cmd(t_cmd_node *cmd_node, char **envp);
 
 #endif

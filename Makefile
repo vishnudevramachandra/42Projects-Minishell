@@ -6,7 +6,7 @@
 #    By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
-#    Updated: 2025/07/16 14:36:39 by swied            ###   ########.fr        #
+#    Updated: 2025/07/17 16:12:32 by swied            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,9 @@ SRCS :=			$(SRCD)/execute.c \
 				$(SRCD)/echo.c \
 				$(SRCD)/cd.c \
 				$(SRCD)/execute_utils.c \
-				$(SRCD)/env.c
+				$(SRCD)/env.c \
+				$(SRCD)/builtin.c \
+				$(SRCD)/get_path.c
 
 OBJS := $(SRCS:$(SRCD)/%.c=$(OBJD)/%.o)
 

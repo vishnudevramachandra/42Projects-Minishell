@@ -6,13 +6,16 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 18:42:38 by swied             #+#    #+#             */
-/*   Updated: 2025/07/16 19:08:20 by swied            ###   ########.fr       */
+/*   Updated: 2025/07/17 15:27:30 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include <unistd.h>
+
+typedef struct s_file_node t_file_node;
+typedef struct s_cmd_node t_cmd_node;
 
 typedef enum e_redir_type
 {
