@@ -77,9 +77,9 @@ int	main(int argc, char **argv, char **envp)
 	cmd_node = malloc(sizeof(t_cmd_node));
 	cmd_list->head = malloc(sizeof(t_cmd_node));
 	cmd_node->cmd = malloc(sizeof(char*) * 3);
-	cmd_node->cmd[0] = "ls";
-	cmd_node->cmd[1] = "-l";
-	cmd_node->cmd_type = 0;
+	cmd_node->cmd[0] = "env";
+	cmd_node->cmd[1] = NULL;
+	cmd_node->cmd_type = 1;
 	cmd_list->head = cmd_node;
 	execute_loop(cmd_list, envp);
 	return (0);

@@ -42,6 +42,7 @@ int	ft_strcmp(const char *s1, const char *s2);
 int	builtin_pwd(void);
 int	builtin_echo(char **args);
 int	builtin_cd(char **args, char ***env);
+int	builtin_env(char **envp);
 
 //env.c
 int	update_env_var(char ***env, char *key, char *value);

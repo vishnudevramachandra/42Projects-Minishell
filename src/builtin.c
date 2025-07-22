@@ -20,5 +20,7 @@ int	execute_builtin(t_cmd_node *cmd_node, char **envp)
 		return (builtin_pwd(), 0);
 	else if (ft_strcmp(cmd_node->cmd[0], "echo") == 0)
 		return (builtin_echo(cmd_node->cmd), 0);
+	else if (ft_strcmp(cmd_node->cmd[0], "env") == 0)
+		return (builtin_env(envp), 0);
 	return (1);
 }
