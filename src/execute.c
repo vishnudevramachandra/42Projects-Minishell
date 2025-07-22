@@ -57,6 +57,22 @@ int	execute_cmd(t_cmd_node *cmd_node, char **envp)
 		return(printf("Fork failed\n"), 1);
 	if (pid == 0)
 	{
+		if (cmd_node->file->fd_infile != -1)
+		{
+			if (dup2(cmd_node->file->fd_infile, STDIN_FILENO) == -1)
+			{
+				perror("dup2 infile");
+				exit(EXIT_FAILURE);
+			}
+		}
+		if (cmd_node->file->fd_outfile != -1)
+		{
+			if (dup2(cmd_node->file->fd_outfile, STDOUT_FILENO) == -1)
+			{
+				perror ("dup2 outfile");
+				exit(EXIT_FAILURE);
+			}
+		}
 		execve(path, cmd_node->cmd, envp);
 		printf("Execve failed\n%s | %s\n", cmd_node->cmd[0], cmd_node->cmd[1]);
 		exit(EXIT_FAILURE);
@@ -66,24 +82,52 @@ int	execute_cmd(t_cmd_node *cmd_node, char **envp)
 	return (0);
 }
 
+void	cmd_init(t_cmd_node *cmd_node)
+{
+	cmd_node->cmd = malloc(sizeof(char *) * 3);
+	cmd_node->cmd[0] = "ls";
+	cmd_node->cmd[1] = "-l";
+	cmd_node->cmd[2] = NULL;
+	cmd_node->cmd_type = 0;
+	// Datei-Redirect vorbereiten
+	cmd_node->file = malloc(sizeof(t_file_list));
+	cmd_node->file->size = 1;
+	cmd_node->file->fd_infile = -1;
+	cmd_node->file->fd_outfile = -1;
+	// Datei-Node anlegen
+	t_file_node *file_node = malloc(sizeof(t_file_node));
+	file_node->filename = "test.txt";
+	file_node->redir_type = REDIR_OUT;
+	file_node->next = NULL;
+
+	cmd_node->file->head = file_node;
+	cmd_node->file->tail = file_node;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	t_cmd_list	*cmd_list;
-	t_cmd_node	*cmd_node;
 
-	cmd_list = malloc(sizeof(t_cmd_list));
-	cmd_node = malloc(sizeof(t_cmd_node));
-	cmd_list->head = malloc(sizeof(t_cmd_node));
-	cmd_node->cmd = malloc(sizeof(char*) * 3);
-	cmd_node->cmd[0] = "env";
-	cmd_node->cmd[1] = NULL;
-	cmd_node->cmd_type = 1;
+	t_cmd_list	*cmd_list = malloc(sizeof(t_cmd_list));
+	t_cmd_node	*cmd_node = malloc(sizeof(t_cmd_node));
+
+	cmd_init(cmd_node);
+
 	cmd_list->head = cmd_node;
+	cmd_list->tail = cmd_node;
+	cmd_list->size = 1;
+
+	// Redirects ausführen
+	if (redirect(cmd_list) != 0)
+		return (1);
+	// Befehl ausführen
 	execute_loop(cmd_list, envp);
+	(void)envp;
+
 	return (0);
 }
+
 
 // int	main(int argc, char **argv, char **envp)
 // {

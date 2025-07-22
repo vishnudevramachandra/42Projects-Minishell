@@ -33,7 +33,8 @@ SRCS :=			$(SRCD)/execute.c \
 				$(SRCD)/execute_utils.c \
 				$(SRCD)/env.c \
 				$(SRCD)/builtin.c \
-				$(SRCD)/get_path.c
+				$(SRCD)/get_path.c \
+				$(SRCD)/redirect.c
 
 OBJS := $(SRCS:$(SRCD)/%.c=$(OBJD)/%.o)
 

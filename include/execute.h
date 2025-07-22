@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <errno.h>
+# include <fcntl.h>
 # include "libft/libft.h"
 # include "garbage_collector.h"
 # include "minishell.h"
@@ -58,5 +59,10 @@ int	execute_builtin(t_cmd_node *cmd_node, char **envp);
 
 //execute.c
 int	execute_cmd(t_cmd_node *cmd_node, char **envp);
+int	execute_cmd_or_builtin(t_cmd_node *cmd_node, char **envp);
+
+//redirect.c
+int redirect(t_cmd_list *cmd_list);
+int	open_redirects(t_cmd_node *cmd_node);
 
 #endif
