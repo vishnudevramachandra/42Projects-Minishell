@@ -84,10 +84,9 @@ int	execute_cmd(t_cmd_node *cmd_node, char **envp)
 
 void	cmd_init(t_cmd_node *cmd_node)
 {
-	cmd_node->cmd = malloc(sizeof(char *) * 3);
+	cmd_node->cmd = malloc(sizeof(char *) * 4);
 	cmd_node->cmd[0] = "ls";
-	cmd_node->cmd[1] = "-l";
-	cmd_node->cmd[2] = NULL;
+	cmd_node->cmd[1] = NULL;
 	cmd_node->cmd_type = 0;
 	// Datei-Redirect vorbereiten
 	cmd_node->file = malloc(sizeof(t_file_list));
@@ -95,13 +94,26 @@ void	cmd_init(t_cmd_node *cmd_node)
 	cmd_node->file->fd_infile = -1;
 	cmd_node->file->fd_outfile = -1;
 	// Datei-Node anlegen
-	t_file_node *file_node = malloc(sizeof(t_file_node));
-	file_node->filename = "test.txt";
-	file_node->redir_type = REDIR_OUT;
-	file_node->next = NULL;
+	t_file_node *outfile_node1 = malloc(sizeof(t_file_node));
+	t_file_node *outfile_node2 = malloc(sizeof(t_file_node));
+	t_file_node *infile_node1 = malloc(sizeof(t_file_node));
+	t_file_node *infile_node2 = malloc(sizeof(t_file_node));
+	infile_node1->filename = "infile1.txt";
+	infile_node1->redir_type = REDIR_IN;
+	infile_node1->next = infile_node2;
+	infile_node2->filename = "infile2.txt";
+	infile_node2->redir_type = REDIR_IN;
+	infile_node2->next = outfile_node1;
 
-	cmd_node->file->head = file_node;
-	cmd_node->file->tail = file_node;
+	outfile_node1->filename = "test.txt";
+	outfile_node1->redir_type = REDIR_APPEND;
+	outfile_node1->next = outfile_node2;
+	outfile_node2->filename = "test2.txt";
+	outfile_node2->redir_type = REDIR_APPEND;
+	outfile_node2->next = NULL;
+
+	cmd_node->file->head = outfile_node1;
+	cmd_node->file->tail = outfile_node2;
 }
 
 int	main(int argc, char **argv, char **envp)
