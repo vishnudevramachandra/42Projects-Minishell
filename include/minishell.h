@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 18:42:38 by swied             #+#    #+#             */
-/*   Updated: 2025/07/17 15:27:30 by swied            ###   ########.fr       */
+/*   Updated: 2025/07/24 19:18:10 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef struct s_cmd_list
 	t_cmd_node	*head;
 	t_cmd_node	*tail;
 	ssize_t		size;
+	int			prev_fd;
+	
 }	t_cmd_list;
 
 typedef struct s_mini
