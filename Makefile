@@ -6,7 +6,7 @@
 #    By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
-#    Updated: 2025/07/24 18:40:11 by swied            ###   ########.fr        #
+#    Updated: 2025/07/25 18:09:10 by swied            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ SRCS :=			$(SRCD)/execute.c \
 				$(SRCD)/builtin.c \
 				$(SRCD)/get_path.c \
 				$(SRCD)/redirect.c \
-				$(SRCD)/pipes.c
+				$(SRCD)/pipes.c \
+				$(SRCD)/main.c
 
 OBJS := $(SRCS:$(SRCD)/%.c=$(OBJD)/%.o)
 

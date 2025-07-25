@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:19:52 by swied             #+#    #+#             */
-/*   Updated: 2025/07/24 19:28:59 by swied            ###   ########.fr       */
+/*   Updated: 2025/07/25 18:35:05 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,74 @@
 
 int	execute_pipes(t_cmd_list *cmd_list, char **envp)
 {
-	int	i;
-	pid_t	pid;
-	int		status;
-	int		pipefd[2];
+	pid_t		pid;
+	int			i;
+	int			status;
+	int			pipefd[2];
 	t_cmd_node	*current;
 
 	current = cmd_list->head;
-	i = 0;
 	cmd_list->prev_fd = -1;
+	i = 0;
 	while (i < cmd_list->size && current)
 	{
-		if (i < cmd_list->size - 1)
+		if (i < cmd_list->size -1)
 			pipe(pipefd);
 		pid = fork();
 		if (pid == 0)
-		{
-			if (cmd_list->prev_fd != -1)
-			{
-				dup2(cmd_list->prev_fd, STDIN_FILENO);
-				close(cmd_list->prev_fd);
-			}
-			if (i < cmd_list->size - 1)
-			{
-				close(pipefd[0]);
-				dup2(pipefd[1], STDOUT_FILENO);
-				close(pipefd[1]);
-			}
-			if (execute_cmd_or_builtin(current, envp))
-				exit(EXIT_FAILURE);
-		}
+			child_process(cmd_list, current, pipefd, i, envp);
 		else
-		{
-			if (cmd_list->prev_fd != -1)
-				close(cmd_list->prev_fd);
-			if (i < cmd_list->size - 1)
-			{
-				close(pipefd[1]);
-				cmd_list->prev_fd = pipefd[0];
-			}
-		}
+			parent_process(cmd_list, current, pipefd, i);
 		i++;
 		current = current->next;
 	}
 	while (wait(&status) > 0);
 	return (status);
+}
+
+void	child_process(t_cmd_list *cmd_list, t_cmd_node *current, int*pipefd,
+	int i, char **envp)
+{
+	if (current->file && current->file->fd_infile != -1)
+	{
+		dup2(current->file->fd_infile, STDIN_FILENO);
+		close(current->file->fd_infile);
+	}
+	else if (cmd_list->prev_fd != -1)
+	{
+		dup2(cmd_list->prev_fd, STDIN_FILENO);
+		close(cmd_list->prev_fd);
+	}
+	if (current->file && current->file->fd_outfile != -1)
+	{
+		dup2(current->file->fd_outfile, STDOUT_FILENO);
+		close(current->file->fd_outfile);
+	}
+	else if (i < cmd_list->size - 1)
+	{
+		close(pipefd[0]);
+		dup2(pipefd[1], STDOUT_FILENO);
+		close(pipefd[1]);
+	}
+	if (execute_cmd_or_builtin(current, envp))
+		exit(EXIT_FAILURE);
+}
+
+void	parent_process(t_cmd_list *cmd_list, t_cmd_node *current,
+	int *pipefd, int i)
+{
+	if (cmd_list->prev_fd != -1)
+		close(cmd_list->prev_fd);
+	if (i < cmd_list->size - 1)
+	{
+		close(pipefd[1]);
+		cmd_list->prev_fd = pipefd[0];
+	}
+	if (current->file)
+	{
+		if (current->file->fd_infile != -1)
+			close(current->file->fd_infile);
+		if (current->file->fd_outfile != -1)
+			close(current->file->fd_outfile);
+	}
 }
