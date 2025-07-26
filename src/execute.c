@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:36 by swied             #+#    #+#             */
-/*   Updated: 2025/07/25 19:22:14 by swied            ###   ########.fr       */
+/*   Updated: 2025/07/26 03:13:54 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	execute_cmd_loop(t_cmd_node *cmd_node, char **envp)
 
 int	execute_loop(t_cmd_list *cmd_list, char **envp)
 {
+	if (check_redirects(cmd_list->head) != 0)
+		return (1);
 	execute_pipes(cmd_list, envp);
 	return (0);
 }

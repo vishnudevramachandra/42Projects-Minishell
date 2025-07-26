@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/07/25 18:31:19 by swied            ###   ########.fr       */
+/*   Updated: 2025/07/26 04:44:04 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,17 @@ typedef struct s_pipe
 }	t_pipe;
 
 //execute_utils.c
-int	ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
 
 //builtins
-int	builtin_pwd(void);
-int	builtin_echo(char **args);
-int	builtin_cd(char **args, char ***env);
-int	builtin_env(char **envp);
+int		builtin_pwd(void);
+int		builtin_echo(char **args);
+int		builtin_cd(char **args, char ***env);
+int		builtin_env(char **envp);
 
 //env.c
-int	update_env_var(char ***env, char *key, char *value);
-int	add_env_var(char ***env, char *new_entry, int i);
+int		update_env_var(char ***env, char *key, char *value);
+int		add_env_var(char ***env, char *new_entry, int i);
 
 //get_path.c
 char	*get_total_path(char **envp);
@@ -55,28 +55,23 @@ char	*get_correct_path_second(char **path_array, char *suffix);
 char	*get_correct_path(char *cmd, char **envp);
 
 //builtin.c
-int	execute_builtin(t_cmd_node *cmd_node, char **envp);
+int		execute_builtin(t_cmd_node *cmd_node, char **envp);
 
 //execute.c
-int	execute_cmd(t_cmd_node *cmd_node, char **envp);
-int	execute_cmd_or_builtin(t_cmd_node *cmd_node, char **envp);
-int	execute_loop(t_cmd_list *cmd_list, char **envp);
-int	execute_cmd_loop(t_cmd_node *cmd_node, char **envp);
+int		execute_cmd(t_cmd_node *cmd_node, char **envp);
+int		execute_cmd_or_builtin(t_cmd_node *cmd_node, char **envp);
+int		execute_loop(t_cmd_list *cmd_list, char **envp);
+int		execute_cmd_loop(t_cmd_node *cmd_node, char **envp);
 
 //redirect.c
-int 	redirect(t_cmd_list *cmd_list);
+int 	redirect(t_cmd_node *cmd_node);
 int		open_redirects(t_cmd_node *cmd_node);
 void	check_fd(t_cmd_node *cmd_node);
+int		check_redirects(t_cmd_node *cmd_node);
 
 //pipes.c
-int	execute_pipes(t_cmd_list *cmd_list, char **envp);
-void	child_process(t_cmd_list *cmd_list, t_cmd_node *current, int*pipefd,
-	int i, char **envp);
+int		execute_pipes(t_cmd_list *cmd_list, char **envp);
 void	parent_process(t_cmd_list *cmd_list, t_cmd_node *current, int *pipefd, int i);
-
-//hardcode.c
-void	cmd_init1(t_cmd_node *cmd_node);
-void	cmd_init2(t_cmd_node *cmd_node);
-void	cmd_init3(t_cmd_node *cmd_node);
+void	setup_pipes(t_cmd_list *cmd_list, int *pipefd, int i);
 
 #endif
