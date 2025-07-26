@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:49:51 by swied             #+#    #+#             */
-/*   Updated: 2025/07/16 15:13:31 by swied            ###   ########.fr       */
+/*   Updated: 2025/07/26 17:01:48 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	builtin_env(char **envp)
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		printf("%s\n", envp[i]);
+		ft_putendl_fd(envp[i], 1);
 		i++;
 	}
 	return (0);
