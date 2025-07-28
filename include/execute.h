@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/07/26 04:44:04 by swied            ###   ########.fr       */
+/*   Updated: 2025/07/29 00:29:38 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int		execute_cmd_loop(t_cmd_node *cmd_node, char **envp);
 int 	redirect(t_cmd_node *cmd_node);
 int		open_redirects(t_cmd_node *cmd_node);
 void	check_fd(t_cmd_node *cmd_node);
-int		check_redirects(t_cmd_node *cmd_node);
 
 //pipes.c
 int		execute_pipes(t_cmd_list *cmd_list, char **envp);

@@ -1,37 +1,5 @@
 #include "../include/execute.h"
 
-int	check_redirects(t_cmd_node *cmd_node)
-{
-	t_file_node *current;
-	current = cmd_node->file->head;
-	while (current)
-	{
-		if (current->redir_type == REDIR_IN)
-		{
-			if (access(current->filename, R_OK))
-				return (perror("Infile"), 1);
-		}
-		else if (current->redir_type == REDIR_OUT)
-		{	
-			if (!access(current->filename, F_OK))
-			{
-				if (access(current->filename, R_OK | W_OK))
-					return (perror("Outfile"), 1);
-			}
-		}
-		else if (current->redir_type == REDIR_APPEND)
-		{
-			if (!access(current->filename, F_OK))
-			{
-				if (access(current->filename, R_OK | W_OK))
-					return (perror("Append"), 1);
-			}
-		}
-		current = current->next;
-	}
-	return (0);
-}
-
 int open_redirects(t_cmd_node *cmd_node)
 {
 	t_file_node *current;
@@ -43,19 +11,19 @@ int open_redirects(t_cmd_node *cmd_node)
 		{
 			cmd_node->file->fd_infile = open(current->filename, O_RDONLY);
 			if (cmd_node->file->fd_infile == -1)
-				return (perror("Infile"), 1);
+				return (perror(current->filename), 1);
 		}
 		else if (current->redir_type == REDIR_OUT)
 		{
 			cmd_node->file->fd_outfile = open(current->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			if (cmd_node->file->fd_outfile == -1)
-				return (perror("Outfile"), 1);
+				return (perror(current->filename), 1);
 		}
 		else if (current->redir_type == REDIR_APPEND)
 		{
 			cmd_node->file->fd_outfile = open(current->filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
 			if (cmd_node->file->fd_outfile == -1)
-				return (perror("Append"), 1);
+				return (perror(current->filename), 1);
 		}
 		current = current->next;
 	}
