@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 18:42:38 by swied             #+#    #+#             */
-/*   Updated: 2025/07/24 19:18:10 by swied            ###   ########.fr       */
+/*   Updated: 2025/07/29 02:33:53 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,29 @@
 
 typedef struct s_file_node t_file_node;
 typedef struct s_cmd_node t_cmd_node;
+typedef	struct s_hd_list t_hd_list;
+typedef struct s_hd_node t_hd_node;
+
+typedef struct s_hd_line
+{
+	char				*lines;
+	struct t_hd_line	*next;
+}	t_hd_line;
+
+typedef struct s_hd_node
+{
+	t_file_node	*file_node;
+	t_hd_line			*lines;
+	char				*lim;
+	t_hd_node	*next;
+}	t_hd_node;
+
+typedef struct s_hd_list
+{
+	t_hd_node	*head;	
+	t_hd_node	*tail;
+	size_t				size;
+}	t_hd_list;
 
 typedef enum e_redir_type
 {
@@ -47,6 +70,7 @@ typedef struct s_cmd_node
 	char		**cmd;
 	t_file_list	*file;
 	t_cmd_node	*next;
+	t_hd_list	*hd_list;
 }	t_cmd_node;
 
 typedef struct s_cmd_list

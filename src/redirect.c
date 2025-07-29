@@ -25,7 +25,12 @@ int open_redirects(t_cmd_node *cmd_node)
 			if (cmd_node->file->fd_outfile == -1)
 				return (perror(current->filename), 1);
 		}
-		current = current->next;
+		else if (current->redir_type == REDIR_HEREDOC)
+		{
+			cmd_node->file->fd_infile = open(current->filename, O_RDONLY);
+			if (cmd_node->file->fd_infile == -1)
+				return(perror(current->filename), 1);
+		}
 	}
 	return (0);
 }
