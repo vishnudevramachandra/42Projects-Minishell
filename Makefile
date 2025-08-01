@@ -19,6 +19,8 @@ $(NAME):
 
 clean:
 
-fclean:
+fclean: clean
+	rm -f $(NAME)
+	@echo "$(RED)$(NAME) executable removed successfully!$(RESET)\n"
 
-re:
+re: fclean all
