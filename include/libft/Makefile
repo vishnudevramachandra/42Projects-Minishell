@@ -6,7 +6,7 @@
 #    By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 12:00:36 by swied             #+#    #+#              #
-#    Updated: 2025/07/14 23:29:29 by swied            ###   ########.fr        #
+#    Updated: 2025/07/31 18:48:18 by swied            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,9 @@ SRCS := ft_isalpha.c \
 		ft_putchar_fd.c \
 		ft_putstr_fd.c \
 		ft_putendl_fd.c \
-		ft_putnbr_fd.c
+		ft_putnbr_fd.c \
+		get_next_line.c \
+		get_next_line_utils.c
 
 
 OBJS := $(SRCS:.c=.o)

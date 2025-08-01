@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 12:23:50 by swied             #+#    #+#             */
-/*   Updated: 2025/07/14 23:30:02 by swied            ###   ########.fr       */
+/*   Updated: 2025/07/31 18:00:28 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stddef.h>
 # include <stdarg.h>
+# include "get_next_line.h"
 
 int			ft_isalpha(int c);
 int			ft_isdigit(int c);
