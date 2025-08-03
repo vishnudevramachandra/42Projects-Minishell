@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/07/29 02:32:54 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/03 11:00:01 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		builtin_pwd(void);
 int		builtin_echo(char **args);
 int		builtin_cd(char **args, char ***env);
 int		builtin_env(char **envp);
+int		builtin_exit(int status);
 
 //env.c
 int		update_env_var(char ***env, char *key, char *value);
@@ -58,7 +59,16 @@ void	check_fd(t_cmd_node *cmd_node);
 
 //pipes.c
 int		execute_pipes(t_cmd_list *cmd_list, char **envp);
-void	parent_process(t_cmd_list *cmd_list, t_cmd_node *current, int *pipefd, int i);
+void	close_pipes(t_cmd_list *cmd_list, t_cmd_node *current, int *pipefd, int i);
 void	setup_pipes(t_cmd_list *cmd_list, int *pipefd, int i);
+
+//heredoc_utils.c
+t_hd_line	*create_hd_line(char *content);
+t_hd_node	*create_hd_node(char *lim);
+void		add_line_to_heredoc(t_hd_node *hd_node, char *line);
+int			is_delimiter(char *line, char *delimiter);
+int			create_heredoc_fd(t_hd_node *hd_node);
+int			write_heredoc_to_pipe(t_hd_node *hd_node, int write_fd);
+int			check_exit_status(pid_t child_pid, t_mini *mini);
 
 #endif
