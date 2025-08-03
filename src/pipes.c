@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:19:52 by swied             #+#    #+#             */
-/*   Updated: 2025/07/26 02:17:15 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/03 10:24:26 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	execute_pipes(t_cmd_list *cmd_list, char **envp)
 				exit(EXIT_FAILURE);
 		}
 		else
-			parent_process(cmd_list, current, pipefd, i);
+			close_pipes(cmd_list, current, pipefd, i);
 		i++;
 		current = current->next;
 	}
@@ -60,7 +60,7 @@ void	setup_pipes(t_cmd_list *cmd_list, int *pipefd, int i)
 	}
 }
 
-void	parent_process(t_cmd_list *cmd_list, t_cmd_node *current,
+void	close_pipes(t_cmd_list *cmd_list, t_cmd_node *current,
 	int *pipefd, int i)
 {
 	if (cmd_list->prev_fd != -1)
