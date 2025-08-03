@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:36 by swied             #+#    #+#             */
-/*   Updated: 2025/07/29 00:29:32 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/03 12:09:49 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,29 @@ int	execute_cmd_or_builtin(t_cmd_node *cmd_node, char **envp)
 {
 	int	status;
 
+	status = 0;
 	if (cmd_node->cmd_type == 1)
 	{
 		status = execute_builtin(cmd_node, envp);
 		exit(status);
 	}
 	else
+	{
 		execute_cmd(cmd_node, envp);
+		exit(status);
+	}
 	return (1);
-}
-
-int	execute_cmd_loop(t_cmd_node *cmd_node, char **envp)
-{
-	execute_cmd_or_builtin(cmd_node, envp);
-	return (0);
 }
 
 int	execute_loop(t_cmd_list *cmd_list, char **envp)
 {
+	int	status;
+
+	if (cmd_list->size == 1 && cmd_list->head->cmd_type == 1)
+	{
+		status = execute_builtin(cmd_list->head, envp);
+		return (status);
+	}
 	execute_pipes(cmd_list, envp);
 	return (0);
 }
@@ -52,6 +57,7 @@ int	execute_cmd(t_cmd_node *cmd_node, char **envp)
 		exit(127);
 	}
 	execve(path, cmd_node->cmd, envp);
+	free(path);
 	ft_putstr_fd("execve failed: ", 2);
 	exit(126);
 }
