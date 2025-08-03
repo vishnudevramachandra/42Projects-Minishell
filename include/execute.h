@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/08/03 11:00:01 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/03 12:02:12 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,12 @@ int			is_delimiter(char *line, char *delimiter);
 int			create_heredoc_fd(t_hd_node *hd_node);
 int			write_heredoc_to_pipe(t_hd_node *hd_node, int write_fd);
 int			check_exit_status(pid_t child_pid, t_mini *mini);
+
+//garbage.c
+
+void		*gc_malloc(size_t size);
+void 		free_all_garbage(void);
+void 		add_to_garbage(void *ptr);
+t_garbage 	**get_garbage_list(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:55:50 by swied             #+#    #+#             */
-/*   Updated: 2025/07/15 00:59:01 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/03 12:02:33 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,14 @@ void free_all_garbage(void)
 		free(tmp);
 	}
 	*get_garbage_list() = NULL;
+}
+
+void	*gc_malloc(size_t size)
+{
+	void	*ret;	
+	ret = malloc(size);
+	if (!ret)
+		return (NULL);
+	add_to_garbage(ret);
+	return (ret);
 }
