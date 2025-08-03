@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:44:50 by swied             #+#    #+#             */
-/*   Updated: 2025/07/17 15:45:45 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/03 12:08:56 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*get_correct_path_second(char **path_array, char *suffix)
 		}
 		i++;
 	}
-	return (NULL);
+	return (free(suffix), free(path_array), free(result), NULL);
 }
 
 char	*get_correct_path(char *cmd, char **envp)
@@ -71,8 +71,5 @@ char	*get_correct_path(char *cmd, char **envp)
 	if (!path_array)
 		return (free(suffix), NULL);
 	result = get_correct_path_second(path_array, suffix);
-	if (!result)
-		return (printf("Cmd not found\n"), NULL);
-	else
-		return (result);
+	return (result);
 }

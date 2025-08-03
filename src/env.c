@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:49:51 by swied             #+#    #+#             */
-/*   Updated: 2025/07/26 17:01:48 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/03 12:06:00 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ int	update_env_var(char ***env, char *key, char *value)
 		if (ft_strncmp((*env)[i], key, key_len) == 0 && (*env)[i][key_len] == '=')
 		{
 			(*env)[i] = new_entry;
-			return (0);
+			return (free(new_entry), 0);
 		}
 		i++;
 	}
 	if (add_env_var(env, new_entry, i) == 1)
-		return (1);
-	return(0);
+		return (free(new_entry), 1);
+	return(free(new_entry), 0);
 }
 
 int	add_env_var(char ***env, char *new_entry, int i)
@@ -71,5 +71,5 @@ int	add_env_var(char ***env, char *new_entry, int i)
 	new_env[i + 1] = NULL;
 	free(*env);
 	*env = new_env;
-	return (0);
+	return (free(new_env), 0);
 }
