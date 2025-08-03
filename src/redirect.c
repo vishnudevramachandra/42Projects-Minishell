@@ -31,6 +31,7 @@ int open_redirects(t_cmd_node *cmd_node)
 			if (cmd_node->file->fd_infile == -1)
 				return(perror(current->filename), 1);
 		}
+		current = current->next;
 	}
 	return (0);
 }
@@ -51,7 +52,7 @@ void	check_fd(t_cmd_node *cmd_node)
 
 int redirect(t_cmd_node *cmd_node)
 {
-	if (!cmd_node || !cmd_node->file || !cmd_node->file->head)
+	if (!cmd_node || !cmd_node->file)
 		return (0);
 	if (open_redirects(cmd_node) != 0)
 		return (1);
