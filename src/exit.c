@@ -6,14 +6,14 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 10:58:06 by swied             #+#    #+#             */
-/*   Updated: 2025/08/03 11:01:55 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/04 15:33:41 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-int	builtin_exit(int status)
+int	builtin_exit(void)
 {
-	//clean everything;
-	exit(status);
+	free_all_garbage();
+	exit(0);
 }

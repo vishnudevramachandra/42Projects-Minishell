@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/08/03 12:02:12 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/04 15:34:01 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		builtin_pwd(void);
 int		builtin_echo(char **args);
 int		builtin_cd(char **args, char ***env);
 int		builtin_env(char **envp);
-int		builtin_exit(int status);
+int		builtin_exit(void);
 
 //env.c
 int		update_env_var(char ***env, char *key, char *value);
