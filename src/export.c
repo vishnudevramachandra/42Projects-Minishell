@@ -6,13 +6,22 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 16:45:00 by swied             #+#    #+#             */
-/*   Updated: 2025/08/04 17:55:53 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/04 18:54:46 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-int	builtin_export(t_env_list *env_list)
+int	builtin_export(t_env_list *env_list, t_cmd_node *cmd_node)
+{
+	if (cmd_node->cmd[1] == NULL)
+		print_export(env_list);
+	else
+		printf("mehr als ein cmd-arg\n");
+	return (0);
+}
+
+void	print_export(t_env_list *env_list)
 {
 	t_env_node	*current;
 
@@ -27,5 +36,4 @@ int	builtin_export(t_env_list *env_list)
 		}
 		current = current->next;
 	}
-	return (0);
 }

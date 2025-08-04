@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 17:42:42 by swied             #+#    #+#             */
-/*   Updated: 2025/08/04 17:46:57 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/04 18:55:17 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void	cmd_init1(t_cmd_node *cmd_node)
 {
-	cmd_node->cmd = gc_malloc(sizeof(char *) * 2);
-	cmd_node->cmd[0] = "exit";
+	cmd_node->cmd = gc_malloc(sizeof(char *) * 3);
+	cmd_node->cmd[0] = "export";
+	// cmd_node->cmd[1] = "test";
 	cmd_node->cmd[1] = NULL;
 	cmd_node->cmd_type = 1;
 
@@ -140,7 +141,7 @@ int	main(int argc, char **argv, char **envp)
 	t_env_list *env_list;
 	env_list = fill_env_list(envp);
 
-	builtin_export(env_list);
+	// builtin_export(env_list, cmd_list->head);
 	// t_env_node *current;
 	// current = env_list->head;
 	// while (current)
@@ -149,7 +150,7 @@ int	main(int argc, char **argv, char **envp)
 	// 	current = current->next;
 	// }
 
-	// status = execute_loop(cmd_list, envp);
+	status = execute_loop(cmd_list, envp, env_list);
 	free_all_garbage();
 	return (status);
 }

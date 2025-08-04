@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/08/04 17:51:00 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/04 19:03:31 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,14 @@ int		builtin_echo(char **args);
 int		builtin_cd(char **args, char ***env);
 int		builtin_env(char **envp);
 int		builtin_exit(void);
-int		builtin_export(t_env_list *env_list);
+int		builtin_export(t_env_list *env_list, t_cmd_node *cmd_node);
 
 //env.c
 int		update_env_var(char ***env, char *key, char *value);
 int		add_env_var(char ***env, char *new_entry, int i);
+
+//export.c
+void	print_export(t_env_list *env_list);
 
 //env_list.c
 t_env_list	*fill_env_list(char **envp);
@@ -48,12 +51,12 @@ char	*get_correct_path_second(char **path_array, char *suffix);
 char	*get_correct_path(char *cmd, char **envp);
 
 //builtin.c
-int		execute_builtin(t_cmd_node *cmd_node, char **envp);
+int		execute_builtin(t_cmd_node *cmd_node, char **envp, t_env_list *env_list);
 
 //execute.c
-int		execute_cmd(t_cmd_node *cmd_node, char **envp);
-int		execute_cmd_or_builtin(t_cmd_node *cmd_node, char **envp);
-int		execute_loop(t_cmd_list *cmd_list, char **envp);
+int		execute_cmd(t_cmd_node *cmd_node, char **envp, t_env_list *env_list);
+int		execute_cmd_or_builtin(t_cmd_node *cmd_node, char **envp, t_env_list *env_list);
+int		execute_loop(t_cmd_list *cmd_list, char **envp, t_env_list *env_list);
 int		execute_cmd_loop(t_cmd_node *cmd_node, char **envp);
 
 //redirect.c
@@ -62,7 +65,7 @@ int		open_redirects(t_cmd_node *cmd_node);
 void	check_fd(t_cmd_node *cmd_node);
 
 //pipes.c
-int		execute_pipes(t_cmd_list *cmd_list, char **envp);
+int		execute_pipes(t_cmd_list *cmd_list, char **envp, t_env_list *env_list);
 void	close_pipes(t_cmd_list *cmd_list, t_cmd_node *current, int *pipefd, int i);
 void	setup_pipes(t_cmd_list *cmd_list, int *pipefd, int i);
 

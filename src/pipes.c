@@ -6,13 +6,13 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:19:52 by swied             #+#    #+#             */
-/*   Updated: 2025/08/03 10:24:26 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/04 18:30:04 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-int	execute_pipes(t_cmd_list *cmd_list, char **envp)
+int	execute_pipes(t_cmd_list *cmd_list, char **envp, t_env_list *env_list)
 {
 	pid_t		pid;
 	int			i;
@@ -33,7 +33,7 @@ int	execute_pipes(t_cmd_list *cmd_list, char **envp)
 			setup_pipes(cmd_list, pipefd, i);
 			if (redirect(current) != 0)
 				exit(EXIT_FAILURE);
-			if (execute_cmd_or_builtin(current, envp) != 0)
+			if (execute_cmd_or_builtin(current, envp, env_list) != 0)
 				exit(EXIT_FAILURE);
 		}
 		else
