@@ -6,7 +6,7 @@
 #    By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
-#    Updated: 2025/08/03 11:00:18 by swied            ###   ########.fr        #
+#    Updated: 2025/08/04 17:47:13 by swied            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,9 @@ SRCS :=			$(SRCD)/execute.c \
 				$(SRCD)/main.c \
 				$(SRCD)/heredoc.c \
 				$(SRCD)/heredoc_utils.c \
-				$(SRCD)/exit.c
+				$(SRCD)/exit.c \
+				$(SRCD)/env_list.c \
+				$(SRCD)/export.c
 
 OBJS := $(SRCS:$(SRCD)/%.c=$(OBJD)/%.o)
 

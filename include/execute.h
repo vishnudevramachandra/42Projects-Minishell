@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/08/04 15:34:01 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/04 17:51:00 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,14 @@ int		builtin_echo(char **args);
 int		builtin_cd(char **args, char ***env);
 int		builtin_env(char **envp);
 int		builtin_exit(void);
+int		builtin_export(t_env_list *env_list);
 
 //env.c
 int		update_env_var(char ***env, char *key, char *value);
 int		add_env_var(char ***env, char *new_entry, int i);
+
+//env_list.c
+t_env_list	*fill_env_list(char **envp);
 
 //get_path.c
 char	*get_total_path(char **envp);
