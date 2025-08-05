@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/08/04 19:03:31 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:53:55 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,44 +30,51 @@ int		ft_strcmp(const char *s1, const char *s2);
 //builtins
 int		builtin_pwd(void);
 int		builtin_echo(char **args);
-int		builtin_cd(char **args, char ***env);
-int		builtin_env(char **envp);
+int		builtin_cd(char **args, t_env_list *env_list);
+int		builtin_env(t_env_list *env_list);
 int		builtin_exit(void);
 int		builtin_export(t_env_list *env_list, t_cmd_node *cmd_node);
 
 //env.c
 int		update_env_var(char ***env, char *key, char *value);
-int		add_env_var(char ***env, char *new_entry, int i);
+int		add_env_var(t_env_list *env_list, char *var, char *val);
+int		print_env(t_env_list *env_list);
+char	*get_env_value(t_env_list *env_list, char *var);
+int		set_env_var(t_env_list *env_list, char *var, char *val);
 
 //export.c
-void	print_export(t_env_list *env_list);
+void		print_export(t_env_list *env_list);
 
 //env_list.c
 t_env_list	*fill_env_list(char **envp);
 
+//list_to_dblarray.c
+char		**list_to_dblarray(t_env_list *env_list);
+int			create_env(char *var, char *value, char **array, int i);
+char		**free_env_array(char **array, int i);
+
 //get_path.c
-char	*get_total_path(char **envp);
-char	*get_correct_path_second(char **path_array, char *suffix);
-char	*get_correct_path(char *cmd, char **envp);
+char		*get_total_path(char **envp);
+char		*get_correct_path_second(char **path_array, char *suffix);
+char		*get_correct_path(char *cmd, char **envp);
 
 //builtin.c
-int		execute_builtin(t_cmd_node *cmd_node, char **envp, t_env_list *env_list);
+int			execute_builtin(t_cmd_node *cmd_node, t_env_list *env_list);
 
 //execute.c
-int		execute_cmd(t_cmd_node *cmd_node, char **envp, t_env_list *env_list);
-int		execute_cmd_or_builtin(t_cmd_node *cmd_node, char **envp, t_env_list *env_list);
-int		execute_loop(t_cmd_list *cmd_list, char **envp, t_env_list *env_list);
-int		execute_cmd_loop(t_cmd_node *cmd_node, char **envp);
+int			execute_cmd(t_cmd_node *cmd_node, t_env_list *env_list);
+int			execute_cmd_or_builtin(t_cmd_node *cmd_node, t_env_list *env_list);
+int			execute_loop(t_cmd_list *cmd_list, t_env_list *env_list);
 
 //redirect.c
-int 	redirect(t_cmd_node *cmd_node);
-int		open_redirects(t_cmd_node *cmd_node);
-void	check_fd(t_cmd_node *cmd_node);
+int 		redirect(t_cmd_node *cmd_node);
+int			open_redirects(t_cmd_node *cmd_node);
+void		check_fd(t_cmd_node *cmd_node);
 
 //pipes.c
-int		execute_pipes(t_cmd_list *cmd_list, char **envp, t_env_list *env_list);
-void	close_pipes(t_cmd_list *cmd_list, t_cmd_node *current, int *pipefd, int i);
-void	setup_pipes(t_cmd_list *cmd_list, int *pipefd, int i);
+int			execute_pipes(t_cmd_list *cmd_list, t_env_list *env_list);
+void		close_pipes(t_cmd_list *cmd_list, t_cmd_node *current, int *pipefd, int i);
+void		setup_pipes(t_cmd_list *cmd_list, int *pipefd, int i);
 
 //heredoc_utils.c
 t_hd_line	*create_hd_line(char *content);
@@ -79,10 +86,14 @@ int			write_heredoc_to_pipe(t_hd_node *hd_node, int write_fd);
 int			check_exit_status(pid_t child_pid, t_mini *mini);
 
 //garbage.c
-
-void		*gc_malloc(size_t size);
-void 		free_all_garbage(void);
-void 		add_to_garbage(void *ptr);
-t_garbage 	**get_garbage_list(void);
+int				gc_free(void *ptr);
+int				free_node(t_garbage_list *gc_list, void *ptr);
+void			*gc_malloc(size_t size);
+void			add_gc_node(t_garbage_node *node);
+t_garbage_node	*create_gc_node(void *ptr);
+void 			free_all_garbage(void);
+void 			add_to_garbage(void *ptr);
+t_garbage_list 	*get_garbage_list(void);
+int				add_to_gc(void *ptr);
 
 #endif

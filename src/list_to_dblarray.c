@@ -1,12 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   list_to_dblarray.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:43:28 by swied             #+#    #+#             */
-/*   Updated: 2025/08/05 18:49:09 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/05 20:24:38 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +17,8 @@ int	create_env(char *var, char *value, char **array, int i)
 	temp = ft_strjoin(var, "=");
 	if (!temp)
 		return (0);
-	add_to_gc(temp);
 	array[i] = ft_strjoin(temp, value);
-	gc_free(temp);
+	free(temp);
 	if (!array[i])
 		return (0);
 	add_to_gc(array[i]);
@@ -38,6 +35,8 @@ char	**list_to_dblarray(t_env_list *env_list)
 	if (!env_list)
 		return (NULL);
 	new_envp = gc_malloc(sizeof(char *) * (env_list->size + 1));
+	if (!new_envp)
+		return (ft_putstr_fd("minishell: malloc failed\n", 1), NULL);
 	current = env_list->head;
 	while (current)
 	{
@@ -45,9 +44,9 @@ char	**list_to_dblarray(t_env_list *env_list)
 		{
 			if (!create_env(current->variable, current->value, new_envp, i))
 				return (free_env_array(new_envp, i));
+			i++;
 		}
 		current = current->next;
-		i++;
 	}
 	new_envp[i] = NULL;
 	return (new_envp);
@@ -55,10 +54,9 @@ char	**list_to_dblarray(t_env_list *env_list)
 
 char	**free_env_array(char **array, int i)
 {
-	while (i >= 0)	
+	while (--i >= 0)	
 	{
 		gc_free(array[i]);
-		i--;
 	}
 	gc_free(array);
 	return (NULL);
