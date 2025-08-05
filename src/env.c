@@ -6,70 +6,99 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:49:51 by swied             #+#    #+#             */
-/*   Updated: 2025/08/04 17:39:17 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:18:48 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-int	builtin_env(char **envp)
+int	builtin_env(t_env_list *env_list)
 {
-	int	i;
+	int	status;
 
-	i = 0;
-	while (envp[i] != NULL)
+	status = 0;
+	status = print_env(env_list);
+	return (status);
+}
+
+int	print_env(t_env_list *env_list)
+{
+	t_env_node	*current;
+
+	current = env_list->head;
+	while (current)
 	{
-		ft_putendl_fd(envp[i], 1);
-		i++;
+		if (current->is_export)
+		{
+			ft_putstr_fd(current->variable, 1);
+			ft_putchar_fd('=', 1);
+			ft_putendl_fd(current->value, 1);
+		}
+		current = current->next;
 	}
 	return (0);
 }
 
-int	update_env_var(char ***env, char *key, char *value)
+int	add_env_var(t_env_list *env_list, char *var, char *val)
 {
-	char	*new_entry;
-	int		key_len;
-	int		i;
-	
-	key_len = ft_strlen(key);
-	new_entry = malloc(sizeof(char) * (key_len + ft_strlen(value) + 2));
-	if (!new_entry)
-		return (ft_putstr_fd("Malloc failed\n", 2), 1);
-	ft_strlcpy(new_entry, key, key_len + 1);
-	new_entry[key_len] = '=';
-	ft_strlcpy(new_entry + key_len + 1, value, ft_strlen(value) + 1);
-	i = 0;
-	while ((*env)[i])
-	{
-		if (ft_strncmp((*env)[i], key, key_len) == 0 && (*env)[i][key_len] == '=')
-		{
-			(*env)[i] = new_entry;
-			return (free(new_entry), 0);
-		}
-		i++;
-	}
-	if (add_env_var(env, new_entry, i) == 1)
-		return (free(new_entry), 1);
-	return(free(new_entry), 0);
+	t_env_node	*new_node;
+	t_env_node	*last;
+	int			var_len;
+	int			val_len;
+
+	new_node = gc_malloc(sizeof(t_env_node));
+	if (!new_node)
+		return (ft_putstr_fd("minishell: malloc failed\n", 2), 1);
+	var_len = ft_strlen(var);
+	val_len = ft_strlen(val);
+	new_node->variable = gc_malloc(sizeof(char) * (var_len + 1));
+	new_node->value = gc_malloc(sizeof(char) * (val_len + 1));
+	if (!new_node->value || !new_node->variable)
+		return (ft_putstr_fd("minishell: malloc failed\n", 2), 1);
+	new_node->variable = var;
+	new_node->variable[var_len] = '\0';
+	new_node->value = val;
+	new_node->value[val_len] = '\0';
+	last = env_list->head;
+	while (last->next)
+		last = last->next;
+	last->next = new_node;
+	return (0);
 }
 
-int	add_env_var(char ***env, char *new_entry, int i)
+char	*get_env_value(t_env_list *env_list, char *var)
 {
-	char	**new_env;
-	int		j;
+	t_env_node	*current;
 
-	new_env = malloc(sizeof(char*) * (i + 2));
-	if (!new_env)
-		return(ft_putstr_fd("Malloc failed\n", 2), 1);
-	j = 0;
-	while (j < i)
+	current = env_list->head;
+	while (current)
 	{
-		new_env[j] = (*env)[j];
-		j++;
+		if (ft_strcmp (current->variable, var) == 0)
+			return (current->value);
+		current = current->next;
 	}
-	new_env[i] = new_entry;
-	new_env[i + 1] = NULL;
-	free(*env);
-	*env = new_env;
-	return (free(new_env), 0);
+	return (NULL);
+}
+
+int	set_env_var(t_env_list *env_list, char *var, char *val)
+{
+	t_env_node	*current;
+	int			value_len;
+
+	value_len = ft_strlen(val);
+	current = env_list->head;
+	while (current)
+	{
+		if (ft_strcmp(current->variable, var) == 0)
+		{
+			gc_free(current->value);
+			current->value = gc_malloc(sizeof(char) * value_len);
+			if (!current->value)
+				return (ft_putstr_fd("minishell: malloc failed\n", 2), 1);
+			current->value = val;
+			return (0);
+		}
+		current = current->next;
+	}
+	return (add_env_var(env_list, var, val));
 }
