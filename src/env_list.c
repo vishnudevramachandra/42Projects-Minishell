@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:38:41 by swied             #+#    #+#             */
-/*   Updated: 2025/08/05 18:19:40 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/05 20:57:31 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	add_env_node(char *envp, t_env_list *env_list)
 	new_node = gc_malloc(sizeof(t_env_node));
 	if (!new_node)
 		return ;
+	env_list->size++;
 	new_node->variable = get_variable(envp);
 	new_node->value = get_value(envp);
 	new_node->is_export = true;
@@ -92,6 +93,7 @@ t_env_list	*fill_env_list(char **envp)
 
 	i = 0;
 	env_list = gc_malloc(sizeof(t_env_list));
+	env_list->size = 0;
 	env_list->head = NULL;
 	while (envp[i])
 	{
