@@ -6,7 +6,7 @@
 #    By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
-#    Updated: 2025/08/05 18:46:30 by swied            ###   ########.fr        #
+#    Updated: 2025/08/05 21:04:00 by swied            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ NC := \033[0m # No Color
 
 SRCS :=			$(SRCD)/execute.c \
 				$(SRCD)/garbage.c \
+				$(SRCD)/garbage2.c \
 				$(SRCD)/pwd.c \
 				$(SRCD)/echo.c \
 				$(SRCD)/cd.c \
