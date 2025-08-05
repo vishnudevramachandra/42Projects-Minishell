@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:38:41 by swied             #+#    #+#             */
-/*   Updated: 2025/08/04 19:12:41 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/05 18:19:40 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*get_value(char *envp)
 	len = 0;
 	while (envp[i] != '=')
 		i++;
-	while (envp[i + len])	
+	while (envp[i + len])
 		len++;
 	new_value = gc_malloc(sizeof(char) * (len + 1));
 	if (!new_value)
@@ -69,7 +69,7 @@ void	add_env_node(char *envp, t_env_list *env_list)
 
 	new_node = gc_malloc(sizeof(t_env_node));
 	if (!new_node)
-		return;
+		return ;
 	new_node->variable = get_variable(envp);
 	new_node->value = get_value(envp);
 	new_node->is_export = true;
@@ -87,13 +87,13 @@ void	add_env_node(char *envp, t_env_list *env_list)
 
 t_env_list	*fill_env_list(char **envp)
 {
-	int	i;
+	int			i;
 	t_env_list	*env_list;
 
 	i = 0;
 	env_list = gc_malloc(sizeof(t_env_list));
 	env_list->head = NULL;
-	while(envp[i])
+	while (envp[i])
 	{
 		add_env_node(envp[i], env_list);
 		i++;
