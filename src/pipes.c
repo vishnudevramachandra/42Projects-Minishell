@@ -6,13 +6,13 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:19:52 by swied             #+#    #+#             */
-/*   Updated: 2025/08/04 18:30:04 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/05 20:57:03 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-int	execute_pipes(t_cmd_list *cmd_list, char **envp, t_env_list *env_list)
+int	execute_pipes(t_cmd_list *cmd_list, t_env_list *env_list)
 {
 	pid_t		pid;
 	int			i;
@@ -23,9 +23,9 @@ int	execute_pipes(t_cmd_list *cmd_list, char **envp, t_env_list *env_list)
 	current = cmd_list->head;
 	cmd_list->prev_fd = -1;
 	i = 0;
-	while (i < cmd_list->size && current)
+	while ((i < cmd_list->size) && (current))
 	{
-		if (i < cmd_list->size -1)
+		if (i < (cmd_list->size - 1))
 			pipe(pipefd);
 		pid = fork();
 		if (pid == 0)
@@ -33,7 +33,7 @@ int	execute_pipes(t_cmd_list *cmd_list, char **envp, t_env_list *env_list)
 			setup_pipes(cmd_list, pipefd, i);
 			if (redirect(current) != 0)
 				exit(EXIT_FAILURE);
-			if (execute_cmd_or_builtin(current, envp, env_list) != 0)
+			if (execute_cmd_or_builtin(current, env_list) != 0)
 				exit(EXIT_FAILURE);
 		}
 		else
