@@ -6,12 +6,13 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:38:41 by swied             #+#    #+#             */
-/*   Updated: 2025/08/05 20:57:31 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/06 19:19:39 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
+/* gets variable from *envp. Everything before '=' */
 char	*get_variable(char *envp)
 {
 	char	*new_variable;
@@ -34,6 +35,7 @@ char	*get_variable(char *envp)
 	return (new_variable);
 }
 
+/* gets value form *envp. Everything after '=' */
 char	*get_value(char *envp)
 {
 	char	*new_value;
@@ -62,6 +64,7 @@ char	*get_value(char *envp)
 	return (new_value);
 }
 
+/* Fills the env_list with nodes. Gets variable and value from *envp */
 void	add_env_node(char *envp, t_env_list *env_list)
 {
 	t_env_node	*new_node;
@@ -86,6 +89,7 @@ void	add_env_node(char *envp, t_env_list *env_list)
 	}
 }
 
+/* Creates a env_list and fills it with nodes. Goes through **envp */
 t_env_list	*fill_env_list(char **envp)
 {
 	int			i;

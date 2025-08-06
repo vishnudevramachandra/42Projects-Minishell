@@ -6,12 +6,13 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 10:58:06 by swied             #+#    #+#             */
-/*   Updated: 2025/08/04 15:33:41 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/06 19:26:41 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
+/* not done yet */
 int	builtin_exit(void)
 {
 	free_all_garbage();

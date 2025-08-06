@@ -6,12 +6,13 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:44:50 by swied             #+#    #+#             */
-/*   Updated: 2025/08/05 20:45:01 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/06 19:36:37 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
+/* Searches for PATH in envp and returns the value of it */
 char	*get_total_path(char **envp)
 {
 	char	*correct_path;
@@ -31,6 +32,7 @@ char	*get_total_path(char **envp)
 	return (correct_path);
 }
 
+/* Joins the suffix to the path | checks for access of the path */
 char	*get_correct_path_second(char **path_array, char *suffix)
 {
 	int		i;
@@ -54,6 +56,7 @@ char	*get_correct_path_second(char **path_array, char *suffix)
 	return (free(suffix), free(path_array), free(result), NULL);
 }
 
+/* gets the total path, creates suffix and splits the path it with ':' */
 char	*get_correct_path(char *cmd, char **envp)
 {
 	char	**path_array;

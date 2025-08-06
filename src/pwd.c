@@ -6,12 +6,13 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 01:40:52 by swied             #+#    #+#             */
-/*   Updated: 2025/08/03 15:08:34 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/06 19:44:21 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
+/* Get the pwd with getcwd and print it out */
 int	builtin_pwd(void)
 {
 	char	*cwd;

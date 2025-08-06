@@ -6,12 +6,13 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:53:58 by swied             #+#    #+#             */
-/*   Updated: 2025/08/05 18:20:10 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/06 19:48:39 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
+/* Hardcode of builtinname -> execute */
 int	execute_builtin(t_cmd_node *cmd_node, t_env_list *env_list)
 {
 	int	status;

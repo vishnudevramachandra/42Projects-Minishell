@@ -6,12 +6,13 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:36 by swied             #+#    #+#             */
-/*   Updated: 2025/08/05 20:45:32 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/06 19:26:30 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
+/* if cmd_type 1 executes builtin | if cmd_type 0 executes cmd */
 int	execute_cmd_or_builtin(t_cmd_node *cmd_node, t_env_list *env_list)
 {
 	int	status;
@@ -30,6 +31,7 @@ int	execute_cmd_or_builtin(t_cmd_node *cmd_node, t_env_list *env_list)
 	return (1);
 }
 
+/* if only one cmd and its a builtin, then execute in main process | else execute pipes */
 int	execute_loop(t_cmd_list *cmd_list, t_env_list *env_list)
 {
 	int	status;
@@ -41,6 +43,7 @@ int	execute_loop(t_cmd_list *cmd_list, t_env_list *env_list)
 	return (status);
 }
 
+/* creates **new_envp which get filled with list_to_dblarray | gets cmd path from get_correct_path | executes cmd with execve */
 int	execute_cmd(t_cmd_node *cmd_node, t_env_list *env_list)
 {
 	char	*path;

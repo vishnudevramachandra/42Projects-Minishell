@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 17:42:42 by swied             #+#    #+#             */
-/*   Updated: 2025/08/05 20:56:06 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/06 19:40:55 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	cmd_init1(t_cmd_node *cmd_node)
 {
 	cmd_node->cmd = gc_malloc(sizeof(char *) * 3);
-	cmd_node->cmd[0] = "ls";
+	cmd_node->cmd[0] = "export";
 	// cmd_node->cmd[1] = "test";
 	cmd_node->cmd[1] = NULL;
-	cmd_node->cmd_type = 0;
+	cmd_node->cmd_type = 1;
 
 	cmd_node->file = gc_malloc(sizeof(t_file_list));
 	cmd_node->file->size = 0;
@@ -36,7 +36,7 @@ void	cmd_init2(t_cmd_node *cmd_node)
 {
 	cmd_node->cmd = gc_malloc(sizeof(char *) * 3);
 	cmd_node->cmd[0] = "grep";
-	cmd_node->cmd[1] = "aim";
+	cmd_node->cmd[1] = "in";
 	cmd_node->cmd[2] = NULL;
 	cmd_node->cmd_type = 0;
 	cmd_node->hd_list = NULL;
@@ -112,6 +112,7 @@ void	cmd_init5(t_cmd_node *cmd_node)
 	cmd_node->file->head = NULL;
 }
 
+/* Hardcode of filling the cmd_list and running execution */
 int	main(int argc, char **argv, char **envp)
 {
 	int	status = 0;
@@ -126,39 +127,21 @@ int	main(int argc, char **argv, char **envp)
 
 	cmd_init1(cmd_node1);
 	// cmd_init3(cmd_node2);
-	// cmd_init1(cmd_node3);
-	// cmd_init3(cmd_node3);
+	// cmd_init2(cmd_node3);
+	// cmd_init5(cmd_node4);
 	// cmd_init2(cmd_node4);
 
 	cmd_list->head = cmd_node1;
-	cmd_list->tail = cmd_node1;
-	cmd_node1->next = NULL;
+	// cmd_list->tail = cmd_node2;
 	// cmd_node1->next = cmd_node2;
 	// cmd_node2->next = cmd_node3;
-	// cmd_node3->next = NULL;
 	// cmd_node3->next = cmd_node4;
 	// cmd_list->tail = cmd_node2;
 	cmd_list->size = 1;
 
 	t_env_list *env_list;
 	env_list = fill_env_list(envp);
-
-	// execute_cmd(cmd_node1, env_list);
-	// builtin_export(env_list, cmd_list->head);
-	// t_env_node *current;
-	// current = env_list->head;
-	// while (current)
-	// {
-	// 	printf("%s=%s: %x\n", current->variable, current->value, current->is_export);
-	// 	current = current->next;
-	// }
-
-	// char	*cwd;
-	// cwd = getcwd(NULL, 0);
-	// printf("%s\n", cwd);
 	status = execute_loop(cmd_list, env_list);
-	// cwd = getcwd(NULL, 0);
-	// printf("%s\n", cwd);
 	free_all_garbage();
 	return (status);
 }

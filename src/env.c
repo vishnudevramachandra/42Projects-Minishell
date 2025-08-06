@@ -6,12 +6,13 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:49:51 by swied             #+#    #+#             */
-/*   Updated: 2025/08/05 18:18:48 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/06 19:23:47 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
+/* calls print_env and returns it status */
 int	builtin_env(t_env_list *env_list)
 {
 	int	status;
@@ -21,6 +22,7 @@ int	builtin_env(t_env_list *env_list)
 	return (status);
 }
 
+/* prints everything in env_list which is flaged with is_export */
 int	print_env(t_env_list *env_list)
 {
 	t_env_node	*current;
@@ -39,6 +41,7 @@ int	print_env(t_env_list *env_list)
 	return (0);
 }
 
+/* Creates a new_node and gives it the variable and value it becomes. Not done yet (Case without value + If variable was there before missing) */
 int	add_env_var(t_env_list *env_list, char *var, char *val)
 {
 	t_env_node	*new_node;
@@ -66,6 +69,7 @@ int	add_env_var(t_env_list *env_list, char *var, char *val)
 	return (0);
 }
 
+/* Searches in the env_list for the variable and returns the value of it */
 char	*get_env_value(t_env_list *env_list, char *var)
 {
 	t_env_node	*current;
@@ -80,6 +84,7 @@ char	*get_env_value(t_env_list *env_list, char *var)
 	return (NULL);
 }
 
+/* deletes value if the variable was there before and fills it with val + If no variable there before it calls add_env_var */
 int	set_env_var(t_env_list *env_list, char *var, char *val)
 {
 	t_env_node	*current;

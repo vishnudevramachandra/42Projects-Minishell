@@ -6,12 +6,13 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 21:03:13 by swied             #+#    #+#             */
-/*   Updated: 2025/08/05 21:03:25 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/06 19:33:57 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
+/* frees one node and sets the next one to the next of the one before */
 int	free_node(t_garbage_list *gc_list, void *ptr)
 {
 	t_garbage_node	*current;
@@ -39,6 +40,7 @@ int	free_node(t_garbage_list *gc_list, void *ptr)
 	return (0);
 }
 
+/* special case for if the node is the headnode. Frees it */
 int	free_head_node(t_garbage_list *gc_list)
 {
 	t_garbage_node	*current;
@@ -53,6 +55,7 @@ int	free_head_node(t_garbage_list *gc_list)
 	return (1);
 }
 
+/* If the node is the head node free_head_node gets calles | else free_node gets called */
 int	gc_free(void *ptr)
 {
 	t_garbage_list	*gc_list;
@@ -74,6 +77,7 @@ int	gc_free(void *ptr)
 	return (1);
 }
 
+/* adds a given ptr to the list with create_gc_node and add_gc_node */
 int	add_to_gc(void *ptr)
 {
 	t_garbage_node	*new_node;

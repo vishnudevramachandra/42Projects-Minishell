@@ -6,12 +6,13 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 02:17:26 by swied             #+#    #+#             */
-/*   Updated: 2025/08/05 18:20:01 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/06 19:49:21 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
+/* change HOME and OLDPWD in env_list | change directory with chdir */
 int	builtin_cd(char **args, t_env_list *env_list)
 {
 	char	*target_dir;

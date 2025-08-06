@@ -10,6 +10,7 @@
 
 #include "../include/execute.h"
 
+/* creates a string and strjoins the var + '=' + val in it | Adds it to gc */
 int	create_env(char *var, char *value, char **array, int i)
 {
 	char	*temp;
@@ -25,6 +26,7 @@ int	create_env(char *var, char *value, char **array, int i)
 	return (1);
 }
 
+/* Creates a double array which gets filled with the env_list and help of create_env */
 char	**list_to_dblarray(t_env_list *env_list)
 {
 	char		**new_envp;
@@ -52,6 +54,7 @@ char	**list_to_dblarray(t_env_list *env_list)
 	return (new_envp);
 }
 
+/* Frees the env_double_array */
 char	**free_env_array(char **array, int i)
 {
 	while (--i >= 0)	

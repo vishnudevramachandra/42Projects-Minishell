@@ -6,12 +6,13 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:19:52 by swied             #+#    #+#             */
-/*   Updated: 2025/08/05 20:57:03 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/06 19:43:54 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
+/* creates pipefd and pid | pipes pipefd | forks pid | In child process setup the pipes, redirects and execute the cmd | In main process close the pipes and at end wait for every child process */
 int	execute_pipes(t_cmd_list *cmd_list, t_env_list *env_list)
 {
 	pid_t		pid;
@@ -45,6 +46,7 @@ int	execute_pipes(t_cmd_list *cmd_list, t_env_list *env_list)
 	return (status);
 }
 
+/* If there is a prev_fd before -> close it and dup2 into standard */ 
 void	setup_pipes(t_cmd_list *cmd_list, int *pipefd, int i)
 {
 	if (cmd_list->prev_fd != -1)
@@ -60,6 +62,7 @@ void	setup_pipes(t_cmd_list *cmd_list, int *pipefd, int i)
 	}
 }
 
+/* If prev_fd is there close it | Also close after last cmd */
 void	close_pipes(t_cmd_list *cmd_list, t_cmd_node *current,
 	int *pipefd, int i)
 {

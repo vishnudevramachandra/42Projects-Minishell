@@ -1,5 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/06 19:44:30 by swied             #+#    #+#             */
+/*   Updated: 2025/08/06 19:47:49 by swied            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/execute.h"
 
+/* Open every redirect and set fd_infile or fd_outfile | Gets overwritten when multiple redirects */
 int open_redirects(t_cmd_node *cmd_node)
 {
 	t_file_node *current;
@@ -36,6 +49,7 @@ int open_redirects(t_cmd_node *cmd_node)
 	return (0);
 }
 
+/* If there is a fd_infile or fd_outfile -> close it and set it to -1 (After one pipe done) */
 void	check_fd(t_cmd_node *cmd_node)
 {
 	if (cmd_node->file->fd_infile != -1)
@@ -50,6 +64,7 @@ void	check_fd(t_cmd_node *cmd_node)
 	}
 }
 
+/* Routine of redirects: Set fd_infile and fd_outfile with open_redirects | if its filled dup2 from STD_IN/STD_OUT to fd_infile/fd_outfile */
 int redirect(t_cmd_node *cmd_node)
 {
 	if (!cmd_node || !cmd_node->file)
