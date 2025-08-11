@@ -6,15 +6,16 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:31:01 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/07 10:18:47 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/08/11 18:25:18 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "lexer.h"
-#include "libft.h"
+#include "./libft/libft.h"
 
-static size_t	ft_strcspn(const char *s, const char *charset)
+size_t	ft_strcspn(const char *s, const char *charset)
 {
 	size_t	i;
 
@@ -28,7 +29,7 @@ static size_t	ft_strcspn(const char *s, const char *charset)
 	return (i);
 }
 
-static size_t	ft_strspn(const char *s, const char *charset)
+size_t	ft_strspn(const char *s, const char *charset)
 {
 	size_t	i;
 
@@ -42,14 +43,7 @@ static size_t	ft_strspn(const char *s, const char *charset)
 	return (i);
 }
 
-static void	init_token(t_token *tok)
-{
-	tok->data = NULL;
-	tok->next = NULL;
-	tok->type = CHAR_NULL;
-}
-
-int	lexer_build(char *linebuffer, t_lexer *lex)
+int	lexer_build(const char *linebuffer, t_lexer *lex, t_env_list *env_list)
 {
 	size_t	len;
 	t_token	*tok;
@@ -60,10 +54,10 @@ int	lexer_build(char *linebuffer, t_lexer *lex)
 	init_token(tok);
 	lex->list_toks = tok;
 	lex->n_toks = 1;
-	linebuffer += ft_strspn(linebuffer, " \t\n");
+	linebuffer += ft_strspn(linebuffer, " \t");
 	while (*linebuffer)
 	{
-		if (ft_strchr("|<>", *linebuffer))
+		if (ft_strchr("|<>\n", *linebuffer))
 		{
 			tok->data = malloc(3 * sizeof(char));
 			if (ft_strnstr(linebuffer, "<<", 2)
@@ -91,28 +85,71 @@ int	lexer_build(char *linebuffer, t_lexer *lex)
 			len = 0;
 			while (!ft_strchr(" \t\n|<>", *(linebuffer + len)))
 			{
-				len = len + ft_strcspn(linebuffer + len, " \t\n|<>\"'");
+				if (len < 1 && *(linebuffer) == '~'
+					&& ft_strchr(" \t\n|<>/", *(linebuffer + 1)))
+					len = expand_tilde(
+							linebuffer, tok, get_env_value(env_list, "HOME"));
+				if (ft_strcspn(linebuffer + len, " \t\n|<>$\"'"))
+					len += insert_plain_text(
+								linebuffer + len, tok, " \t\n|<>$\"'");
+				if (*(linebuffer + len) == '$')
+					len += expand_p_v(linebuffer + len, &tok, env_list, 1);
 				if (*(linebuffer + len) == '"')
-					len = len + 1 + ft_strcspn(linebuffer + len + 1, "\"");
+				{
+					len++;
+					while (*(linebuffer + len) != '"')
+					{
+						len += insert_plain_text(
+									linebuffer + len, tok, "$\"");
+						if (*(linebuffer + len) == '$')
+							len += expand_p_v(linebuffer + len, &tok, env_list, 0);
+					}
+					len++;
+				}
 				if (*(linebuffer + len) == '\'')
-					len = len + 1 + ft_strcspn(linebuffer + len + 1, "'");
+				{
+					len++;
+					len += 1 + insert_plain_text(linebuffer + len, tok, "'");
+				}
 			}
-			tok->data = malloc((len + 1) * sizeof(char));
-			ft_strlcpy(tok->data, linebuffer, len + 1);
-			tok->type = WORD;
 			linebuffer += len;
 		}
-		tok->next = malloc(sizeof(t_token));
-		if (!tok->next)
-			return (0);
-		init_token(tok->next);
-		tok = tok->next;
-		++(lex->n_toks);
+		if (tok->data)
+		{
+			tok->next = malloc(sizeof(t_token));
+			if (!tok->next)
+				return (0);
+			init_token(tok->next);
+			tok = tok->next;
+			++(lex->n_toks);
+		}
+		linebuffer += ft_strspn(linebuffer, " \t");
 	}
 	return (lex->n_toks);
 }
 
-int main(void)
+int	main(void)
 {
-	char	str[] = "<text.txt "
+	char		str[] = "<text.txt cat ~/yo' bl<|'mama >\"ab$HOME*\"$var et" ;
+	t_lexer		lex;
+	t_env_list	env_list;
+	t_env_node	*node;
+
+	node = malloc(sizeof(t_env_node));
+	node->variable = "HOME";
+	node->value = "/Users/root";
+	node->is_export = 0;
+	env_list.head = node;
+	node->next = malloc(sizeof(t_env_node));
+	node = node->next;
+	node->variable = "var";
+	node->value = "\ta:bs>mm c\t";
+	node->is_export = 0;	
+	node->next = malloc(sizeof(t_env_node));	
+	node = node->next;
+	node->variable = "IFS";
+	node->value = " \t\n:";
+	node->is_export = 0;
+	node->next = NULL;
+	lexer_build(str, &lex, &env_list);
 }

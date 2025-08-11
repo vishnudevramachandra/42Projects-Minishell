@@ -25,7 +25,8 @@ $(LIB_PATH)/$(LIB_NAME):
 .PHONY: clean fclean re
 
 clean:
-
+	make clean -C $(LIB_PATH)
+	
 fclean: clean
 	rm -f $(NAME)
 	@echo "$(RED)$(NAME) executable removed successfully!$(RESET)\n"
