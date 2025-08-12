@@ -28,6 +28,7 @@ clean:
 	make clean -C $(LIB_PATH)
 	
 fclean: clean
+	make fclean -C $(LIB_PATH)
 	rm -f $(NAME)
 	@echo "$(RED)$(NAME) executable removed successfully!$(RESET)\n"
 

@@ -6,11 +6,20 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:38:52 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/11 19:39:57 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/08/12 13:36:14 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#ifndef PARSER_H
+# define PARSER_H
+
+# include <unistd.h>
+
+typedef struct s_file_node t_file_node;
+typedef struct s_cmd_node t_cmd_node;
+typedef	struct s_hd_list t_hd_list;
+typedef struct s_hd_node t_hd_node;
+typedef struct s_hd_line t_hd_line;
 
 typedef struct s_hd_line
 {
@@ -74,3 +83,7 @@ typedef struct s_cmd_list
 	int				prev_fd;
 	
 }	t_cmd_list;
+
+int	parse(t_cmd_list *cmds, t_lexer *lex);
+
+#endif

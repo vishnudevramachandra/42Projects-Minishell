@@ -6,7 +6,7 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:05:06 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/11 20:08:14 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/08/12 13:58:36 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_lexer
 	size_t			n_toks;
 }	t_lexer;
 
-enum e_token_type
+typedef enum e_token_type
 {
 	WORD = -1,
 	PIPE = '|',
@@ -38,9 +38,9 @@ enum e_token_type
 	APPEND = 'a',
 	HEREDOC = 'h',
 	RW = 'e',
-	NEWLINE = '\n',
+	NEW_LINE = '\n',
 	CHAR_NULL = 0,
-};
+}	t_token_type;
 
 typedef struct s_env_list	t_env_list;
 typedef struct s_env_node	t_env_node;
