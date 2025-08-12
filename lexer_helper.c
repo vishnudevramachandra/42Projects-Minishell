@@ -6,7 +6,7 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 13:51:59 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/11 18:36:12 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/08/12 10:47:42 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void	add_word_to_tok(const char *linebuffer, size_t len, t_token *tok)
 	tok->type = WORD;
 }
 
-size_t	insert_plain_text(const char *linebuffer, t_token *tok, char *end_of_word)
+size_t	insert_plain_text(
+			const char *linebuffer, t_token *tok, char *end_of_word)
 {
 	size_t	len;
 
@@ -87,7 +88,7 @@ size_t	extract_var(char **var, const char *linebuffer, t_env_list *env_list)
 	char	*name;
 
 	len = ft_strspn(linebuffer,
-		"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+			"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
 	name = malloc((len + 1) * sizeof(char));
 	ft_strlcpy(name, linebuffer, len + 1);
 	*var = get_env_value(env_list, name);
@@ -95,7 +96,7 @@ size_t	extract_var(char **var, const char *linebuffer, t_env_list *env_list)
 	return (len);
 }
 
-/* calculates the intersection of sets (s1 & s2) */
+/* calculate the intersection of sets (s1 & s2) */
 char	*set_inter(const char *s1, const char *s2)
 {
 	size_t	len;
@@ -104,7 +105,7 @@ char	*set_inter(const char *s1, const char *s2)
 
 	len = 0;
 	i = 0;
-	while(s1[i])
+	while (s1[i])
 	{
 		if (ft_strchr(s2, s1[i]))
 			len++;
@@ -112,11 +113,11 @@ char	*set_inter(const char *s1, const char *s2)
 	}
 	s = malloc((len + 1) * sizeof(char));
 	i = 0;
-	while(*s1)
+	while (*s1)
 	{
 		if (ft_strchr(s2, *s1))
 		{
-			s[i] = *s1; 
+			s[i] = *s1;
 			i++;
 		}
 		s1++;
@@ -125,7 +126,7 @@ char	*set_inter(const char *s1, const char *s2)
 	return (s);
 }
 
-/* calculates the difference of sets (s1 - s2) */
+/* calculate the difference of sets (s1 - s2) */
 char	*set_diff(const char *s1, const char *s2)
 {
 	size_t	len;
@@ -134,7 +135,7 @@ char	*set_diff(const char *s1, const char *s2)
 
 	len = ft_strlen(s1);
 	i = 0;
-	while(s1[i])
+	while (s1[i])
 	{
 		if (ft_strchr(s2, s1[i]))
 			len--;
@@ -170,26 +171,30 @@ void	fields_to_words(const char *var, t_env_list *env_list, t_token **tok)
 		if (!(*tok)->next)
 			exit(1);
 		init_token((*tok)->next);
-		*tok = (*tok)->next;	
+		*tok = (*tok)->next;
 		var += ft_strspn(var, sps);
 	}
 	while (*var)
 	{
-		if(ft_strcspn(var, sep) < ft_strcspn(var, sps))
+		if (ft_strcspn(var, sep) < ft_strcspn(var, sps))
 			var += 1 + insert_plain_text(var, *tok, sep);
 		else
+		{
 			var += insert_plain_text(var, *tok, sps);
+			if (!*var)
+				break ;
+		}
 		(*tok)->next = malloc(sizeof(t_token));
 		if (!(*tok)->next)
 			exit(1);
 		init_token((*tok)->next);
 		*tok = (*tok)->next;
-		var += ft_strspn(var, sps); 
+		var += ft_strspn(var, sps);
 	}
 }
 
-/* Expand parameter/variable and when not withing double quotes turn the fields
-into words */
+/* Expand parameter/variable and when not enclosed within double quotes turn the
+   fields into words */
 size_t	expand_p_v(const char *linebuffer, t_token **tok, t_env_list *env_list,
 			int sep_fields_into_words)
 {
@@ -224,7 +229,7 @@ size_t	expand_p_v(const char *linebuffer, t_token **tok, t_env_list *env_list,
 }
 
 /* In place of leading tilde the value of $HOME (if non-null) is inserted */
-size_t expand_tilde(const char *linebuffer, t_token *tok, const char *home)
+size_t	expand_tilde(const char *linebuffer, t_token *tok, const char *home)
 {
 	size_t	len;
 

@@ -6,7 +6,7 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:05:06 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/11 18:24:36 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/08/11 20:08:14 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_token
 
 typedef struct s_lexer
 {
-	struct s_token	*list_toks;
+	struct s_token	*toks;
 	size_t			n_toks;
 }	t_lexer;
 

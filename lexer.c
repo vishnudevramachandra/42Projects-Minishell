@@ -6,7 +6,7 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:31:01 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/11 18:25:18 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/08/11 20:11:25 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	lexer_build(const char *linebuffer, t_lexer *lex, t_env_list *env_list)
 	if (!tok)
 		return (0);
 	init_token(tok);
-	lex->list_toks = tok;
+	lex->toks = tok;
 	lex->n_toks = 1;
 	linebuffer += ft_strspn(linebuffer, " \t");
 	while (*linebuffer)
@@ -128,28 +128,28 @@ int	lexer_build(const char *linebuffer, t_lexer *lex, t_env_list *env_list)
 	return (lex->n_toks);
 }
 
-int	main(void)
-{
-	char		str[] = "<text.txt cat ~/yo' bl<|'mama >\"ab$HOME*\"$var et" ;
-	t_lexer		lex;
-	t_env_list	env_list;
-	t_env_node	*node;
+// int	main(void)
+// {
+// 	char		str[] = "<text.txt cat ~/yo' bl<|'mama >\"ab$HOME*\"$var et" ;
+// 	t_lexer		lex;
+// 	t_env_list	env_list;
+// 	t_env_node	*node;
 
-	node = malloc(sizeof(t_env_node));
-	node->variable = "HOME";
-	node->value = "/Users/root";
-	node->is_export = 0;
-	env_list.head = node;
-	node->next = malloc(sizeof(t_env_node));
-	node = node->next;
-	node->variable = "var";
-	node->value = "\ta:bs>mm c\t";
-	node->is_export = 0;	
-	node->next = malloc(sizeof(t_env_node));	
-	node = node->next;
-	node->variable = "IFS";
-	node->value = " \t\n:";
-	node->is_export = 0;
-	node->next = NULL;
-	lexer_build(str, &lex, &env_list);
-}
+// 	node = malloc(sizeof(t_env_node));
+// 	node->variable = "HOME";
+// 	node->value = "/Users/root";
+// 	node->is_export = 0;
+// 	env_list.head = node;
+// 	node->next = malloc(sizeof(t_env_node));
+// 	node = node->next;
+// 	node->variable = "var";
+// 	node->value = "\ta:bs>mm c\t";
+// 	node->is_export = 0;	
+// 	node->next = malloc(sizeof(t_env_node));	
+// 	node = node->next;
+// 	node->variable = "IFS";
+// 	node->value = " \t\n:";
+// 	node->is_export = 0;
+// 	node->next = NULL;
+// 	lexer_build(str, &lex, &env_list);
+// }
