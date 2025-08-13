@@ -3,20 +3,23 @@ GREEN       = \033[0;32m
 RED         = \033[0;31m
 RESET       = \033[0m
 
-CC = cc
-LDFLAGS = -lreadline -L/usr/local/opt/readline/lib -lft -L./libft
-CFLAGS = -Wextra -Wall -Werror -I/usr/local/opt/readline/include -I./libft
+CC 		= cc
+LDFLAGS = -lreadline -lft -L./libft
+CFLAGS	= -Wextra -Wall -Werror -I./libft
 
-NAME = minishell
-LIB_NAME = libft.a
-LIB = -L ./libft/
-CUR_DIR = $(shell pwd)
-LIB_PATH = $(CUR_DIR)/libft/
+NAME		= minishell
+LIB_NAME 	= libft.a
+LIB 		= -L ./libft/
+CUR_DIR 	= $(shell pwd)
+LIB_PATH	= $(CUR_DIR)/libft/
+
+SRC = shell.c lexer.c lexer_helper.c parser.c parser_helper.c
+OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(LIB_PATH)/$(LIB_NAME)
-	$(CC) $(CFLAGS) $(LDFLAGS) shell.c -o $(NAME)
+$(NAME): $(LIB_PATH)/$(LIB_NAME) $(OBJ)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) -o $(NAME)
 	@echo "$(GREEN)$(NAME) executable created successfully!$(RESET)\n"
 
 $(LIB_PATH)/$(LIB_NAME):
@@ -26,6 +29,7 @@ $(LIB_PATH)/$(LIB_NAME):
 
 clean:
 	make clean -C $(LIB_PATH)
+	rm -f $(OBJ)
 	
 fclean: clean
 	make fclean -C $(LIB_PATH)

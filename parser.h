@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:38:52 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/12 13:36:14 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/08/13 15:20:19 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_H
 
 # include <unistd.h>
+# include "lexer.h"
 
 typedef struct s_file_node t_file_node;
 typedef struct s_cmd_node t_cmd_node;
@@ -84,6 +85,7 @@ typedef struct s_cmd_list
 	
 }	t_cmd_list;
 
-int	parse(t_cmd_list *cmds, t_lexer *lex);
+int		parse(t_cmd_list *cmds, t_lexer *lex);
+void	print_parser_output(t_cmd_list *cmds);
 
 #endif

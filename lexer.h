@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:05:06 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/12 13:58:36 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/08/13 15:12:43 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ size_t	ft_strspn(const char *s, const char *charset);
 void	init_token(t_token *tok);
 size_t	insert_plain_text(const char *linebuffer, t_token *tok, char *end_of_word);
 int		lexer_build(const char *linebuffer, t_lexer *lex, t_env_list *env_list);
-size_t	expand_tilde(const char *linebuffer, t_token *tok, const char *home);
+size_t	expand_tilde(t_token *tok, const char *home);
 size_t	expand_p_v(const char *linebuffer, t_token **tok, t_env_list *env_list,
 			int sep_fields_into_words);
 

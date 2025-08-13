@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 13:51:59 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/12 10:47:42 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/08/13 15:12:51 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,6 @@ void	fields_to_words(const char *var, t_env_list *env_list, t_token **tok)
 {
 	char	*sps;
 	char	*sep;
-	size_t	len;
 
 	sps = set_inter(" \t\n", get_env_value(env_list, "IFS"));
 	sep = set_diff(get_env_value(env_list, "IFS"), sps);
@@ -229,7 +228,7 @@ size_t	expand_p_v(const char *linebuffer, t_token **tok, t_env_list *env_list,
 }
 
 /* In place of leading tilde the value of $HOME (if non-null) is inserted */
-size_t	expand_tilde(const char *linebuffer, t_token *tok, const char *home)
+size_t	expand_tilde(t_token *tok, const char *home)
 {
 	size_t	len;
 

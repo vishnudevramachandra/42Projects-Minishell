@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:31:01 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/11 20:11:25 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/08/13 15:13:39 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ int	lexer_build(const char *linebuffer, t_lexer *lex, t_env_list *env_list)
 			{
 				if (len < 1 && *(linebuffer) == '~'
 					&& ft_strchr(" \t\n|<>/", *(linebuffer + 1)))
-					len = expand_tilde(
-							linebuffer, tok, get_env_value(env_list, "HOME"));
+					len = expand_tilde(tok, get_env_value(env_list, "HOME"));
 				if (ft_strcspn(linebuffer + len, " \t\n|<>$\"'"))
 					len += insert_plain_text(
 								linebuffer + len, tok, " \t\n|<>$\"'");
