@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:49:51 by swied             #+#    #+#             */
-/*   Updated: 2025/08/06 19:23:47 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/24 08:40:32 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,18 @@ int	add_env_var(t_env_list *env_list, char *var, char *val)
 {
 	t_env_node	*new_node;
 	t_env_node	*last;
-	int			var_len;
-	int			val_len;
 
 	new_node = gc_malloc(sizeof(t_env_node));
 	if (!new_node)
 		return (ft_putstr_fd("minishell: malloc failed\n", 2), 1);
-	var_len = ft_strlen(var);
-	val_len = ft_strlen(val);
-	new_node->variable = gc_malloc(sizeof(char) * (var_len + 1));
-	new_node->value = gc_malloc(sizeof(char) * (val_len + 1));
+	new_node->variable = ft_strdup(var);
+	new_node->value = ft_strdup(val);
 	if (!new_node->value || !new_node->variable)
 		return (ft_putstr_fd("minishell: malloc failed\n", 2), 1);
-	new_node->variable = var;
-	new_node->variable[var_len] = '\0';
-	new_node->value = val;
-	new_node->value[val_len] = '\0';
+	add_to_gc(new_node->variable);
+	add_to_gc(new_node->value);
+	new_node->is_export = true;
+	env_list->size++;
 	last = env_list->head;
 	while (last->next)
 		last = last->next;

@@ -25,7 +25,8 @@ int	builtin_export(t_env_list *env_list, t_cmd_node *cmd_node)
 		free_export_array(env_array, 0);
 	}
 	else
-		printf("mehr als ein cmd-arg\n");
+		if (add_export(env_list, cmd_node) == -1)
+		return (-1);
 	return (0);
 }
 

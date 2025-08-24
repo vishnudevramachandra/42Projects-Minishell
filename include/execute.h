@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/08/24 03:23:04 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/24 08:43:21 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,12 @@ int				add_to_gc(void *ptr);
 
 //unset.c
 void			unset_env_var(t_env_list *env_list, char *var);
+
+//export_add.c
+int				handle_export_without_value(t_env_list *env_list, char *var);
+int				search_for_equal_sign(char *arg);
+int				handle_export_without_equal(t_env_list *env_list, char *arg);
+int 			process_export_arg(t_env_list *env_list, char *arg);
+int				add_export(t_env_list *env_list, t_cmd_node *cmd_node);
 
 #endif

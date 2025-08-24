@@ -6,7 +6,7 @@
 #    By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
-#    Updated: 2025/08/24 03:23:22 by swied            ###   ########.fr        #
+#    Updated: 2025/08/24 08:43:36 by swied            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,8 @@ SRCS :=			$(SRCD)/execute.c \
 				$(SRCD)/env_list.c \
 				$(SRCD)/export.c \
 				$(SRCD)/list_to_dblarray.c \
-				$(SRCD)/unset.c
+				$(SRCD)/unset.c \
+				$(SRCD)/export_add.c
 
 OBJS := $(SRCS:$(SRCD)/%.c=$(OBJD)/%.o)
 
