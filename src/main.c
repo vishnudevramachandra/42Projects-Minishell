@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 17:42:42 by swied             #+#    #+#             */
-/*   Updated: 2025/08/06 19:40:55 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/24 03:36:12 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,10 @@ void	cmd_init2(t_cmd_node *cmd_node)
 void	cmd_init3(t_cmd_node *cmd_node)
 {
 	cmd_node->cmd = gc_malloc(sizeof(char *) * 3);
-	cmd_node->cmd[0] = "cat";
-	cmd_node->cmd[1] = NULL;
-	cmd_node->cmd_type = 0;
+	cmd_node->cmd[0] = "unset";
+	cmd_node->cmd[1] = "USER";
+	cmd_node->cmd[2] = NULL;
+	cmd_node->cmd_type = 1;
 	
 	cmd_node->file = gc_malloc(sizeof(t_file_list));
 	cmd_node->file->size = 0;
@@ -125,8 +126,8 @@ int	main(int argc, char **argv, char **envp)
 	// t_cmd_node	*cmd_node3 = malloc(sizeof(t_cmd_node));
 	// t_cmd_node	*cmd_node4 = malloc(sizeof(t_cmd_node));
 
+	// cmd_init3(cmd_node1);
 	cmd_init1(cmd_node1);
-	// cmd_init3(cmd_node2);
 	// cmd_init2(cmd_node3);
 	// cmd_init5(cmd_node4);
 	// cmd_init2(cmd_node4);
@@ -134,7 +135,7 @@ int	main(int argc, char **argv, char **envp)
 	cmd_list->head = cmd_node1;
 	// cmd_list->tail = cmd_node2;
 	// cmd_node1->next = cmd_node2;
-	// cmd_node2->next = cmd_node3;
+	cmd_node1->next = NULL;
 	// cmd_node3->next = cmd_node4;
 	// cmd_list->tail = cmd_node2;
 	cmd_list->size = 1;
@@ -142,6 +143,7 @@ int	main(int argc, char **argv, char **envp)
 	t_env_list *env_list;
 	env_list = fill_env_list(envp);
 	status = execute_loop(cmd_list, env_list);
+	// builtin_export(env_list, cmd_node2);
 	free_all_garbage();
 	return (status);
 }

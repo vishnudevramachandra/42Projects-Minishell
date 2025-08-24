@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 21:03:13 by swied             #+#    #+#             */
-/*   Updated: 2025/08/06 19:33:57 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/24 03:33:31 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	gc_free(void *ptr)
 	}
 	else
 	{
-		ft_putstr_fd("else\n", 1);
 		if (!free_node(gc_list, ptr))
 			return (0);
 	}

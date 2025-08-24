@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/08/05 18:53:55 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/24 03:23:04 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int		builtin_cd(char **args, t_env_list *env_list);
 int		builtin_env(t_env_list *env_list);
 int		builtin_exit(void);
 int		builtin_export(t_env_list *env_list, t_cmd_node *cmd_node);
+int		builtin_unset(t_env_list *env_list, t_cmd_node *cmd_node);
 
 //env.c
 int		update_env_var(char ***env, char *key, char *value);
@@ -98,5 +99,8 @@ void 			free_all_garbage(void);
 void 			add_to_garbage(void *ptr);
 t_garbage_list 	*get_garbage_list(void);
 int				add_to_gc(void *ptr);
+
+//unset.c
+void			unset_env_var(t_env_list *env_list, char *var);
 
 #endif
