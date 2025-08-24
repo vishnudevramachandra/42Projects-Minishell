@@ -43,7 +43,10 @@ char	*get_env_value(t_env_list *env_list, char *var);
 int		set_env_var(t_env_list *env_list, char *var, char *val);
 
 //export.c
-void		print_export(t_env_list *env_list);
+void	    print_export(t_env_list *env_list, char **env_array, int i);
+char	    **create_export_list(t_env_list *env_list);
+void	    bubblesort_array(char **env_array);
+void	    free_export_array(char **array, int i);
 
 //env_list.c
 t_env_list	*fill_env_list(char **envp);
