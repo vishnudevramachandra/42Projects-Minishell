@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 19:44:30 by swied             #+#    #+#             */
-/*   Updated: 2025/08/06 19:47:49 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/25 16:08:13 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,7 @@ int open_redirects(t_cmd_node *cmd_node)
 				return (perror(current->filename), 1);
 		}
 		else if (current->redir_type == REDIR_HEREDOC)
-		{
-			cmd_node->file->fd_infile = open(current->filename, O_RDONLY);
-			if (cmd_node->file->fd_infile == -1)
-				return(perror(current->filename), 1);
-		}
+			cmd_node->file->fd_infile = handle_heredoc(cmd_node);
 		current = current->next;
 	}
 	return (0);
@@ -82,4 +78,16 @@ int redirect(t_cmd_node *cmd_node)
 		close(cmd_node->file->fd_outfile);
 	}
 	return (0);
+}
+
+int	handle_heredoc(t_cmd_node *cmd_node)
+{
+	t_hd_node	*correct_hd_node;
+	int			fd;
+
+	correct_hd_node = cmd_node->hd_list->head;
+	while (correct_hd_node)
+		correct_hd_node = correct_hd_node->next;
+	fd = create_heredoc_fd(correct_hd_node);
+	return (fd);
 }

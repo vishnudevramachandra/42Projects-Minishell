@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:39:48 by swied             #+#    #+#             */
-/*   Updated: 2025/08/06 19:37:14 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/25 16:32:22 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	read_from_child_and_store(t_hd_node *hd_node, int read_fd)
 		processed_line = ft_strdup(line);
 		if (!processed_line)
 			return (free(line), -1);
-		// gc_track(processed_line, GC_EXEC);
+		add_to_gc(processed_line);
 		add_line_to_heredoc(hd_node, processed_line);
 		free(line);
 	}

@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:36 by swied             #+#    #+#             */
-/*   Updated: 2025/08/06 19:26:30 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/25 16:12:27 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	execute_loop(t_cmd_list *cmd_list, t_env_list *env_list)
 {
 	int	status;
 
+	if (collect_heredocs(cmd_list) == -1)
+		return (1);
 	if (cmd_list->size == 1 && cmd_list->head->cmd_type == 1)
 		status = execute_builtin(cmd_list->head, env_list);
 	else
@@ -63,4 +65,26 @@ int	execute_cmd(t_cmd_node *cmd_node, t_env_list *env_list)
 	free(path);
 	ft_putstr_fd("execve failed: ", 2);
 	exit(126);
+}
+
+int	collect_heredocs(t_cmd_list *cmd_list)
+{
+	t_cmd_node	*current_node;
+	t_file_node	*current_file_node;
+
+	current_node = cmd_list->head;
+	current_file_node = current_node->file->head;
+	if (!current_file_node)
+		return (0);
+	while (current_node)
+	{
+		while (current_file_node)
+		{
+			if (current_file_node->redir_type == REDIR_HEREDOC)
+				create_heredoc(current_file_node->filename, current_node, current_file_node);
+			current_file_node = current_file_node->next;
+		}
+		current_node = current_node->next;
+	}
+	return (0);
 }
