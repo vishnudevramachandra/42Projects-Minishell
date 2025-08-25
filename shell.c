@@ -6,7 +6,7 @@
 /*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/08/13 15:45:41 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:43:07 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <termios.h>
 #include <unistd.h>
 #include "./libft/libft.h"
 #include "lexer.h"
@@ -28,7 +29,7 @@ void	sig_handler(int signum, siginfo_t *info, void *context)
 	if (signum == SIGINT)
 	{
 		write(1, "\n", 1);
-		//rl_replace_line("", 0);
+		rl_replace_line("", 0);
 		rl_on_new_line();
 	}
 	rl_redisplay();
@@ -37,8 +38,12 @@ void	sig_handler(int signum, siginfo_t *info, void *context)
 //replicates Ctrl-C Ctrl-\ behaviour in bash
 void	handle_signal_in_msh(void)
 {
+	struct termios		term;
 	struct sigaction	act;
 
+	tcgetattr(0, &term);
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(0, TCSAFLUSH, &term);
 	sigemptyset(&act.sa_mask);
 	act.sa_flags = SA_SIGINFO;
 	act.sa_sigaction = sig_handler;
