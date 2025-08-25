@@ -6,7 +6,7 @@
 /*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 13:51:59 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/13 15:12:51 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/08/25 14:16:53 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,11 +166,14 @@ void	fields_to_words(const char *var, t_env_list *env_list, t_token **tok)
 	sep = set_diff(get_env_value(env_list, "IFS"), sps);
 	if (ft_strspn(var, sps))
 	{
-		(*tok)->next = malloc(sizeof(t_token));
-		if (!(*tok)->next)
-			exit(1);
-		init_token((*tok)->next);
-		*tok = (*tok)->next;
+		if ((*tok)->type != CHAR_NULL)
+		{
+			(*tok)->next = malloc(sizeof(t_token));
+			if (!(*tok)->next)
+				exit(1);
+			init_token((*tok)->next);
+			*tok = (*tok)->next;
+		}
 		var += ft_strspn(var, sps);
 	}
 	while (*var)
