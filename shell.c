@@ -6,7 +6,7 @@
 /*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/08/25 16:43:07 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/08/26 18:10:59 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,9 +181,9 @@ int	main(void)
 		// linebuffer = "<text.txt cat ~/yo' bl<|'mama >\"ab$HOME*\"$var et"; //for testing
 		if (linebuffer)
 		{
+			if (lexer_build(&linebuffer, &lex, &env_list))
+				parse(&cmds, &lex);
 			add_history(linebuffer);
-			lexer_build(linebuffer, &lex, &env_list);
-			parse(&cmds, &lex);
 		}
 		print_parser_output(&cmds); //for testing
 		// break; //for testing

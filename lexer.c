@@ -6,7 +6,7 @@
 /*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:31:01 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/13 15:13:39 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/08/26 17:56:53 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,11 @@ size_t	ft_strspn(const char *s, const char *charset)
 	return (i);
 }
 
-int	lexer_build(const char *linebuffer, t_lexer *lex, t_env_list *env_list)
+int	lexer_build(char **linebuffer, t_lexer *lex, t_env_list *env_list)
 {
 	size_t	len;
 	t_token	*tok;
+	char	*buf;
 
 	tok = malloc(sizeof(t_token));
 	if (!tok)
@@ -54,64 +55,65 @@ int	lexer_build(const char *linebuffer, t_lexer *lex, t_env_list *env_list)
 	init_token(tok);
 	lex->toks = tok;
 	lex->n_toks = 1;
-	linebuffer += ft_strspn(linebuffer, " \t");
-	while (*linebuffer)
+	buf = *linebuffer;
+	buf += ft_strspn(buf, " \t");
+	while (*buf)
 	{
-		if (ft_strchr("|<>\n", *linebuffer))
+		if (ft_strchr("|<>\n", *buf))
 		{
 			tok->data = malloc(3 * sizeof(char));
-			if (ft_strnstr(linebuffer, "<<", 2)
-				|| ft_strnstr(linebuffer, ">>", 2)
-				|| ft_strnstr(linebuffer, "<>", 2))
+			if (ft_strnstr(buf, "<<", 2)
+				|| ft_strnstr(buf, ">>", 2)
+				|| ft_strnstr(buf, "<>", 2))
 			{
-				ft_strlcpy(tok->data, linebuffer, 3);
-				if (ft_strnstr(linebuffer, "<<", 2))
+				ft_strlcpy(tok->data, buf, 3);
+				if (ft_strnstr(buf, "<<", 2))
 					tok->type = HEREDOC;
-				else if (ft_strnstr(linebuffer, ">>", 2))
+				else if (ft_strnstr(buf, ">>", 2))
 					tok->type = APPEND;
 				else
 					tok->type = RW;
-				linebuffer += 2;
+				buf += 2;
 			}
 			else
 			{
-				ft_strlcpy(tok->data, linebuffer, 2);
-				tok->type = *linebuffer;
-				++linebuffer;
+				ft_strlcpy(tok->data, buf, 2);
+				tok->type = *buf;
+				++buf;
 			}
 		}
 		else
 		{
 			len = 0;
-			while (!ft_strchr(" \t\n|<>", *(linebuffer + len)))
+			while (!ft_strchr(" \t\n|<>", *(buf + len)))
 			{
-				if (len < 1 && *(linebuffer) == '~'
-					&& ft_strchr(" \t\n|<>/", *(linebuffer + 1)))
+				if (len < 1 && *(buf) == '~'
+					&& ft_strchr(" \t\n|<>/", *(buf + 1)))
 					len = expand_tilde(tok, get_env_value(env_list, "HOME"));
-				if (ft_strcspn(linebuffer + len, " \t\n|<>$\"'"))
+				if (ft_strcspn(buf + len, " \t\n|<>$\"'"))
 					len += insert_plain_text(
-								linebuffer + len, tok, " \t\n|<>$\"'");
-				if (*(linebuffer + len) == '$')
-					len += expand_p_v(linebuffer + len, &tok, env_list, 1);
-				if (*(linebuffer + len) == '"')
+								buf + len, tok, " \t\n|<>$\"'");
+				if (*(buf + len) == '$')
+					len += expand_p_v(buf + len, &tok, env_list, 1);
+				if (*(buf + len) == '"')
 				{
 					len++;
-					while (*(linebuffer + len) != '"')
+					while (*(buf + len) != '"')
 					{
 						len += insert_plain_text(
-									linebuffer + len, tok, "$\"");
-						if (*(linebuffer + len) == '$')
-							len += expand_p_v(linebuffer + len, &tok, env_list, 0);
+									buf + len, tok, "$\"");
+						if (*(buf + len) == '$')
+							len += expand_p_v(buf + len, &tok, env_list, 0);
 					}
 					len++;
 				}
-				if (*(linebuffer + len) == '\'')
+				if (*(buf + len) == '\'')
 				{
 					len++;
-					len += 1 + insert_plain_text(linebuffer + len, tok, "'");
+					len += 1 + insert_plain_text(buf + len, tok, "'");
 				}
 			}
-			linebuffer += len;
+			buf += len;
 		}
 		if (tok->data)
 		{
@@ -122,7 +124,7 @@ int	lexer_build(const char *linebuffer, t_lexer *lex, t_env_list *env_list)
 			tok = tok->next;
 			++(lex->n_toks);
 		}
-		linebuffer += ft_strspn(linebuffer, " \t");
+		buf += ft_strspn(buf, " \t");
 	}
 	return (lex->n_toks);
 }
