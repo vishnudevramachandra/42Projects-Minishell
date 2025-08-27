@@ -6,7 +6,7 @@
 /*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:31:01 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/26 17:56:53 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:43:55 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,116 +15,89 @@
 #include "lexer.h"
 #include "./libft/libft.h"
 
-size_t	ft_strcspn(const char *s, const char *charset)
+size_t	lb_on_metachar(
+	char **buf, size_t len, t_env_list *env_list, t_lexer *lex)
 {
-	size_t	i;
+	t_token	*tok;
 
-	i = 0;
-	while (s[i])
+	tok = get_last_token(lex);
+	(void)env_list;
+	tok->data = malloc(3 * sizeof(char));
+	if (ft_strnstr(*buf + len, "<<", 2)
+		|| ft_strnstr(*buf + len, ">>", 2)
+		|| ft_strnstr(*buf + len, "<>", 2))
 	{
-		if (ft_strchr(charset, s[i]))
-			break ;
-		i++;
+		ft_strlcpy(tok->data, *buf + len, 3);
+		if (ft_strnstr(*buf + len, "<<", 2))
+			tok->type = HEREDOC;
+		else if (ft_strnstr(*buf + len, ">>", 2))
+			tok->type = APPEND;
+		else
+			tok->type = RW;
+		return (len + 2);
 	}
-	return (i);
+	else
+	{
+		ft_strlcpy(tok->data, *buf + len, 2);
+		tok->type = *(*buf + len);
+		return (len + 1);
+	}
 }
 
-size_t	ft_strspn(const char *s, const char *charset)
+size_t	lb_on_normchar(
+	char **buf, size_t len, t_env_list *env_list, t_lexer *lex)
 {
-	size_t	i;
+	t_token	*tok;
 
-	i = 0;
-	while (s[i])
+	tok = get_last_token(lex);
+	while (!ft_strchr(" \t\n|<>", *(*buf + len)))
 	{
-		if (!ft_strchr(charset, s[i]))
-			break ;
-		i++;
+		if (*(*buf + len) == '~'
+			&& ft_strchr(" \t\n|<>/", *(*buf + len + 1))
+			&& tok->type == CHAR_NULL)
+			len += expand_tilde(tok, get_env_value(env_list, "HOME"));
+		if (ft_strcspn(*buf + len, " \t\n|<>$\"'"))
+			len += insert_plain_text(*buf + len, tok, " \t\n|<>$\"'");
+		if (*(*buf + len) == '$')
+			len += expand_p_v(*buf + len, &tok, env_list, 1);
+		if (*(*buf + len) == '"')
+		{
+			len++;
+			while (*(*buf + len) != '"')
+			{
+				len += insert_plain_text(*buf + len, tok, "$\"");
+				if (*(*buf + len) == '$')
+					len += expand_p_v(*buf + len, &tok, env_list, 0);
+			}
+			len++;
+		}
+		if (*(*buf + len) == '\'')
+		{
+			len++;
+			len += 1 + insert_plain_text(*buf + len, tok, "'");
+		}
 	}
-	return (i);
+	return (len);
 }
 
-int	lexer_build(char **linebuffer, t_lexer *lex, t_env_list *env_list)
+size_t	lexer_build(char **buf, t_lexer *lex, t_env_list *env_list)
 {
 	size_t	len;
 	t_token	*tok;
-	char	*buf;
 
-	tok = malloc(sizeof(t_token));
-	if (!tok)
-		return (0);
-	init_token(tok);
-	lex->toks = tok;
-	lex->n_toks = 1;
-	buf = *linebuffer;
-	buf += ft_strspn(buf, " \t");
-	while (*buf)
+	lex->n_toks = 0;
+	incr_lex(lex);
+	len = ft_strspn(*buf, " \t");
+	while (*(*buf + len))
 	{
-		if (ft_strchr("|<>\n", *buf))
-		{
-			tok->data = malloc(3 * sizeof(char));
-			if (ft_strnstr(buf, "<<", 2)
-				|| ft_strnstr(buf, ">>", 2)
-				|| ft_strnstr(buf, "<>", 2))
-			{
-				ft_strlcpy(tok->data, buf, 3);
-				if (ft_strnstr(buf, "<<", 2))
-					tok->type = HEREDOC;
-				else if (ft_strnstr(buf, ">>", 2))
-					tok->type = APPEND;
-				else
-					tok->type = RW;
-				buf += 2;
-			}
-			else
-			{
-				ft_strlcpy(tok->data, buf, 2);
-				tok->type = *buf;
-				++buf;
-			}
-		}
+		if (ft_strchr("|<>\n", *(*buf + len)))
+			len = lb_on_metachar(buf, len, env_list, lex);
 		else
-		{
-			len = 0;
-			while (!ft_strchr(" \t\n|<>", *(buf + len)))
-			{
-				if (len < 1 && *(buf) == '~'
-					&& ft_strchr(" \t\n|<>/", *(buf + 1)))
-					len = expand_tilde(tok, get_env_value(env_list, "HOME"));
-				if (ft_strcspn(buf + len, " \t\n|<>$\"'"))
-					len += insert_plain_text(
-								buf + len, tok, " \t\n|<>$\"'");
-				if (*(buf + len) == '$')
-					len += expand_p_v(buf + len, &tok, env_list, 1);
-				if (*(buf + len) == '"')
-				{
-					len++;
-					while (*(buf + len) != '"')
-					{
-						len += insert_plain_text(
-									buf + len, tok, "$\"");
-						if (*(buf + len) == '$')
-							len += expand_p_v(buf + len, &tok, env_list, 0);
-					}
-					len++;
-				}
-				if (*(buf + len) == '\'')
-				{
-					len++;
-					len += 1 + insert_plain_text(buf + len, tok, "'");
-				}
-			}
-			buf += len;
-		}
-		if (tok->data)
-		{
-			tok->next = malloc(sizeof(t_token));
-			if (!tok->next)
-				return (0);
-			init_token(tok->next);
-			tok = tok->next;
-			++(lex->n_toks);
-		}
-		buf += ft_strspn(buf, " \t");
+			len = lb_on_normchar(buf, len, env_list, lex);
+		tok = get_last_token(lex);
+		if (tok->type != CHAR_NULL)
+			incr_lex(lex);
+		len += ft_strspn(*buf + len, " \t");
 	}
 	return (lex->n_toks);
 }

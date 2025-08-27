@@ -13,7 +13,7 @@ LIB 		= -L ./libft/
 CUR_DIR 	= $(shell pwd)
 LIB_PATH	= $(CUR_DIR)/libft/
 
-SRC = shell.c lexer.c lexer_helper.c parser.c parser_helper.c
+SRC = shell.c lexer.c lexer_inits.c lexer_basicfcns.c lexer_helper.c parser.c parser_helper.c
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)

@@ -6,21 +6,13 @@
 /*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 13:51:59 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/25 14:16:53 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/08/27 17:08:35 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "./libft/libft.h"
 #include "lexer.h"
-
-/* initialize token to default 'null' type */
-void	init_token(t_token *tok)
-{
-	tok->data = NULL;
-	tok->next = NULL;
-	tok->type = CHAR_NULL;
-}
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
@@ -96,66 +88,6 @@ size_t	extract_var(char **var, const char *linebuffer, t_env_list *env_list)
 	return (len);
 }
 
-/* calculate the intersection of sets (s1 & s2) */
-char	*set_inter(const char *s1, const char *s2)
-{
-	size_t	len;
-	size_t	i;
-	char	*s;
-
-	len = 0;
-	i = 0;
-	while (s1[i])
-	{
-		if (ft_strchr(s2, s1[i]))
-			len++;
-		i++;
-	}
-	s = malloc((len + 1) * sizeof(char));
-	i = 0;
-	while (*s1)
-	{
-		if (ft_strchr(s2, *s1))
-		{
-			s[i] = *s1;
-			i++;
-		}
-		s1++;
-	}
-	s[i] = 0;
-	return (s);
-}
-
-/* calculate the difference of sets (s1 - s2) */
-char	*set_diff(const char *s1, const char *s2)
-{
-	size_t	len;
-	size_t	i;
-	char	*s;
-
-	len = ft_strlen(s1);
-	i = 0;
-	while (s1[i])
-	{
-		if (ft_strchr(s2, s1[i]))
-			len--;
-		i++;
-	}
-	s = malloc((len + 1) * sizeof(char));
-	i = 0;
-	while (*s1)
-	{
-		if (!ft_strchr(s2, *s1))
-		{
-			s[i] = *s1;
-			i++;
-		}
-		s1++;
-	}
-	s[i] = 0;
-	return (s);
-}
-
 /* add fields (defined using IFS contents) as tokens */
 void	fields_to_words(const char *var, t_env_list *env_list, t_token **tok)
 {
@@ -163,7 +95,14 @@ void	fields_to_words(const char *var, t_env_list *env_list, t_token **tok)
 	char	*sep;
 
 	sps = set_inter(" \t\n", get_env_value(env_list, "IFS"));
+	if (!sps)
+		cleanup_print_error_and_exit(*tok);
 	sep = set_diff(get_env_value(env_list, "IFS"), sps);
+	if (!sep)
+	{
+		free(sps);
+		cleanup_print_error_and_exit(*tok);
+	}
 	if (ft_strspn(var, sps))
 	{
 		if ((*tok)->type != CHAR_NULL)
