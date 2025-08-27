@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:31:01 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/27 16:43:55 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/08/27 23:45:16 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ size_t	lb_on_normchar(
 		if (ft_strcspn(*buf + len, " \t\n|<>$\"'"))
 			len += insert_plain_text(*buf + len, tok, " \t\n|<>$\"'");
 		if (*(*buf + len) == '$')
-			len += expand_p_v(*buf + len, &tok, env_list, 1);
+		{
+			len += expand_p_v(*buf + len, lex, env_list, 1);
+			tok = get_last_token(lex);
+		}
 		if (*(*buf + len) == '"')
 		{
 			len++;
@@ -67,7 +70,7 @@ size_t	lb_on_normchar(
 			{
 				len += insert_plain_text(*buf + len, tok, "$\"");
 				if (*(*buf + len) == '$')
-					len += expand_p_v(*buf + len, &tok, env_list, 0);
+					len += expand_p_v(*buf + len, lex, env_list, 0);
 			}
 			len++;
 		}

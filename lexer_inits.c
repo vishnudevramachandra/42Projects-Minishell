@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_inits.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:44:39 by vramacha          #+#    #+#             */
-/*   Updated: 2025/08/27 17:00:53 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/08/28 00:23:17 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "lexer.h"
 
 /* initialize token to default 'null' type */
-void	init_token(t_token *tok)
+static void	init_token(t_token *tok)
 {
 	tok->data = NULL;
 	tok->next = NULL;
@@ -48,7 +48,7 @@ t_token	*get_last_token(t_lexer *lex)
 	return (tok);
 }
 
-/* add an initialized token to the token list in lexer */
+/* add an initialized token to the end of token list in lexer */
 void	incr_lex(t_lexer *lex)
 {
 	t_token	*tok;
