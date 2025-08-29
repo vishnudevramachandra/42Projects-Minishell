@@ -6,43 +6,12 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:31:01 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/27 23:45:16 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/08/28 22:33:01 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "lexer.h"
 #include "./libft/libft.h"
-
-size_t	lb_on_metachar(
-	char **buf, size_t len, t_env_list *env_list, t_lexer *lex)
-{
-	t_token	*tok;
-
-	tok = get_last_token(lex);
-	(void)env_list;
-	tok->data = malloc(3 * sizeof(char));
-	if (ft_strnstr(*buf + len, "<<", 2)
-		|| ft_strnstr(*buf + len, ">>", 2)
-		|| ft_strnstr(*buf + len, "<>", 2))
-	{
-		ft_strlcpy(tok->data, *buf + len, 3);
-		if (ft_strnstr(*buf + len, "<<", 2))
-			tok->type = HEREDOC;
-		else if (ft_strnstr(*buf + len, ">>", 2))
-			tok->type = APPEND;
-		else
-			tok->type = RW;
-		return (len + 2);
-	}
-	else
-	{
-		ft_strlcpy(tok->data, *buf + len, 2);
-		tok->type = *(*buf + len);
-		return (len + 1);
-	}
-}
 
 size_t	lb_on_normchar(
 	char **buf, size_t len, t_env_list *env_list, t_lexer *lex)
@@ -86,20 +55,17 @@ size_t	lb_on_normchar(
 size_t	lexer_build(char **buf, t_lexer *lex, t_env_list *env_list)
 {
 	size_t	len;
-	t_token	*tok;
 
+	lex->toks = NULL;
 	lex->n_toks = 0;
-	incr_lex(lex);
 	len = ft_strspn(*buf, " \t");
 	while (*(*buf + len))
 	{
+		incr_lex(lex);
 		if (ft_strchr("|<>\n", *(*buf + len)))
 			len = lb_on_metachar(buf, len, env_list, lex);
 		else
 			len = lb_on_normchar(buf, len, env_list, lex);
-		tok = get_last_token(lex);
-		if (tok->type != CHAR_NULL)
-			incr_lex(lex);
 		len += ft_strspn(*buf + len, " \t");
 	}
 	return (lex->n_toks);

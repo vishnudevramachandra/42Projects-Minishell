@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:03:37 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/13 15:17:48 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/08/28 22:58:03 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,13 @@ int	parse(t_cmd_list *cmds, t_lexer *lex)
 	cmds->head = NULL;
 	cmds->tail = NULL;
 	cmds->size = 0;
+	while (tok)
+	{
+		printf("%s[%c], ", tok->data, tok->type);
+		tok = tok->next;
+	}
+	printf("\n");
+	return (1);
 	if (tok->type == CHAR_NULL)
 		return (1);
 	//TODO: what is cmds->prev_fd ?

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/08/26 18:10:59 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:08:12 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	sig_handler(int signum, siginfo_t *info, void *context)
 		write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
+		//TODO: set $? to have a value of 1
 	}
 	rl_redisplay();
 }
@@ -184,6 +185,7 @@ int	main(void)
 			if (lexer_build(&linebuffer, &lex, &env_list))
 				parse(&cmds, &lex);
 			add_history(linebuffer);
+			clear_lexer(&lex);
 		}
 		print_parser_output(&cmds); //for testing
 		// break; //for testing

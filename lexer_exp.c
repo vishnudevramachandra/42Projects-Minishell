@@ -6,7 +6,7 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 21:23:43 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/28 00:16:44 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/08/28 22:26:02 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,19 @@ static void	extract_sps_sep_from_ifs(
 {
 	*sps = set_inter(" \t\n", get_env_value(env_list, "IFS"));
 	if (!*sps)
-		cleanup_print_error_and_exit(lex->toks);
+		cleanup_print_error_and_exit(lex);
 	*sep = set_diff(get_env_value(env_list, "IFS"), *sps);
 	if (!*sep)
 	{
 		free(*sps);
-		cleanup_print_error_and_exit(lex->toks);
+		cleanup_print_error_and_exit(lex);
 	}
+}
+
+static void	free_sps_sep(char *sps, char *sep)
+{
+	free(sps);
+	free(sep);
 }
 
 /* add fields (defined using IFS contents) as tokens */
@@ -54,8 +60,7 @@ static void	fields_to_words(
 	extract_sps_sep_from_ifs(&sps, &sep, env_list, lex);
 	if (ft_strspn(val, sps))
 	{
-		if (get_last_token(lex)->type != CHAR_NULL)
-			incr_lex(lex);
+		incr_lex(lex);
 		val += ft_strspn(val, sps);
 	}
 	while (*val)
@@ -72,6 +77,7 @@ static void	fields_to_words(
 		incr_lex(lex);
 		val += ft_strspn(val, sps);
 	}
+	free_sps_sep(sps, sep);
 }
 
 /* Expand parameter/variable and when not enclosed within double quotes turn the

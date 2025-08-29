@@ -6,7 +6,7 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:44:39 by vramacha          #+#    #+#             */
-/*   Updated: 2025/08/28 00:23:17 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/08/28 22:38:53 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@ static void	init_token(t_token *tok)
 	tok->type = CHAR_NULL;
 }
 
-void	cleanup_print_error_and_exit(t_token *tok)
+void	clear_lexer(t_lexer *lex)
 {
+	t_token	*tok;
 	t_token	*ptr;
 
+	tok = lex->toks;
 	while (tok)
 	{
 		ptr = tok;
@@ -34,6 +36,13 @@ void	cleanup_print_error_and_exit(t_token *tok)
 			free(ptr->data);
 		free(ptr);
 	}
+	lex->toks = NULL;
+	lex->n_toks = 0;
+}
+
+void	cleanup_print_error_and_exit(t_lexer *lex)
+{
+	clear_lexer(lex);
 	perror("Malloc error");
 	exit (1);
 }
@@ -65,7 +74,7 @@ void	incr_lex(t_lexer *lex)
 		tok = get_last_token(lex);
 		tok->next = malloc(sizeof(t_token));
 		if (!tok->next)
-			cleanup_print_error_and_exit(lex->toks);
+			cleanup_print_error_and_exit(lex);
 		tok = tok->next;
 	}
 	init_token(tok);
