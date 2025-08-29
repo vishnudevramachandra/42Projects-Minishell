@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_metachar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 09:51:11 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/29 14:10:21 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/08/29 14:53:27 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,21 @@
 #include "lexer.h"
 #include "./libft/libft.h"
 
-int	is_next_tok_valid(char *non_valid_chars, char *buf, size_t len)
+static size_t	lb_pipe(char *buf, size_t len, t_token *tok, t_lexer *lex)
+{
+	if (tok == lex->toks
+		|| '|' == *(buf + len + 1 + ft_strspn(buf + len + 1, " \t\n")))
+	{
+		printf("msh: syntax error near unexpected token `|'\n");
+		//TODO: set $? to have a value of 1
+		return (clear_lexer(lex), len + ft_strlen(buf + len));
+	}
+	ft_strlcpy(tok->data, buf + len, 2);
+	tok->type = *(buf + len);
+	return (len + 1);
+}
+
+static int	is_next_tok_valid(char *non_valid_chars, char *buf, size_t len)
 {
 	if (ft_strchr(non_valid_chars, *(buf + len + ft_strspn(buf + len, " \t"))))
 	{
@@ -29,20 +43,7 @@ int	is_next_tok_valid(char *non_valid_chars, char *buf, size_t len)
 	return (1);
 }
 
-size_t	lb_pipe(char *buf, size_t len, t_token *tok, t_lexer *lex)
-{
-	if (tok == lex->toks
-		|| '|' == *(buf + len + 1 + ft_strspn(buf + len + 1, " \t")))
-	{
-		printf("msh: syntax error near unexpected token `|'\n");
-		return (clear_lexer(lex), len + ft_strlen(buf + len));
-	}
-	ft_strlcpy(tok->data, buf + len, 2);
-	tok->type = *(buf + len);
-	return (len + 1);
-}
-
-size_t	lb_redirects(char *buf, size_t len, t_token *tok, t_lexer *lex)
+static size_t	lb_redirects(char *buf, size_t len, t_token *tok, t_lexer *lex)
 {
 	size_t	i;
 
@@ -52,6 +53,7 @@ size_t	lb_redirects(char *buf, size_t len, t_token *tok, t_lexer *lex)
 		i = 2;
 	else
 		i = 1;
+	//TODO: set $? to have a value of 258
 	if (!is_next_tok_valid("|<>\n", buf, len + i))
 		return (clear_lexer(lex), len + ft_strlen(buf + len));
 	ft_strlcpy(tok->data, buf + len, i + 1);
