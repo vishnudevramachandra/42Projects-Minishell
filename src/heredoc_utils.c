@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 17:56:59 by swied             #+#    #+#             */
-/*   Updated: 2025/08/06 19:37:00 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/01 00:14:51 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 /* NOTHING DONE YET WITH HEREDOC | TOTAL MESS */
 
+/* creates a new hd_line */
 t_hd_line	*create_hd_line(char *content)
 {
 	t_hd_line	*new;
 
-	new = malloc(sizeof(t_hd_line));
+	new = gc_malloc(sizeof(t_hd_line));
 	if (!new)
 		return (NULL);
 	new->line = content;
@@ -26,6 +27,7 @@ t_hd_line	*create_hd_line(char *content)
 	return (new);
 }
 
+/* adds a line to the heredoc */
 void	add_line_to_heredoc(t_hd_node *hd_node, char *line)
 {
 	t_hd_line	*new_line;
@@ -45,6 +47,7 @@ void	add_line_to_heredoc(t_hd_node *hd_node, char *line)
 	current->next = new_line;
 }
 
+/* checks if a line is equal to the delimiter */
 int	is_delimiter(char *line, char *delimiter)
 {
 	int	len;
@@ -55,14 +58,17 @@ int	is_delimiter(char *line, char *delimiter)
 	if (len > 0 && line[len - 1] == '\n')
 		line[len - 1] = '\0';
 	if (ft_strcmp(line, delimiter) == 0)
-		return (free(line), 1);
+		return (1);
 	return (0);
 }
 
+/* creates a pipe and writes from hd_node into pipe */
 int	create_heredoc_fd(t_hd_node *hd_node)
 {
 	int	pipe_fd[2];
 
+	if (!hd_node)
+		return (-1);
 	if (pipe(pipe_fd) == -1)
 		return (-1);
 	write_heredoc_to_pipe(hd_node, pipe_fd[1]);
@@ -70,10 +76,13 @@ int	create_heredoc_fd(t_hd_node *hd_node)
 	return (pipe_fd[0]);
 }
 
+/* writes from hd_node into pipe */
 int	write_heredoc_to_pipe(t_hd_node *hd_node, int write_fd)
 {
 	t_hd_line	*current;
 
+	if (!hd_node || !hd_node->lines)
+		return (-1);
 	current = hd_node->lines;
 	while (current)
 	{
