@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 18:42:38 by swied             #+#    #+#             */
-/*   Updated: 2025/08/05 18:33:27 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/31 23:47:33 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct s_cmd_node
 {
 	int				cmd_type;
 	char			**cmd;
-	t_file_list		*file;
+	t_file_list		*file_list;
 	t_cmd_node		*next;
 	t_hd_list		*hd_list;
 }	t_cmd_node;
