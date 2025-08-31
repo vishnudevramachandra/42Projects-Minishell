@@ -6,13 +6,11 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:39:48 by swied             #+#    #+#             */
-/*   Updated: 2025/09/01 00:39:03 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/01 00:48:10 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
-#include <unistd.h>
-#include <fcntl.h>
 
 /* collects heredoc input in child_process */
 static int	collect_heredoc_in_child(char *delimiter,

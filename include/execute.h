@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/08/25 16:36:58 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/01 00:52:21 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int 		redirect(t_cmd_node *cmd_node);
 int			open_redirects(t_cmd_node *cmd_node);
 void		check_fd(t_cmd_node *cmd_node);
 int	        handle_heredoc(t_cmd_node *cmd_node);
+int	        get_last_hd_fd(t_cmd_node *cmd_node);
 
 //pipes.c
 int			execute_pipes(t_cmd_list *cmd_list, t_env_list *env_list);
@@ -91,6 +92,11 @@ int			create_heredoc_fd(t_hd_node *hd_node);
 int			write_heredoc_to_pipe(t_hd_node *hd_node, int write_fd);
 int			check_exit_status(pid_t child_pid, t_mini *mini);
 int         create_heredoc(char *lim, t_cmd_node *cmd_node, t_file_node *file_node);
+
+int	        process_heredocs_in_cmd_list(t_cmd_list *cmd_list);
+int	        process_heredocs_in_single_cmd(t_cmd_node *cmd_node);
+int	        cmd_list_has_heredocs(t_cmd_list *cmd_list);
+int	        handle_cmd_list_heredocs(t_cmd_list *cmd_list);
 
 //garbage.c
 int				gc_free(void *ptr);
