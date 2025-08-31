@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:36 by swied             #+#    #+#             */
-/*   Updated: 2025/08/25 16:12:27 by swied            ###   ########.fr       */
+/*   Updated: 2025/08/31 23:57:16 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	execute_loop(t_cmd_list *cmd_list, t_env_list *env_list)
 {
 	int	status;
 
-	if (collect_heredocs(cmd_list) == -1)
+	if (handle_cmd_list_heredocs(cmd_list) == -1)
 		return (1);
 	if (cmd_list->size == 1 && cmd_list->head->cmd_type == 1)
 		status = execute_builtin(cmd_list->head, env_list);
@@ -72,8 +72,11 @@ int	collect_heredocs(t_cmd_list *cmd_list)
 	t_cmd_node	*current_node;
 	t_file_node	*current_file_node;
 
+	current_node = gc_malloc(sizeof(t_cmd_node));
+	if (!current_node)
+		return (1);
 	current_node = cmd_list->head;
-	current_file_node = current_node->file->head;
+	current_file_node = current_node->file_list->head;
 	if (!current_file_node)
 		return (0);
 	while (current_node)
