@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_metachar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 09:51:11 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/29 14:53:27 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/02 22:09:52 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,19 @@ static size_t	lb_pipe(char *buf, size_t len, t_token *tok, t_lexer *lex)
 		|| '|' == *(buf + len + 1 + ft_strspn(buf + len + 1, " \t\n")))
 	{
 		printf("msh: syntax error near unexpected token `|'\n");
-		//TODO: set $? to have a value of 1
+		//TODO: set $? to have a value of 258
 		return (clear_lexer(lex), len + ft_strlen(buf + len));
 	}
 	ft_strlcpy(tok->data, buf + len, 2);
 	tok->type = *(buf + len);
-	return (len + 1);
+	len += 1 + ft_strspn(buf + len + 1, " \t\n");
+	while (!*(buf + len))
+	{
+		if (!lb_mline(buf, env_list, '|'))
+			return (clear_lexer(lex), ft_strlen(*buf));
+		len += ft_strspn(buf + len, " \t\n");
+	}
+	return (len);
 }
 
 static int	is_next_tok_valid(char *non_valid_chars, char *buf, size_t len)
@@ -55,7 +62,7 @@ static size_t	lb_redirects(char *buf, size_t len, t_token *tok, t_lexer *lex)
 		i = 1;
 	//TODO: set $? to have a value of 258
 	if (!is_next_tok_valid("|<>\n", buf, len + i))
-		return (clear_lexer(lex), len + ft_strlen(buf + len));
+		return (clear_lexer(lex), ft_strlen(buf));
 	ft_strlcpy(tok->data, buf + len, i + 1);
 	if (i < 1)
 		tok->type = *(buf + len);

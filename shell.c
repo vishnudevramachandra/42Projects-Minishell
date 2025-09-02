@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/02 12:29:04 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/02 17:00:47 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,81 +62,6 @@ void	handle_signal_in_msh(void)
 	sigaction(SIGQUIT, &act, NULL);
 }
 
-char	*openingquote_in_str(const char *str)
-{
-	if (ft_strchr(str, '"') && ft_strchr(str, '\''))
-	{
-		if (ft_strchr(str, '"') < ft_strchr(str, '\''))
-			return (ft_strchr(str, '"'));
-		else
-			return (ft_strchr(str, '\''));
-	}
-	if (ft_strchr(str, '"'))
-		return (ft_strchr(str, '"'));
-	else
-		return (ft_strchr(str, '\''));
-}
-
-char	*unclosedquote_in_str(const char *str)
-{
-	char	*opening_quote;
-
-	opening_quote = openingquote_in_str(str);
-	if (!opening_quote)
-		return (NULL);
-	str = opening_quote + 1;
-	while (*str)
-	{
-		if (*str == *opening_quote)
-			return (unclosedquote_in_str(str + 1));
-		str++;
-	}
-	return (opening_quote);
-}
-
-char	*strjoin_with_nl_and_free(char *s1, char *s2)
-{
-	char	*joined_str;
-	size_t	len;
-
-	len = ft_strlen(s1);
-	joined_str = malloc((len + ft_strlen(s2) + 2) * sizeof(char));
-	if (!joined_str)
-		return (NULL);
-	ft_strlcpy(joined_str, s1, len + 1);
-	joined_str[len] = '\n';
-	ft_strlcpy(joined_str + len + 1, s2, ft_strlen(s2) + 1);
-	free(s1);
-	free(s2);
-	return (joined_str);
-}
-
-char	*readline_withclosingquotes(const char *prompt)
-{
-	char	*linebuffer;
-	char	*unclosed_quote;
-	char	*tmp;
-
-	linebuffer = readline(prompt);
-	if (!linebuffer)
-		exit(EXIT_SUCCESS);
-	unclosed_quote = unclosedquote_in_str(linebuffer);
-	while (unclosed_quote)
-	{
-		tmp = readline(">");
-		if (!tmp)
-		{
-			printf("msh: unexpected EOF while looking for matching `%c'\n",
-				*unclosed_quote);
-			free(linebuffer);
-			return (NULL);
-		}
-		linebuffer = strjoin_with_nl_and_free(linebuffer, tmp);
-		unclosed_quote = unclosedquote_in_str(linebuffer);
-	}
-	return (linebuffer);
-}
-
 void	create_env_list(t_env_list *env_list)
 {
 	t_env_node	*node;
@@ -173,6 +98,7 @@ int	main(void)
 	{
 		if (linebuffer)
 		{
+			add_history(linebuffer);
 			free(linebuffer);
 			linebuffer = NULL;
 		}
@@ -182,8 +108,6 @@ int	main(void)
 		{
 			if (lexer_build(&linebuffer, &lex, &env_list))
 				parse(&cmds, &lex);
-			if (lex.n_toks)
-				add_history(linebuffer);
 			clear_lexer(&lex);
 		}
 		else

@@ -3,42 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:31:01 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/02 15:38:57 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/02 22:10:09 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <readline/readline.h>
-#include <readline/history.h>
 #include "lexer.h"
 #include "./libft/libft.h"
 
-void	lb_mline(char **buf, size_t len, t_lexer *lex, char c)
+int	lb_mline(char **buf, t_env_list *env_list, char c)
 {
 	char	*old_buf;
 	char	*str;
 
-	old_buf = *buf;
-	*buf = ft_strjoin(old_buf, "\n");
-	free(old_buf);
+	(void)env_list;
+	if (c != '|')
+	{
+		old_buf = *buf;
+		*buf = ft_strjoin(old_buf, "\n");
+		free(old_buf);
+	}
 	str = readline("<");
 	if (!str || *str == '\n')
 	{
-		if (!str)
+		if (!str) //TODO: set $? to have a value of 258
 			printf("msh: unexpected EOF while looking for matching `%c'\n", c);
-		add_history(*buf);
-		clear_lexer(lex);
-		(*buf)[len] = 0;
-		return ;
+		else//TODO: set $? to have a value of 1 
+			free (str);
+		return (0);
 	}
 	old_buf = *buf;
 	*buf = ft_strjoin(old_buf, str);
 	free (old_buf);
 	free (str);
+	return (1);
 }
 
 size_t	lb_on_dquote(char **buf, size_t len, t_env_list *env_list, t_lexer *lex)
@@ -49,15 +52,14 @@ size_t	lb_on_dquote(char **buf, size_t len, t_env_list *env_list, t_lexer *lex)
 	++len;
 	while (*(*buf + len) != '"')
 	{
+		while (!strchr(*buf + len, '"'))
+		{
+			if (!lb_mline(buf, env_list, '"'))
+				return (clear_lexer(lex), ft_strlen(*buf));
+		}
 		len += insert_plain_text(*buf + len, tok, "$\"");
 		if (*(*buf + len) == '$')
 			len += expand_p_v(*buf + len, lex, env_list, 0);
-		while (!strchr(*buf + len, '"'))
-		{
-			lb_mline(buf, len, lex, '"');
-			if (!*(*buf + len))
-				return (len); //TODO: set $? to have a value of 1
-		}
 	}
 	return (++len);
 }
@@ -71,9 +73,8 @@ size_t	lb_on_squote(char **buf, size_t len, t_env_list *env_list, t_lexer *lex)
 	++len;
 	while (!strchr(*buf + len, '\''))
 	{
-		lb_mline(buf, len, lex, '\'');
-		if (!*(*buf + len))
-			return (len); //TODO: set $? to have a value of 1
+		if (!lb_mline(buf, env_list, '\''))
+			return (clear_lexer(lex), ft_strlen(*buf));
 	}
 	len += 1 + insert_plain_text(*buf + len, tok, "'");
 	return (len);
@@ -112,7 +113,14 @@ size_t	lexer_build(char **buf, t_lexer *lex, t_env_list *env_list)
 
 	lex->toks = NULL;
 	lex->n_toks = 0;
-	len = ft_strspn(*buf, " \t\n");
+	if (**buf == '\n')
+	{
+		//TODO: set $? to have a value of 1
+		free(*buf);
+		*buf = NULL;
+		return (lex->n_toks);
+	}
+	len = ft_strspn(*buf, " \t");
 	while (*(*buf + len))
 	{
 		incr_lex(lex);
