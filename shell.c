@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/08/29 10:08:12 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/02 11:17:10 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,25 @@
 
 void	sig_handler(int signum, siginfo_t *info, void *context)
 {
+	char			nl;
+	struct termios	term;
+
 	(void)context;
 	(void)info;
-	if (signum == SIGINT)
+	if (signum != SIGINT)
+		rl_redisplay();
+	else
 	{
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
+		rl_replace_line("\n", 0);
+		tcgetattr(0, &term);
+		term.c_lflag &= ~ECHO;
+		tcsetattr(0, TCSANOW, &term);
+		nl = '\n';
+		ioctl(1, TIOCSTI, &nl);
+		term.c_lflag |= ECHO;
+		tcsetattr(0, TCSANOW, &term);
 		//TODO: set $? to have a value of 1
 	}
-	rl_redisplay();
 }
 
 //replicates Ctrl-C Ctrl-\ behaviour in bash
@@ -50,18 +59,6 @@ void	handle_signal_in_msh(void)
 	act.sa_sigaction = sig_handler;
 	sigaction(SIGINT, &act, NULL);
 	sigaction(SIGQUIT, &act, NULL);
-}
-
-void	restore_signal_in_child(void)
-{
-	struct sigaction	act;
-
-	sigemptyset(&act.sa_mask);
-	sigaddset(&act.sa_mask, SIGTSTP);
-	sigaddset(&act.sa_mask, SIGQUIT);
-	act.sa_flags = 0;
-	act.sa_handler = SIG_DFL;
-	sigaction(SIGINT, &act, NULL);
 }
 
 char	*openingquote_in_str(const char *str)
@@ -152,8 +149,8 @@ void	create_env_list(t_env_list *env_list)
 	node = node->next;
 	node->variable = "var";
 	node->value = "\ta:bs>mm c\t";
-	node->is_export = 0;	
-	node->next = malloc(sizeof(t_env_node));	
+	node->is_export = 0;
+	node->next = malloc(sizeof(t_env_node));
 	node = node->next;
 	node->variable = "IFS";
 	node->value = " \t\n:";

@@ -6,7 +6,7 @@
 /*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:38:52 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/13 15:20:19 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/02 11:12:49 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 # include <unistd.h>
 # include "lexer.h"
 
-typedef struct s_file_node t_file_node;
-typedef struct s_cmd_node t_cmd_node;
-typedef	struct s_hd_list t_hd_list;
-typedef struct s_hd_node t_hd_node;
-typedef struct s_hd_line t_hd_line;
+typedef struct s_file_node	t_file_node;
+typedef struct s_cmd_node	t_cmd_node;
+typedef struct s_hd_list	t_hd_list;
+typedef struct s_hd_node	t_hd_node;
+typedef struct s_hd_line	t_hd_line;
 
 typedef struct s_hd_line
 {
@@ -82,7 +82,6 @@ typedef struct s_cmd_list
 	t_cmd_node		*tail;
 	ssize_t			size;
 	int				prev_fd;
-	
 }	t_cmd_list;
 
 int		parse(t_cmd_list *cmds, t_lexer *lex);
