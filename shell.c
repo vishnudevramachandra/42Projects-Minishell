@@ -6,7 +6,7 @@
 /*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/02 11:17:10 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/02 12:29:04 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <readline/history.h>
 #include <termios.h>
 #include <unistd.h>
+#include <sys/ioctl.h>
 #include "./libft/libft.h"
 #include "lexer.h"
 #include "parser.h"
@@ -175,15 +176,18 @@ int	main(void)
 			free(linebuffer);
 			linebuffer = NULL;
 		}
-		linebuffer = readline_withclosingquotes("msh-1.0$ ");
+		linebuffer = readline("msh-1.0$ ");
 		// linebuffer = "<text.txt cat ~/yo' bl<|'mama >\"ab$HOME*\"$var et"; //for testing
 		if (linebuffer)
 		{
 			if (lexer_build(&linebuffer, &lex, &env_list))
 				parse(&cmds, &lex);
-			add_history(linebuffer);
+			if (lex.n_toks)
+				add_history(linebuffer);
 			clear_lexer(&lex);
 		}
+		else
+			exit(EXIT_SUCCESS); //gc_malloc_clear
 		print_parser_output(&cmds); //for testing
 		// break; //for testing
 	}
