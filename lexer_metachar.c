@@ -6,7 +6,7 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 09:51:11 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/02 22:09:52 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/03 11:28:35 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ static size_t	lb_pipe(char *buf, size_t len, t_token *tok, t_lexer *lex)
 	ft_strlcpy(tok->data, buf + len, 2);
 	tok->type = *(buf + len);
 	len += 1 + ft_strspn(buf + len + 1, " \t\n");
-	while (!*(buf + len))
-	{
-		if (!lb_mline(buf, env_list, '|'))
-			return (clear_lexer(lex), ft_strlen(*buf));
-		len += ft_strspn(buf + len, " \t\n");
-	}
+	// while (!*(buf + len))
+	// {
+	// 	if (!lb_mline(buf, env_list, '|'))
+	// 		return (clear_lexer(lex), ft_strlen(buf));
+	// 	len += ft_strspn(buf + len, " \t\n");
+	// }
 	return (len);
 }
 

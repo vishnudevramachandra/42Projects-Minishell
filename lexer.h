@@ -6,7 +6,7 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:05:06 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/28 22:24:50 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/03 11:33:47 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	clear_lexer(t_lexer *lex);
 void	cleanup_print_error_and_exit(t_lexer *lex);
 t_token	*get_last_token(t_lexer *lex);
 void	incr_lex(t_lexer *lex);
+char	*buf_cat(char *old_buf, char *delim, char *str);
 void	add_word_to_tok(const char *linebuffer, size_t len, t_token *tok);
 size_t	insert_plain_text(const char *linebuffer, t_token *tok,
 			char *end_of_word);

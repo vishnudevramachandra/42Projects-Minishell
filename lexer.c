@@ -6,7 +6,7 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:31:01 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/02 22:10:09 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/03 11:32:47 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,37 +16,17 @@
 #include "lexer.h"
 #include "./libft/libft.h"
 
-int	lb_mline(char **buf, t_env_list *env_list, char c)
+void	prt_stx_err(char c, t_env_list *env_list)
 {
-	char	*old_buf;
-	char	*str;
-
 	(void)env_list;
-	if (c != '|')
-	{
-		old_buf = *buf;
-		*buf = ft_strjoin(old_buf, "\n");
-		free(old_buf);
-	}
-	str = readline("<");
-	if (!str || *str == '\n')
-	{
-		if (!str) //TODO: set $? to have a value of 258
-			printf("msh: unexpected EOF while looking for matching `%c'\n", c);
-		else//TODO: set $? to have a value of 1 
-			free (str);
-		return (0);
-	}
-	old_buf = *buf;
-	*buf = ft_strjoin(old_buf, str);
-	free (old_buf);
-	free (str);
-	return (1);
+	//TODO: set $? to have a value of 258
+	printf("msh: unexpected EOF while looking for matching `%c'\n", c);
 }
 
 size_t	lb_on_dquote(char **buf, size_t len, t_env_list *env_list, t_lexer *lex)
 {
 	t_token	*tok;
+	char	*str;
 
 	tok = get_last_token(lex);
 	++len;
@@ -54,8 +34,15 @@ size_t	lb_on_dquote(char **buf, size_t len, t_env_list *env_list, t_lexer *lex)
 	{
 		while (!strchr(*buf + len, '"'))
 		{
-			if (!lb_mline(buf, env_list, '"'))
-				return (clear_lexer(lex), ft_strlen(*buf));
+			str = readline("<");
+			if (!str)
+				return (prt_stx_err('"', env_list),
+					clear_lexer(lex), ft_strlen(*buf));
+			else if (*str == '\n') //TODO: set $? to have a value of 1
+				return (free(str), clear_lexer(lex), ft_strlen(*buf));
+			*buf = buf_cat(*buf, "\n", str);
+			if (!*buf)
+				cleanup_print_error_and_exit(lex);
 		}
 		len += insert_plain_text(*buf + len, tok, "$\"");
 		if (*(*buf + len) == '$')
@@ -67,14 +54,21 @@ size_t	lb_on_dquote(char **buf, size_t len, t_env_list *env_list, t_lexer *lex)
 size_t	lb_on_squote(char **buf, size_t len, t_env_list *env_list, t_lexer *lex)
 {
 	t_token	*tok;
+	char	*str;
 
-	(void)env_list;
 	tok = get_last_token(lex);
 	++len;
 	while (!strchr(*buf + len, '\''))
 	{
-		if (!lb_mline(buf, env_list, '\''))
-			return (clear_lexer(lex), ft_strlen(*buf));
+		str = readline("<");
+		if (!str)
+			return (prt_stx_err('\'', env_list),
+				clear_lexer(lex), ft_strlen(*buf));
+		else if (*str == '\n') //TODO: set $? to have a value of 1
+			return (free(str), clear_lexer(lex), ft_strlen(*buf));
+		*buf = buf_cat(*buf, "\n", str);
+		if (!*buf)
+			cleanup_print_error_and_exit(lex);
 	}
 	len += 1 + insert_plain_text(*buf + len, tok, "'");
 	return (len);

@@ -6,7 +6,7 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 13:51:59 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/27 21:39:58 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/03 11:33:32 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,27 @@ char	*get_env_value(t_env_list *env_list, char *var)
 		current = current->next;
 	}
 	return (NULL);
+}
+
+char	*buf_cat(char *old_buf, char *delim, char *str)
+{
+	char	*buf;
+
+	if (delim)
+	{
+		buf = ft_strjoin(old_buf, delim);
+		free(old_buf);
+		if (!buf)
+		{
+			free(str);
+			return (NULL);
+		}
+		old_buf = buf;
+	}
+	buf = ft_strjoin(old_buf, str);
+	free(old_buf);
+	free(str);
+	return (buf);
 }
 
 void	add_word_to_tok(const char *linebuffer, size_t len, t_token *tok)
