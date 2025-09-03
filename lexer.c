@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:31:01 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/03 11:32:47 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/03 12:03:28 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "lexer.h"
 #include "./libft/libft.h"
 
-void	prt_stx_err(char c, t_env_list *env_list)
+static void	prt_stx_err(char c, t_env_list *env_list)
 {
 	(void)env_list;
 	//TODO: set $? to have a value of 258
