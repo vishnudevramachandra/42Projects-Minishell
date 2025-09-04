@@ -3,52 +3,82 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+         #
+#    By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/08/27 21:32:53 by vishnudevra       #+#    #+#              #
-#    Updated: 2025/09/02 16:13:09 by vishnudevra      ###   ########.fr        #
+#    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
+#    Updated: 2025/09/04 16:44:51 by vramacha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+NAME := minishell
+CC := cc
+CFLAGS := -Wall -Wextra -Werror
+INCD := include
+SRCD := src
+OBJD := obj
+LIBFT_DIR := $(INCD)/libft
+LIBFT := $(LIBFT_DIR)/libft.a
+
 # Colors
-GREEN       = \033[0;32m
-RED         = \033[0;31m
-RESET       = \033[0m
+GREEN := \033[0;32m
+YELLOW := \033[0;33m
+RED := \033[0;31m
+NC := \033[0m # No Color
 
-CC 		= cc
-LDFLAGS = -lreadline -lft -L./libft -L/usr/local/Cellar/readline/8.3/lib
-CFLAGS	= -Wextra -Wall -Werror -I./libft -I/usr/local/Cellar/readline/8.3/include
+SRCS :=			$(SRCD)/execute.c \
+				$(SRCD)/garbage.c \
+				$(SRCD)/garbage2.c \
+				$(SRCD)/pwd.c \
+				$(SRCD)/echo.c \
+				$(SRCD)/cd.c \
+				$(SRCD)/execute_utils.c \
+				$(SRCD)/env.c \
+				$(SRCD)/builtin.c \
+				$(SRCD)/get_path.c \
+				$(SRCD)/redirect.c \
+				$(SRCD)/pipes.c \
+				$(SRCD)/main.c \
+				$(SRCD)/heredoc.c \
+				$(SRCD)/heredoc_utils.c \
+				$(SRCD)/exit.c \
+				$(SRCD)/env_list.c \
+				$(SRCD)/export.c \
+				$(SRCD)/list_to_dblarray.c \
+				$(SRCD)/unset.c \
+				$(SRCD)/export_add.c
 
-NAME		= minishell
-LIB_NAME 	= libft.a
-LIB 		= -L ./libft/
-CUR_DIR 	= $(shell pwd)
-LIB_PATH	= $(CUR_DIR)/libft/
-
-SRC =	shell.c \
-		lexer.c lexer_inits.c lexer_basicfcns.c lexer_helper.c lexer_exp.c \
-		lexer_metachar.c \
-		parser.c parser_helper.c
-OBJ = $(SRC:.c=.o)
+OBJS := $(SRCS:$(SRCD)/%.c=$(OBJD)/%.o)
 
 all: $(NAME)
 
-$(NAME): $(LIB_PATH)/$(LIB_NAME) $(OBJ)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) -o $(NAME)
-	@echo "$(GREEN)$(NAME) executable created successfully!$(RESET)\n"
+$(LIBFT):
+	@printf "$(YELLOW)Building libft library...$(NC)\n"
+	@$(MAKE) -C $(LIBFT_DIR)
 
-$(LIB_PATH)/$(LIB_NAME):
-	make -C $(LIB_PATH)
+$(OBJD)/%.o: $(SRCD)/%.c|  $(OBJD)
+	@printf "$(YELLOW)Compiling $<...$(NC)\n"
+	@$(CC) $(CFLAGS) -I $(INCD) -c $< -o $@
+	@printf "$(GREEN)Compiled $< successfully!$(NC)\n"
 
-.PHONY: clean fclean re
+$(OBJD):
+	mkdir -p $(OBJD)
+
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(OBJS) -L$(LIBFT_DIR) -lft -o $(NAME)
+	@printf "$(GREEN)Executable $(NAME) built successfully!$(NC)\n"
 
 clean:
-	make clean -C $(LIB_PATH)
-	rm -f $(OBJ)
-	
+	@printf "$(RED)Cleaning object files...$(NC)\n"
+	rm -rf $(OBJD)
+	@printf "$(GREEN)Object files cleaned!$(NC)\n"
+	@$(MAKE) -C $(LIBFT_DIR) clean
+
 fclean: clean
-	make fclean -C $(LIB_PATH)
+	@printf "$(RED)Cleaning library and executable...$(NC)\n"
 	rm -f $(NAME)
-	@echo "$(RED)$(NAME) executable removed successfully!$(RESET)\n"
+	@printf "$(GREEN)Executable cleaned!$(NC)\n"
+	@$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
+
+.PHONY: all clean fclean re
