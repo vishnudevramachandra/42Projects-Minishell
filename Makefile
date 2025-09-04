@@ -6,7 +6,7 @@
 #    By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
-#    Updated: 2025/09/04 16:44:51 by vramacha         ###   ########.fr        #
+#    Updated: 2025/09/04 16:54:35 by vramacha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,16 @@ SRCS :=			$(SRCD)/execute.c \
 				$(SRCD)/export.c \
 				$(SRCD)/list_to_dblarray.c \
 				$(SRCD)/unset.c \
-				$(SRCD)/export_add.c
+				$(SRCD)/export_add.c \
+				$(SRCD)/lexer_basicfcns.c \
+				$(SRCD)/lexer_exp.c \
+				$(SRCD)/lexer_helper.c \
+				$(SRCD)/lexer_inits.c \
+				$(SRCD)/lexer_metachar.c \
+				$(SRCD)/lexer.c \
+				$(SRCD)/parser.c \
+				$(SRCD)/parser_helper.c \
+				$(SRCD)/shell.c \
 
 OBJS := $(SRCS:$(SRCD)/%.c=$(OBJD)/%.o)
 
