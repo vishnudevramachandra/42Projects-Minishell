@@ -6,14 +6,13 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:03:37 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/08/28 22:58:03 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/04 17:43:23 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "lexer.h"
-#include "parser.h"
+#include "../include/parser.h"
 
 t_cmd_node	*alloc_and_init_cmd_node(void)
 {
@@ -23,7 +22,7 @@ t_cmd_node	*alloc_and_init_cmd_node(void)
 	if (!cmd_node)
 		exit (1);
 	cmd_node->cmd = NULL;
-	cmd_node->file = NULL;
+	cmd_node->file_list = NULL;
 	cmd_node->next = NULL;
 	cmd_node->hd_list = NULL;
 	return (cmd_node);
@@ -186,8 +185,8 @@ int	parse(t_cmd_list *cmds, t_lexer *lex)
 				cmds->tail = cmd_node;
 				cmds->size++;
 			}
-			if (!cmd_node->file)
-				cmd_node->file = alloc_and_init_file_list();
+			if (!cmd_node->file_list)
+				cmd_node->file_list = alloc_and_init_file_list();
 			typ = tok->type;
 			tok = tok->next;
 			if (tok->type != WORD)
@@ -196,18 +195,18 @@ int	parse(t_cmd_list *cmds, t_lexer *lex)
 				//TODO: housekeeping
 			}
 			if (typ == WRITE)
-				add_file_to_filelist(cmd_node->file, tok->data, REDIR_OUT);
+				add_file_to_filelist(cmd_node->file_list, tok->data, REDIR_OUT);
 			else if (typ == READ)
-				add_file_to_filelist(cmd_node->file, tok->data, REDIR_IN);
+				add_file_to_filelist(cmd_node->file_list, tok->data, REDIR_IN);
 			else if (typ == APPEND)
-				add_file_to_filelist(cmd_node->file, tok->data, REDIR_APPEND);
+				add_file_to_filelist(cmd_node->file_list, tok->data, REDIR_APPEND);
 			else if (typ == RW)
 			{
-				add_file_to_filelist(cmd_node->file, tok->data, REDIR_IN);
-				add_file_to_filelist(cmd_node->file, tok->data, REDIR_OUT);
+				add_file_to_filelist(cmd_node->file_list, tok->data, REDIR_IN);
+				add_file_to_filelist(cmd_node->file_list, tok->data, REDIR_OUT);
 			}
 			else
-				add_file_to_filelist(cmd_node->file, tok->data, REDIR_HEREDOC);
+				add_file_to_filelist(cmd_node->file_list, tok->data, REDIR_HEREDOC);
 			tok = tok->next;
 		}
 		if (tok->type == WORD)

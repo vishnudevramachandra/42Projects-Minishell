@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_metachar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 09:51:11 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/03 12:31:54 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/04 17:38:43 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <readline/readline.h>
-#include "lexer.h"
+#include "../include/lexer.h"
 #include "./libft/libft.h"
 
 static void	prt_stx_err(char c, t_env_list *env_list)

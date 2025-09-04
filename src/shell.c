@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/04 16:43:13 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/04 20:47:26 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,19 @@ void	create_env_list(t_env_list *env_list)
 	node->next = NULL;
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char		*linebuffer;
 	t_lexer		lex;
-	t_env_list	env_list;
+	t_mini		mini;
 	t_cmd_list	cmds;
 
+	mini.env_list->size = argc;
+	(void)argv;
 	handle_signal_in_msh();
-	create_env_list(&env_list); //for testing
+	mini.env_list = fill_env_list(envp);
+	set_env_var(mini.env_list, "IFS", " \t\n"); //is_export=fals
+	// create_env_list(&env_list); //for testing
 	linebuffer = NULL;
 	while (1)
 	{
@@ -106,7 +110,7 @@ int	main(void)
 		// linebuffer = "<text.txt cat ~/yo' bl<|'mama >\"ab$HOME*\"$var et"; //for testing
 		if (linebuffer)
 		{
-			if (lexer_build(&linebuffer, &lex, &env_list))
+			if (lexer_build(&linebuffer, &lex, mini.env_list))
 				parse(&cmds, &lex);
 			clear_lexer(&lex);
 		}

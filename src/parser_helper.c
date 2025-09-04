@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:46:38 by vramacha          #+#    #+#             */
-/*   Updated: 2025/08/13 15:54:12 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/04 17:45:12 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "parser.h"
+#include "../include/parser.h"
 
 char	*get_redir_string(t_redir_type typ)
 {
@@ -75,8 +75,8 @@ void	print_parser_output(t_cmd_list *cmds)
 			i, c_node);
 		print_cmd(c_node->cmd);
 		printf("cmd_type: %i, file: %p, next: %p, hd_list: %p\n",
-			c_node->cmd_type, c_node->file, c_node->next, c_node->hd_list);
-		print_files(c_node->file);
+			c_node->cmd_type, c_node->file_list, c_node->next, c_node->hd_list);
+		print_files(c_node->file_list);
 		printf("cmd_node(%i) -----------------------------------------------\n\
 			\n", i);
 		i++;

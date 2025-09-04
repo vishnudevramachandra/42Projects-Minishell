@@ -6,13 +6,13 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:44:39 by vramacha          #+#    #+#             */
-/*   Updated: 2025/08/28 22:38:53 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/04 17:38:32 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "lexer.h"
+#include "../include/lexer.h"
 
 /* initialize token to default 'null' type */
 static void	init_token(t_token *tok)

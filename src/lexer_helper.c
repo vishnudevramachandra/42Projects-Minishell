@@ -6,41 +6,13 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 13:51:59 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/03 11:33:32 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/04 17:38:21 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "./libft/libft.h"
-#include "lexer.h"
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	while (s1[i] && s2[i])
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
-
-char	*get_env_value(t_env_list *env_list, char *var)
-{
-	t_env_node	*current;
-
-	current = env_list->head;
-	while (current)
-	{
-		if (ft_strcmp (current->variable, var) == 0)
-			return (current->value);
-		current = current->next;
-	}
-	return (NULL);
-}
+#include "../include/lexer.h"
 
 char	*buf_cat(char *old_buf, char *delim, char *str)
 {

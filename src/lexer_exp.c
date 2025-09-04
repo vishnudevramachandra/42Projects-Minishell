@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_exp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 21:23:43 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/04 17:09:52 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/04 20:18:36 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
