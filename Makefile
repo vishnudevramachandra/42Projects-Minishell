@@ -6,7 +6,7 @@
 #    By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
-#    Updated: 2025/09/04 17:51:09 by vishnudevra      ###   ########.fr        #
+#    Updated: 2025/09/05 12:59:02 by vishnudevra      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,8 @@ SRCS :=			$(SRCD)/execute.c \
 				$(SRCD)/lexer.c \
 				$(SRCD)/parser.c \
 				$(SRCD)/parser_helper.c \
+				$(SRCD)/parser_inits.c \
+				$(SRCD)/parser_allot.c \
 				$(SRCD)/shell.c \
 
 OBJS := $(SRCS:$(SRCD)/%.c=$(OBJD)/%.o)

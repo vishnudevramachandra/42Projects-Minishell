@@ -6,7 +6,7 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/04 20:47:26 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/04 20:56:33 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int	main(int argc, char **argv, char **envp)
 	char		*linebuffer;
 	t_lexer		lex;
 	t_mini		mini;
-	t_cmd_list	cmds;
 
 	mini.env_list->size = argc;
 	(void)argv;
@@ -111,12 +110,12 @@ int	main(int argc, char **argv, char **envp)
 		if (linebuffer)
 		{
 			if (lexer_build(&linebuffer, &lex, mini.env_list))
-				parse(&cmds, &lex);
+				parse(mini.cmd_list, &lex);
 			clear_lexer(&lex);
 		}
 		else
 			exit(EXIT_SUCCESS); //gc_malloc_clear
-		print_parser_output(&cmds); //for testing
+		print_parser_output(mini.cmd_list); //for testing
 		// break; //for testing
 	}
 }
