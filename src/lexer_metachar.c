@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_metachar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 09:51:11 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/04 17:38:43 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/05 15:20:10 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static size_t	lb_redirects(
 	if (!is_next_tok_valid("|<>\n", buf, len + i, env_list))
 		return (clear_lexer(lex), ft_strlen(buf));
 	ft_strlcpy(tok->data, buf + len, i + 1);
-	if (i < 1)
+	if (i < 2)
 		tok->type = *(buf + len);
 	else
 	{

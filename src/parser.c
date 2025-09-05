@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:03:37 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/05 13:14:49 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/05 15:56:12 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static t_cmd_node	*add_cmd_node(
 	return (cmd_node->next);
 }
 
+/* Adds the redirection */
 static t_token	*add_redir(
 	t_token_type typ, t_cmd_node *cmd_node, t_token *tok, t_lexer *lex)
 {
@@ -49,34 +50,27 @@ static t_token	*add_redir(
 	return (tok->next);
 }
 
-int	parse(t_cmd_list *cmds, t_lexer *lex)
+int	is_inbuilt(char *word)
 {
-	t_token			*tok;
-	t_cmd_node		*cmd_node;
-	
-	cmds = gc_malloc(sizeof(t_env_list));
-	if (!cmds)
-		free_and_exit(lex);
-	init_cmds(cmds, lex);
-	tok = lex->toks;
-	// while (tok)
-	// {
-	// 	printf("%s[%c], ", tok->data, tok->type);
-	// 	tok = tok->next;
-	// }
-	// printf("\n");
-	// return (1);
-	while (tok && tok->type == CHAR_NULL)
-		tok = tok->next;
-	if (!tok)
+	if (!ft_strcmp("echo", word)
+		|| !ft_strcmp("cd", word)
+		|| !ft_strcmp("pwd", word)
+		|| !ft_strcmp("export", word)
+		|| !ft_strcmp("unset", word)
+		|| !ft_strcmp("env", word)
+		|| !ft_strcmp("exit", word))
 		return (1);
-	init_cmds(cmds, lex);
-	cmd_node = cmds->head;
-	while (!tok)
+	return (0);
+}
+
+void	parse_tokens(
+	t_cmd_node *cmd_node, t_cmd_list *cmds, t_token *tok, t_lexer *lex)
+{
+	while (tok)
 	{
 		if (tok->type == CHAR_NULL)
 			tok = tok->next;
-		if (tok->type == PIPE)
+		else if (tok->type == PIPE)
 		{
 			cmd_node = add_cmd_node(cmd_node, cmds, lex);
 			tok = tok->next;
@@ -84,11 +78,28 @@ int	parse(t_cmd_list *cmds, t_lexer *lex)
 		else if (tok->type == WRITE || tok->type == READ || tok->type == APPEND
 			|| tok->type == RW || tok->type == HEREDOC)
 			tok = add_redir(tok->type, cmd_node, tok->next, lex);
-		if (tok->type == WORD)
+		else
 		{
+			if (!cmd_node->cmd)
+				if (is_inbuilt(tok->data))
+					cmd_node->cmd_type = 1;
 			cmd_node->cmd = update_cmd(cmd_node->cmd, tok->data, lex);
 			tok = tok->next;
 		}
 	}
+}
+
+int	parse(t_cmd_list **cmds, t_lexer *lex)
+{
+	t_token			*tok;
+
+	*cmds = init_cmds(NULL, lex);
+	tok = lex->toks;
+	while (tok && tok->type == CHAR_NULL)
+		tok = tok->next;
+	if (!tok)
+		return (1);
+	init_cmds(*cmds, lex);
+	parse_tokens((*cmds)->head, *cmds, tok, lex);
 	return (1);
 }

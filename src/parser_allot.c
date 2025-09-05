@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_allot.c                                      :+:      :+:    :+:   */
+/*   parser_allot.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 01:14:48 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/05 12:59:49 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/05 15:12:32 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,12 @@ char	**update_cmd(char **cmd, char *word, t_lexer *lex)
 	if (!strs)
 		free_and_exit(lex);
 	i = 0;
-	while ((i + 1) < len)
+	while (i < len)
 	{
 		strs[i] = str_dup(cmd[i], ft_strlen(cmd[i]), lex);
 		i++;
 	}
 	strs[i] = str_dup(word, ft_strlen(word), lex);
-	strs[len] = 0;
+	strs[i + 1] = 0;
 	return (strs);
 }

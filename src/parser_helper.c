@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:46:38 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/04 17:45:12 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/05 14:44:37 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

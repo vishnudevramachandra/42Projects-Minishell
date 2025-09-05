@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/04 20:56:33 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/05 16:14:32 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	main(int argc, char **argv, char **envp)
 	t_lexer		lex;
 	t_mini		mini;
 
-	mini.env_list->size = argc;
+	lex.n_toks = argc;
 	(void)argv;
 	handle_signal_in_msh();
 	mini.env_list = fill_env_list(envp);
@@ -110,12 +110,17 @@ int	main(int argc, char **argv, char **envp)
 		if (linebuffer)
 		{
 			if (lexer_build(&linebuffer, &lex, mini.env_list))
-				parse(mini.cmd_list, &lex);
+			{
+				parse(&mini.cmd_list, &lex);
+				execute_loop(mini.cmd_list, mini.env_list);
+			}
 			clear_lexer(&lex);
 		}
 		else
-			exit(EXIT_SUCCESS); //gc_malloc_clear
-		print_parser_output(mini.cmd_list); //for testing
-		// break; //for testing
+		{
+			free_all_garbage();
+			exit(EXIT_SUCCESS);
+		}
+		// print_parser_output(mini.cmd_list); //for testing
 	}
 }

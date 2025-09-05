@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_exp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 21:23:43 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/04 20:18:36 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/05 15:58:51 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,7 @@ size_t	expand_p_v(const char *linebuffer, t_lexer *lex, t_env_list *env_list,
 	tok = get_last_token(lex);
 	if (*(linebuffer + 1) == '?')
 	{
-		//TODO: exit status of most recent foreground execution
-		return (2);
+		return (2); //TODO: exit status of most recent foreground execution
 	}
 	else if (*(linebuffer + 1) == '$')
 		return (add_word_to_tok(linebuffer, 2, tok), 2);

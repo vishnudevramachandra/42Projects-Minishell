@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_inits.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 21:26:11 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/05 13:09:57 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/05 15:55:45 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_cmd_node	*alloc_and_init_cmd_node(t_lexer *lex)
 
 	cmd_node = gc_malloc(sizeof(t_cmd_node));
 	if (!cmd_node)
-	free_and_exit(lex);
+		free_and_exit(lex);
 	cmd_node->cmd_type = 0;
 	cmd_node->cmd = NULL;
 	cmd_node->file_list = NULL;
@@ -49,19 +49,23 @@ t_file_list	*alloc_and_init_file_list(t_lexer *lex)
 	return (files);
 }
 
-void	init_cmds(t_cmd_list *cmds, t_lexer *lex)
+t_cmd_list	*init_cmds(t_cmd_list *cmds, t_lexer *lex)
 {
-	if (lex->toks)
+	if (!cmds)
+	{
+		cmds = gc_malloc(sizeof(t_env_list));
+		if (!cmds)
+			free_and_exit(lex);
+		cmds->head = NULL;
+		cmds->tail = NULL;
+		cmds->size = 0;
+		cmds->prev_fd = -1;
+	}
+	else
 	{
 		cmds->head = alloc_and_init_cmd_node(lex);
 		cmds->tail = cmds->head;
 		cmds->size = 1;
 	}
-	else
-	{
-		cmds->head = NULL;
-		cmds->tail = NULL;
-		cmds->size = 0;
-	}
-	cmds->prev_fd = -1;
+	return (cmds);
 }
