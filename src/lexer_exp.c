@@ -6,7 +6,7 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 21:23:43 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/06 08:39:37 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/06 14:17:47 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,15 @@ static size_t	extract_val_of_var(
 static void	extract_sps_sep_from_ifs(
 	char **sps, char **sep, t_env_list *env_list, t_lexer *lex)
 {
-	*sps = set_inter(" \t\n", get_env_value(env_list, "IFS"));
+	char	*ifs;
+
+	ifs = get_env_value(env_list, "IFS");
+	if (!ifs || ft_strlen(ifs) < 1)
+		ifs = " \t\n";
+	*sps = set_inter(" \t\n", ifs);
 	if (!*sps)
 		cleanup_print_error_and_exit(lex);
-	*sep = set_diff(get_env_value(env_list, "IFS"), *sps);
+	*sep = set_diff(ifs, *sps);
 	if (!*sep)
 	{
 		free(*sps);
