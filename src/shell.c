@@ -6,7 +6,7 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/06 22:41:08 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/06 23:05:17 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,34 +61,40 @@ void	handle_signal_in_msh(void)
 	sigaction(SIGQUIT, &act, NULL);
 }
 
+void	init_shell(t_mini *mini, int argc, char **argv, char **envp)
+{
+	(void)argc;
+	(void)argv;
+	handle_signal_in_msh();
+	mini->status = 0;
+	mini->env_list = fill_env_list(envp);
+}
+
+char	*add_to_history_and_free(char *linebuffer)
+{
+	add_history(linebuffer);
+	free(linebuffer);
+	return (NULL);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*linebuffer;
 	t_lexer		lex;
 	t_mini		mini;
 
-	(void)argc;
-	(void)argv;
-	handle_signal_in_msh();
-	mini.status = 0;
-	mini.env_list = fill_env_list(envp);
+	init_shell(&mini, argc, argv, envp);
 	linebuffer = NULL;
 	while (1)
 	{
 		if (linebuffer)
-		{
-			add_history(linebuffer);
-			free(linebuffer);
-			linebuffer = NULL;
-		}
+			linebuffer = add_to_history_and_free(linebuffer);
 		linebuffer = readline("msh-1.0$ ");
 		if (linebuffer)
 		{
-			if (lexer_build(&linebuffer, &lex, &mini))
-			{
-				parse(&mini.cmd_list, &lex);
+			if (lexer_build(&linebuffer, &lex, &mini)
+				&& parse(&mini.cmd_list, &lex))
 				mini.status = execute_loop(mini.cmd_list, mini.env_list);
-			}
 			clx(&lex);
 		}
 		else
@@ -96,6 +102,5 @@ int	main(int argc, char **argv, char **envp)
 			free_all_garbage();
 			exit(EXIT_SUCCESS);
 		}
-		// print_parser_output(mini.cmd_list); //for testing
 	}
 }
