@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_exp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 21:23:43 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/05 15:58:51 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/06 08:39:37 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,6 @@ static void	extract_sps_sep_from_ifs(
 	}
 }
 
-static void	free_sps_sep(char *sps, char *sep)
-{
-	free(sps);
-	free(sep);
-}
-
 /* add fields (defined using IFS contents) as tokens */
 static void	fields_to_words(
 	const char *val, t_env_list *env_list, t_lexer *lex)
@@ -58,11 +52,8 @@ static void	fields_to_words(
 	t_token	*tok;
 
 	extract_sps_sep_from_ifs(&sps, &sep, env_list, lex);
-	if (ft_strspn(val, sps))
-	{
-		incr_lex(lex);
+	if (ft_strspn(val, sps) && incr_lex(lex))
 		val += ft_strspn(val, sps);
-	}
 	while (*val)
 	{
 		tok = get_last_token(lex);
@@ -77,12 +68,24 @@ static void	fields_to_words(
 		incr_lex(lex);
 		val += ft_strspn(val, sps);
 	}
-	free_sps_sep(sps, sep);
+	free(sps);
+	free(sep);
+}
+
+static void	add_int_to_tok(int status, t_token *tok, t_lexer *lex)
+{
+	char	*str;
+
+	str = ft_itoa(status);
+	if (!str)
+		cleanup_print_error_and_exit(lex);
+	add_word_to_tok(str, ft_strlen(str), tok);
+	free(str);
 }
 
 /* Expand parameter/variable and when not enclosed within double quotes turn the
    fields into words */
-size_t	expand_p_v(const char *linebuffer, t_lexer *lex, t_env_list *env_list,
+size_t	expand_p_v(const char *linebuffer, t_lexer *lex, t_mini *mini,
 			int sep_fields_into_words)
 {
 	size_t	len;
@@ -91,18 +94,16 @@ size_t	expand_p_v(const char *linebuffer, t_lexer *lex, t_env_list *env_list,
 
 	tok = get_last_token(lex);
 	if (*(linebuffer + 1) == '?')
-	{
-		return (2); //TODO: exit status of most recent foreground execution
-	}
+		return (add_int_to_tok(mini->status, tok, lex), 2);
 	else if (*(linebuffer + 1) == '$')
 		return (add_word_to_tok(linebuffer, 2, tok), 2);
 	else if (ft_isalnum(*(linebuffer + 1)))
 	{
-		len = 1 + extract_val_of_var(&val, linebuffer + 1, env_list);
+		len = 1 + extract_val_of_var(&val, linebuffer + 1, mini->env_list);
 		if (val)
 		{
 			if (sep_fields_into_words)
-				fields_to_words(val, env_list, lex);
+				fields_to_words(val, mini->env_list, lex);
 			else
 				add_word_to_tok(val, ft_strlen(val), tok);
 		}

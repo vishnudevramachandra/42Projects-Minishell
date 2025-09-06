@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_inits.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 21:26:11 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/05 15:55:45 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/06 10:44:31 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_and_exit(t_lexer *lex)
 {
-	clear_lexer(lex);
+	clx(lex);
 	free_all_garbage();
 	exit(1);
 }

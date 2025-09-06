@@ -6,7 +6,7 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:44:39 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/04 17:38:32 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/06 10:44:31 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	init_token(t_token *tok)
 	tok->type = CHAR_NULL;
 }
 
-void	clear_lexer(t_lexer *lex)
+void	clx(t_lexer *lex)
 {
 	t_token	*tok;
 	t_token	*ptr;
@@ -42,8 +42,8 @@ void	clear_lexer(t_lexer *lex)
 
 void	cleanup_print_error_and_exit(t_lexer *lex)
 {
-	clear_lexer(lex);
-	perror("Malloc error");
+	clx(lex);
+	perror("Malloc error: ");
 	exit (1);
 }
 
@@ -58,7 +58,7 @@ t_token	*get_last_token(t_lexer *lex)
 }
 
 /* add an initialized token to the end of token list in lexer */
-void	incr_lex(t_lexer *lex)
+int	incr_lex(t_lexer *lex)
 {
 	t_token	*tok;
 
@@ -79,4 +79,5 @@ void	incr_lex(t_lexer *lex)
 	}
 	init_token(tok);
 	++(lex->n_toks);
+	return (1);
 }

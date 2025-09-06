@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/05 16:14:32 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/06 10:44:31 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,10 @@ int	main(int argc, char **argv, char **envp)
 	t_lexer		lex;
 	t_mini		mini;
 
-	lex.n_toks = argc;
+	(void)argc;
 	(void)argv;
 	handle_signal_in_msh();
+	mini.status = 0;
 	mini.env_list = fill_env_list(envp);
 	set_env_var(mini.env_list, "IFS", " \t\n"); //is_export=fals
 	// create_env_list(&env_list); //for testing
@@ -109,12 +110,12 @@ int	main(int argc, char **argv, char **envp)
 		// linebuffer = "<text.txt cat ~/yo' bl<|'mama >\"ab$HOME*\"$var et"; //for testing
 		if (linebuffer)
 		{
-			if (lexer_build(&linebuffer, &lex, mini.env_list))
+			if (lexer_build(&linebuffer, &lex, &mini))
 			{
 				parse(&mini.cmd_list, &lex);
-				execute_loop(mini.cmd_list, mini.env_list);
+				mini.status = execute_loop(mini.cmd_list, mini.env_list);
 			}
-			clear_lexer(&lex);
+			clx(&lex);
 		}
 		else
 		{

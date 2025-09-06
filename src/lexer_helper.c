@@ -6,7 +6,7 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 13:51:59 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/04 17:38:21 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/05 23:00:47 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,9 @@ size_t	expand_tilde(t_token *tok, const char *home)
 		tok->type = WORD;
 	}
 	return (1);
+}
+
+void	set_status(t_mini *mini, int nbr)
+{
+	mini->status = nbr;
 }
