@@ -6,7 +6,7 @@
 /*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/06 23:05:17 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/07 11:20:33 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,6 @@ int	main(int argc, char **argv, char **envp)
 			clx(&lex);
 		}
 		else
-		{
-			free_all_garbage();
-			exit(EXIT_SUCCESS);
-		}
+			builtin_exit();
 	}
 }
