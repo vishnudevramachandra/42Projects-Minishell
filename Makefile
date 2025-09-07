@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+         #
+#    By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
-#    Updated: 2025/09/05 16:29:46 by vishnudevra      ###   ########.fr        #
+#    Updated: 2025/09/07 11:56:21 by vramacha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,14 +68,14 @@ $(LIBFT):
 
 $(OBJD)/%.o: $(SRCD)/%.c|  $(OBJD)
 	@printf "$(YELLOW)Compiling $<...$(NC)\n"
-	@$(CC) $(CFLAGS) -I $(INCD) -I/usr/local/Cellar/readline/8.3/include -c $< -o $@
+	@$(CC) $(CFLAGS) -I $(INCD) -c $< -o $@
 	@printf "$(GREEN)Compiled $< successfully!$(NC)\n"
 
 $(OBJD):
 	mkdir -p $(OBJD)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(OBJS) -L$(LIBFT_DIR) -lft -lreadline -L/usr/local/Cellar/readline/8.3/lib -o $(NAME)
+	$(CC) $(OBJS) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
 	@printf "$(GREEN)Executable $(NAME) built successfully!$(NC)\n"
 
 clean:
