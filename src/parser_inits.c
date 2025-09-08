@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_inits.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 21:26:11 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/06 10:44:31 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/08 15:34:53 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_cmd_list	*init_cmds(t_cmd_list *cmds, t_lexer *lex)
 {
 	if (!cmds)
 	{
-		cmds = gc_malloc(sizeof(t_env_list));
+		cmds = gc_malloc(sizeof(t_cmd_list));
 		if (!cmds)
 			free_and_exit(lex);
 		cmds->head = NULL;
