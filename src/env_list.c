@@ -48,19 +48,19 @@ char	*get_value(char *envp)
 	len = 0;
 	while (envp[i] != '=')
 		i++;
+	i++;
 	while (envp[i + len])
 		len++;
 	new_value = gc_malloc(sizeof(char) * (len + 1));
 	if (!new_value)
 		return (NULL);
-	i++;
 	while (envp[i])
 	{
 		new_value[j] = envp[i];
 		j++;
 		i++;
 	}
-	new_value[len] = '\0';
+	new_value[j] = '\0';
 	return (new_value);
 }
 
