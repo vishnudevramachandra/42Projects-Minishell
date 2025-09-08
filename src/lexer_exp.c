@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_exp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 21:23:43 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/06 14:17:47 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/08 15:30:43 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ static size_t	extract_val_of_var(
 	char	*name;
 
 	len = ft_strspn(linebuffer,
-			"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
-	name = malloc((len + 1) * sizeof(char));
+			"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_");
+	name = gc_malloc((len + 1) * sizeof(char));
+	if (!name)
+		return (0);
 	ft_strlcpy(name, linebuffer, len + 1);
 	*val = get_env_value(env_list, name);
-	free(name);
 	return (len);
 }
 
