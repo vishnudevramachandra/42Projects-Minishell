@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:44:50 by swied             #+#    #+#             */
-/*   Updated: 2025/08/06 19:36:37 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/08 15:51:15 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,13 @@ char	*get_correct_path(char *cmd, char **envp)
 	char	*correct_path;
 	char	*result;
 
+	if (ft_strchr(cmd, '/'))
+	{
+		if (access(cmd, X_OK) == 0)
+			return (ft_strdup(cmd));
+		else
+			return (NULL);
+	}
 	correct_path = get_total_path(envp);
 	if (!correct_path)
 		return (NULL);
