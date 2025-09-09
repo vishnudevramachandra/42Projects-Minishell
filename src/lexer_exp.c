@@ -6,13 +6,14 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 21:23:43 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/08 15:30:43 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/09 14:40:35 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "./libft/libft.h"
 #include "../include/lexer.h"
+#include "../include/execute.h"
 
 static size_t	extract_val_of_var(
 	char **val, const char *linebuffer, t_env_list *env_list)

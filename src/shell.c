@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/09 13:01:46 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/09 14:31:43 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include "./libft/libft.h"
-#include "lexer.h"
-#include "parser.h"
+#include "../include/minishell.h"
+#include "../include/lexer.h"
+#include "../include/parser.h"
+#include "../include/execute.h"
 
 void	sig_handler(int signum, siginfo_t *info, void *context)
 {
