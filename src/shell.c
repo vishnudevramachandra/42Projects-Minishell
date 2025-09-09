@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/09 14:31:43 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/09 16:33:53 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include <termios.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include "./libft/libft.h"
 #include "../include/minishell.h"
 #include "../include/lexer.h"
@@ -106,5 +108,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else
 			builtin_exit();
+		reverting_stds();
 	}
 }
+
