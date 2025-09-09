@@ -6,11 +6,13 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 16:34:02 by swied             #+#    #+#             */
-/*   Updated: 2025/09/09 16:35:38 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/09 16:42:54 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
+#include <sys/stat.h>
+#include <sys/types.h>
 
 int	check_if_fd_open(int fd)
 {
@@ -19,7 +21,7 @@ int	check_if_fd_open(int fd)
 	return (fstat(fd, &st));
 }
 
-int	reverting_stds(void)
+int	reset_stds(void)
 {
 	int	i;
 	int	fd;

@@ -6,7 +6,7 @@
 #    By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
-#    Updated: 2025/09/09 16:34:37 by swied            ###   ########.fr        #
+#    Updated: 2025/09/09 16:41:58 by swied            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ SRCS :=			$(SRCD)/execute.c \
 				$(SRCD)/parser_inits.c \
 				$(SRCD)/parser_allot.c \
 				$(SRCD)/shell.c \
-				$(SCRD)/utils.c
+				$(SRCD)/utils.c
 
 OBJS := $(SRCS:$(SRCD)/%.c=$(OBJD)/%.o)
 

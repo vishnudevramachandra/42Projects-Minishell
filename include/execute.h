@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/09 16:35:30 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/09 16:41:20 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,12 +129,12 @@ int 			process_export_arg(t_env_list *env_list, char *arg);
 int				add_export(t_env_list *env_list, t_cmd_node *cmd_node);
 
 //shell.c
-void	        sig_handler(int signum, siginfo_t *info, void *context);
-void	        handle_signal_in_msh(void);
+void			sig_handler(int signum, siginfo_t *info, void *context);
+void			handle_signal_in_msh(void);
 
 //utils.c
 
-int	            check_if_fd_open(int fd);
-int	            reverting_stds(void);
+int				check_if_fd_open(int fd);
+int				reset_stds(void);
 
 #endif
