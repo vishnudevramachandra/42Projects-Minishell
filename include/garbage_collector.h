@@ -6,12 +6,13 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 00:50:34 by swied             #+#    #+#             */
-/*   Updated: 2025/08/05 17:26:01 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/09 14:24:51 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef	GARBAGE_COLLECTOR_H
 # define GARBAGE_COLLECTOR_H
+# include "minishell.h"
 
 typedef struct s_garbage_node
 {

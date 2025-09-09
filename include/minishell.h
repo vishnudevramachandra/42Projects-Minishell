@@ -7,12 +7,10 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 18:42:38 by swied             #+#    #+#             */
 /*   Updated: 2025/09/05 21:07:54 by vishnudevra      ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/*                                                                            */ /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# include <unistd.h>
 # include <stdbool.h>
 
 typedef struct s_file_node t_file_node;
@@ -23,8 +21,7 @@ typedef struct s_hd_line t_hd_line;
 typedef struct s_env_list t_env_list;
 typedef struct s_env_node t_env_node;
 
-typedef struct s_env_node
-{
+typedef struct s_env_node {
 	char				*variable;
 	char				*value;
 	bool				is_export;

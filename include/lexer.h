@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:05:06 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/06 10:44:31 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/09 14:40:53 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define LEXER_H
 
 # include <stddef.h>
-# include "execute.h"
+# include "minishell.h"
 
 typedef struct s_token
 {

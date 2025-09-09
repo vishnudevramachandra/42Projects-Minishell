@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 19:38:52 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/05 14:44:11 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/09 14:42:08 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
-
-# include "lexer.h"
 # include "execute.h"
+# include "lexer.h"
 
 int			parse(t_cmd_list **cmds, t_lexer *lex);
 void		free_and_exit(t_lexer *lex);

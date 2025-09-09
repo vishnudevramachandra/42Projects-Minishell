@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/09 13:38:00 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/09 14:36:10 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	        get_last_hd_fd(t_cmd_node *cmd_node);
 int			execute_pipes(t_cmd_list *cmd_list, t_env_list *env_list);
 void		close_pipes(t_cmd_list *cmd_list, t_cmd_node *current, int *pipefd, int i);
 void		setup_pipes(t_cmd_list *cmd_list, int *pipefd, int i);
+void	    signals_for_child(void);
 
 //heredoc_utils.c
 t_hd_line	*create_hd_line(char *content);
@@ -123,5 +124,10 @@ int				search_for_equal_sign(char *arg);
 int				handle_export_without_equal(t_env_list *env_list, char *arg);
 int 			process_export_arg(t_env_list *env_list, char *arg);
 int				add_export(t_env_list *env_list, t_cmd_node *cmd_node);
+
+//shell.c
+
+void	        sig_handler(int signum, siginfo_t *info, void *context);
+void	        handle_signal_in_msh(void);
 
 #endif
