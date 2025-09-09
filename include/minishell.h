@@ -12,6 +12,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include <stdbool.h>
+# include <stdio.h>
 
 typedef struct s_file_node t_file_node;
 typedef struct s_cmd_node t_cmd_node;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_export.c                                       :+:      :+:    :+:   */
+/*   export_add.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 04:09:11 by swied             #+#    #+#             */
-/*   Updated: 2025/08/24 08:41:04 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/09 15:21:04 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,18 @@ int process_export_arg(t_env_list *env_list, char *arg)
 
 int	handle_export_without_value(t_env_list *env_list, char *var)
 {
+	t_env_node *current;
+
+	current = env_list->head;
+	while (current)
+	{
+		if (ft_strcmp(var, current->variable) == 0)
+		{
+			unset_env_var(env_list, var);
+			break;
+		}
+		current = current->next;
+	}
 	if (!add_env_var(env_list, var, ""))
 	{
 		free(var);

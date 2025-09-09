@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:39:48 by swied             #+#    #+#             */
-/*   Updated: 2025/09/01 00:48:10 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/09 15:21:26 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,12 @@ static int	collect_heredoc_in_child(char *delimiter,
 {
 	char	*line;
 	// char	*expanded_line;
-
-	// setup_heredoc_signals();
 	while (1)
 	{
 		write(1, "> ", 2);
 		line = get_next_line(0);
 		if (!line)
 			break ;
-		// if (g_signal_recieved == SIGINT)
-			// return (free(line), close(write_fd), exit(130), 1);
 		if (is_delimiter(line, delimiter))
 			return(free(line), close(write_fd), exit(0), 0);
 		// expanded_line = expand_heredoc(mini, line);

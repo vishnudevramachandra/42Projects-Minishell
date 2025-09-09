@@ -6,20 +6,23 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/09 14:36:10 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/09 15:11:26 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef	EXECUTE_H
 # define EXECUTE_H
+# define _GNU_SOURCE
+# define _POSIX_C_SOURCE 200809L
+# include <stdio.h>
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <unistd.h>
 # include <signal.h>
 # include "libft/libft.h"
 # include "garbage_collector.h"

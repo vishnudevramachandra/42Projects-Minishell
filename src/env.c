@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:49:51 by swied             #+#    #+#             */
-/*   Updated: 2025/08/24 08:40:32 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/09 15:20:40 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	add_env_var(t_env_list *env_list, char *var, char *val)
 	add_to_gc(new_node->variable);
 	add_to_gc(new_node->value);
 	new_node->is_export = true;
-	env_list->size++;
+	env_list->size++	;
 	last = env_list->head;
 	while (last->next)
 		last = last->next;
