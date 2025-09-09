@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:19:52 by swied             #+#    #+#             */
-/*   Updated: 2025/09/01 00:06:31 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/09 14:12:06 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	execute_pipes(t_cmd_list *cmd_list, t_env_list *env_list)
 		pid = fork();
 		if (pid == 0)
 		{
+			signals_for_child();
 			setup_pipes(cmd_list, pipefd, i);
 			if (redirect(current) != 0)
 				exit(EXIT_FAILURE);
@@ -43,6 +44,7 @@ int	execute_pipes(t_cmd_list *cmd_list, t_env_list *env_list)
 		current = current->next;
 	}
 	while (wait(&status) > 0);
+	handle_signal_in_msh();
 	return (status);
 }
 
@@ -80,4 +82,19 @@ void	close_pipes(t_cmd_list *cmd_list, t_cmd_node *current,
 		if (current->file_list->fd_outfile != -1)
 			close(current->file_list->fd_outfile);
 	}
+}
+
+void	signals_for_child(void)
+{
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit;
+
+	sigemptyset(&sa_int.sa_mask);
+	sa_int.sa_handler = SIG_DFL;
+	sa_int.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa_int, NULL);
+	sigemptyset(&sa_quit.sa_mask);
+	sa_quit.sa_handler = SIG_DFL;
+	sa_quit.sa_flags = SA_RESTART;
+	sigaction(SIGQUIT, &sa_quit, NULL);
 }
