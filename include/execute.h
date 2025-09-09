@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/01 00:52:21 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/09 13:10:31 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <string.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <signal.h>
 # include "libft/libft.h"
 # include "garbage_collector.h"
 # include "minishell.h"
@@ -48,6 +49,9 @@ void	    print_export(t_env_list *env_list, char **env_array, int i);
 char	    **create_export_list(t_env_list *env_list);
 void	    bubblesort_array(char **env_array);
 void	    free_export_array(char **array, int i);
+
+//echo.c
+int	        is_n_flag(char *arg);
 
 //env_list.c
 t_env_list	*fill_env_list(char **envp);

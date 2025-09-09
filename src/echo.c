@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 01:49:43 by swied             #+#    #+#             */
-/*   Updated: 2025/08/06 19:50:28 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/09 13:16:31 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	builtin_echo(char **args)
 
 	newline = 1;
 	i = 1;
-	while (args[i] && ft_strcmp(args[i], "-n") == 0)
+	while (args[i] && is_n_flag(args[i]))
 	{
 		newline = 0;
 		i++;
@@ -35,4 +35,17 @@ int	builtin_echo(char **args)
 	if (newline)
 		ft_putchar_fd('\n', 1);
 	return (0);
+}
+
+int	is_n_flag(char *arg)
+{
+	int i;
+
+	i = 0;
+	if (arg[0] != '-' || arg[1] != 'n')
+		return (0);
+	i = 2;
+	while (arg[i] == 'n')
+		i++;
+	return (arg[i] == '\0');
 }
