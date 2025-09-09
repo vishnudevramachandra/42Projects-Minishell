@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:36 by swied             #+#    #+#             */
-/*   Updated: 2025/08/31 23:57:16 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/09 13:38:19 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	execute_loop(t_cmd_list *cmd_list, t_env_list *env_list)
 {
 	int	status;
 
+	signals_for_execution();
 	if (handle_cmd_list_heredocs(cmd_list) == -1)
 		return (1);
 	if (cmd_list->size == 1 && cmd_list->head->cmd_type == 1)
@@ -90,4 +91,19 @@ int	collect_heredocs(t_cmd_list *cmd_list)
 		current_node = current_node->next;
 	}
 	return (0);
+}
+
+void	signals_for_execution(void)
+{
+	struct sigaction	sa_int;
+	struct sigaction	sa_quit; 
+	
+	sigemptyset(&sa_int.sa_mask);
+	sa_int.sa_handler = SIG_IGN;
+	sa_int.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa_int, NULL);
+	sigemptyset(&sa_quit.sa_mask);
+	sa_quit.sa_handler = SIG_IGN;
+	sa_quit.sa_flags = SA_RESTART;
+	sigaction(SIGQUIT, &sa_quit, NULL);
 }
