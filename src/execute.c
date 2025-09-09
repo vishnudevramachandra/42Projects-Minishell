@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:36 by swied             #+#    #+#             */
-/*   Updated: 2025/09/09 15:20:57 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/09 16:16:34 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ int	execute_loop(t_cmd_list *cmd_list, t_env_list *env_list)
 	if (handle_cmd_list_heredocs(cmd_list) == -1)
 		return (1);
 	if (cmd_list->size == 1 && cmd_list->head->cmd_type == 1)
+	{
+		setup_pipes(cmd_list, STDIN_FILENO, 0);
+		redirect(cmd_list->head);
 		status = execute_builtin(cmd_list->head, env_list);
+	}
 	else
 		status = execute_pipes(cmd_list, env_list);
 	return (status);
