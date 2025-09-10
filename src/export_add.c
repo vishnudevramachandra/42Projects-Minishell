@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 04:09:11 by swied             #+#    #+#             */
-/*   Updated: 2025/09/10 14:59:23 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/10 15:00:12 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ int	handle_export_without_equal(t_env_list *env_list, char *arg)
 		existing->is_export = 1;
 		return (0);
 	}
-	// Create new variable without value (export VAR) - no value at all
 	if (!add_env_var(env_list, arg, NULL))
 		return (-1);
 	return (0);
