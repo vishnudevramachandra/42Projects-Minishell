@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 21:26:11 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/08 17:23:28 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/10 15:23:56 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,12 @@ t_cmd_node	*alloc_and_init_cmd_node(t_lexer *lex)
 	cmd_node->cmd = NULL;
 	cmd_node->file_list = NULL;
 	cmd_node->next = NULL;
-	cmd_node->hd_list = NULL;
+	cmd_node->hd_list = gc_malloc(sizeof(t_hd_list));
+	if (!cmd_node->hd_list)
+		free_and_exit(lex);
+	cmd_node->hd_list->head = NULL;
+	cmd_node->hd_list->tail = NULL;
+	cmd_node->hd_list->size = 0;
 	return (cmd_node);
 }
 
