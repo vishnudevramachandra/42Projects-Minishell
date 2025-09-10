@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:15:00 by swied             #+#    #+#             */
-/*   Updated: 2025/09/10 17:18:43 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/10 18:01:57 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	execute_heredoc_collection(char *delimiter, t_hd_node *hd_node)
 	pid_t	pid;
 	int		status;
 
+	reset_heredoc_interrupted();
 	if (pipe(pipe_fd) == -1)
 		return (-1);
 	pid = fork();
