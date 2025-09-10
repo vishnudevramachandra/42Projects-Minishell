@@ -6,7 +6,7 @@
 #    By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
-#    Updated: 2025/09/10 14:51:47 by swied            ###   ########.fr        #
+#    Updated: 2025/09/10 17:18:42 by swied            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,11 @@ SRCS :=			$(SRCD)/execute.c \
 				$(SRCD)/redirect.c \
 				$(SRCD)/pipes.c \
 				$(SRCD)/main.c \
-				$(SRCD)/heredoc.c \
-				$(SRCD)/heredoc_utils.c \
+				$(SRCD)/heredoc_core.c \
+				$(SRCD)/heredoc_parsing.c \
+				$(SRCD)/heredoc_output.c \
+				$(SRCD)/heredoc_memory.c \
+				$(SRCD)/heredoc_signals.c \
 				$(SRCD)/exit.c \
 				$(SRCD)/env_list.c \
 				$(SRCD)/export.c \

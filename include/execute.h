@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/10 14:56:19 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/10 17:19:20 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,20 +88,39 @@ void		close_pipes(t_cmd_list *cmd_list, t_cmd_node *current, int *pipefd, int i)
 void		setup_pipes(t_cmd_list *cmd_list, int *pipefd, int i);
 void	    signals_for_child(void);
 
-//heredoc_utils.c
-t_hd_line	*create_hd_line(char *content);
-t_hd_node	*create_hd_node(char *lim);
-void		add_line_to_heredoc(t_hd_node *hd_node, char *line);
-int			is_delimiter(char *line, char *delimiter);
-int			create_heredoc_fd(t_hd_node *hd_node);
-int			write_heredoc_to_pipe(t_hd_node *hd_node, int write_fd);
-int			check_exit_status(pid_t child_pid, t_mini *mini);
-int         create_heredoc(char *lim, t_cmd_node *cmd_node, t_file_node *file_node);
+//heredoc_signals.c
+void		heredoc_signal_handler(int sig);
+void		setup_heredoc_signals(void);
+void		restore_default_signals(void);
+void		handle_signal_interruption(void);
+void		setup_parent_signal_handler(void);
+int			get_heredoc_interrupted(void);
+void		reset_heredoc_interrupted(void);
 
-int	        process_heredocs_in_cmd_list(t_cmd_list *cmd_list);
-int	        process_heredocs_in_single_cmd(t_cmd_node *cmd_node);
-int	        cmd_list_has_heredocs(t_cmd_list *cmd_list);
+//heredoc_memory.c
+t_hd_line	*create_hd_line(char *content);
+void		add_line_to_heredoc(t_hd_node *hd_node, char *line);
+t_hd_node	*init_heredoc_node(char *delimiter);
+void		add_heredoc_to_list(t_cmd_node *cmd_node, t_hd_node *hd_node);
+void		init_hd_list(t_cmd_node *cmd_node);
+
+//heredoc_parsing.c
+int			is_delimiter_match(char *line, char *delimiter);
+int			is_delimiter(char *line, char *delimiter);
+int			cmd_list_has_heredocs(t_cmd_list *cmd_list);
+int			process_heredocs_in_single_cmd(t_cmd_node *cmd_node);
+
+//heredoc_output.c
+int			collect_heredoc_input(char *delimiter, int write_fd);
+int			read_heredoc_content(t_hd_node *hd_node, int read_fd);
+int			write_heredoc_to_pipe(t_hd_node *hd_node, int write_fd);
+int			create_heredoc_fd(t_hd_node *hd_node);
+
+//heredoc_core.c
 int	        handle_cmd_list_heredocs(t_cmd_list *cmd_list);
+int	        process_heredocs_in_cmd_list(t_cmd_list *cmd_list);
+int			execute_heredoc_collection(char *delimiter, t_hd_node *hd_node);
+int         create_heredoc(char *delimiter, t_cmd_node *cmd_node, t_file_node *file_node);
 
 //garbage.c
 int				gc_free(void *ptr);
