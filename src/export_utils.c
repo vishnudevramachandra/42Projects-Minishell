@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:48:05 by swied             #+#    #+#             */
-/*   Updated: 2025/09/10 14:49:12 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/10 14:55:49 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,19 @@ void	bubblesort_array(char **env_array)
 			j++;
 		}
 	}
+}
+
+/* Helper function to find an existing variable in the env_list */
+t_env_node	*find_env_var(t_env_list *env_list, char *var)
+{
+	t_env_node *current;
+
+	current = env_list->head;
+	while (current)
+	{
+		if (ft_strcmp(var, current->variable) == 0)
+			return (current);
+		current = current->next;
+	}
+	return (NULL);
 }
