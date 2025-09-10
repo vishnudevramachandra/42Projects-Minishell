@@ -58,57 +58,39 @@ void	print_export(t_env_list *env_list, char **env_array, int i)
 	}
 }
 
-/* creates a sorted array of export variable names for export */
-char	**create_export_list(t_env_list *env_list)
+/* fill the export array */
+void	fill_export_array(t_env_list *env_list, char **env_array)
 {
-	t_env_node *current;
-	char 		**env_array;
+	t_env_node	*current;
 	int			i;
 
 	current = env_list->head;
-	env_array = malloc(sizeof(char *) * (env_list->size + 1));
-	if (!env_array)
-		return NULL;
 	i = 0;
 	while (current)
 	{
-		env_array[i] = ft_strdup(current->variable);
-		i++;
+		if (current->is_export)
+		{
+			env_array[i] = ft_strdup(current->variable);
+			i++;
+		}
 		current = current->next;
 	}
 	env_array[i] = NULL;
-	bubblesort_array(env_array);
-	return env_array;
 }
 
-/* Bubble sort for the export variable array */
-void	bubblesort_array(char **env_array)
+/* creates a sorted array of export variable names for export */
+char	**create_export_list(t_env_list *env_list)
 {
-	int		swapped;
-	char	*tmp;
-	int		count;
-	int		j;
+	char		**env_array;
+	int			export_count;
 
-	count = 0;
-	while (env_array[count] != NULL)
-		count++;
-	swapped = 1;
-	while (swapped)
-	{
-		swapped = 0;
-		j = 0;
-		while (j < count - 1)
-		{
-			if (ft_strncmp(env_array[j], env_array[j + 1], ft_strlen(env_array[j])) > 0)
-			{
-				tmp = env_array[j];
-				env_array[j] = env_array[j + 1];
-				env_array[j + 1] = tmp;
-				swapped = 1;
-			}
-			j++;
-		}
-	}
+	export_count = count_exported_vars(env_list);
+	env_array = malloc(sizeof(char *) * (export_count + 1));
+	if (!env_array)
+		return (NULL);
+	fill_export_array(env_list, env_array);
+	bubblesort_array(env_array);
+	return (env_array);
 }
 
 /* Free the export array, not allocated with gc */
