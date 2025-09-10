@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:17:00 by swied             #+#    #+#             */
-/*   Updated: 2025/09/10 18:04:44 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/10 19:13:15 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ int	collect_heredoc_input(char *delimiter, int write_fd)
 	setup_heredoc_signals();
 	while (1)
 	{
-		write(STDERR_FILENO, "> ", 2);
-		line = get_next_line(STDIN_FILENO);
+		line = readline("> ");
 		if (!line)
 		{
 			print_eof_warning(delimiter);
@@ -41,9 +40,9 @@ int	collect_heredoc_input(char *delimiter, int write_fd)
 			break ;
 		}
 		write(write_fd, line, ft_strlen(line));
+		write(write_fd, "\n", 1);
 		free(line);
 	}
-	restore_default_signals();
 	close(write_fd);
 	exit(0);
 }
