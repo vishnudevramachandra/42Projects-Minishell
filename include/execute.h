@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/09 16:41:20 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/10 14:51:28 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,21 +37,17 @@ int		builtin_echo(char **args);
 int		builtin_cd(char **args, t_env_list *env_list);
 int		builtin_env(t_env_list *env_list);
 int		builtin_exit(void);
-int		builtin_export(t_env_list *env_list, t_cmd_node *cmd_node);
 int		builtin_unset(t_env_list *env_list, t_cmd_node *cmd_node);
 
 //env.c
 int		update_env_var(char ***env, char *key, char *value);
 int		add_env_var(t_env_list *env_list, char *var, char *val);
 int		print_env(t_env_list *env_list);
-char	*get_env_value(t_env_list *env_list, char *var);
 int		set_env_var(t_env_list *env_list, char *var, char *val);
 
-//export.c
-void	    print_export(t_env_list *env_list, char **env_array, int i);
-char	    **create_export_list(t_env_list *env_list);
-void	    bubblesort_array(char **env_array);
-void	    free_export_array(char **array, int i);
+//env_utils.c
+t_env_node	*create_env_node(char *var, char *val);
+char		*get_env_value(t_env_list *env_list, char *var);
 
 //echo.c
 int	        is_n_flag(char *arg);
@@ -121,12 +117,23 @@ int				add_to_gc(void *ptr);
 //unset.c
 void			unset_env_var(t_env_list *env_list, char *var);
 
+//export.c
+int				builtin_export(t_env_list *env_list, t_cmd_node *cmd_node);
+void	    	print_export(t_env_list *env_list, char **env_array, int i);
+void	    	fill_export_array(t_env_list *env_list, char **env_array);
+char	    	**create_export_list(t_env_list *env_list);
+void	    	free_export_array(char **array, int i);
+
 //export_add.c
 int				handle_export_without_value(t_env_list *env_list, char *var);
 int				search_for_equal_sign(char *arg);
 int				handle_export_without_equal(t_env_list *env_list, char *arg);
 int 			process_export_arg(t_env_list *env_list, char *arg);
 int				add_export(t_env_list *env_list, t_cmd_node *cmd_node);
+
+//export_utils.c
+int				count_exported_vars(t_env_list *env_list);
+void			bubblesort_array(char **env_array);
 
 //shell.c
 void			sig_handler(int signum, siginfo_t *info, void *context);
