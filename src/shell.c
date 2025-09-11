@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/10 15:26:09 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/11 13:34:49 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	main(int argc, char **argv, char **envp)
 			clx(&lex);
 		}
 		else
-			builtin_exit();
+			builtin_exit(NULL);
 		reset_stds();
 	}
 }
