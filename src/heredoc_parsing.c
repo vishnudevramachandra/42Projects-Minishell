@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:16:00 by swied             #+#    #+#             */
-/*   Updated: 2025/09/10 17:18:45 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/11 12:39:03 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,17 @@ int	is_delimiter_match(char *line, char *delimiter)
 int	is_delimiter(char *line, char *delimiter)
 {
 	int	len;
+	int	delim_len;
 
 	if (!line || !delimiter)
 		return (0);
 	len = ft_strlen(line);
+	delim_len = ft_strlen(delimiter);
 	if (len > 0 && line[len - 1] == '\n')
-		line[len - 1] = '\0';
-	if (ft_strcmp(line, delimiter) == 0)
-		return (1);
-	return (0);
+		len--;
+	if (len != delim_len)
+		return (0);
+	return (ft_strncmp(line, delimiter, delim_len) == 0);
 }
 
 /* Check if cmd_list contains any heredocs */
