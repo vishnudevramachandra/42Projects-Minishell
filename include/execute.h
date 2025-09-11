@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/10 19:08:30 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/11 12:48:01 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	    signals_for_execution(void);
 int 		redirect(t_cmd_node *cmd_node);
 int			open_redirects(t_cmd_node *cmd_node);
 void		check_fd(t_cmd_node *cmd_node);
-int	        handle_heredoc(t_cmd_node *cmd_node);
 int	        get_last_hd_fd(t_cmd_node *cmd_node);
 
 //pipes.c
