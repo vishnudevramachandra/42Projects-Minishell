@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:19:52 by swied             #+#    #+#             */
-/*   Updated: 2025/09/11 12:36:33 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/11 13:19:14 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	execute_pipes(t_cmd_list *cmd_list, t_env_list *env_list)
 	}
 	while (wait(&status) > 0);
 	handle_signal_in_msh();
-	return (status);
+	return (get_exit_stauts(status));
 }
 
 /* If there is a prev_fd before -> close it and dup2 into standard */ 
