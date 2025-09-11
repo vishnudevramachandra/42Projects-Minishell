@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:17:00 by swied             #+#    #+#             */
-/*   Updated: 2025/09/10 19:13:15 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/11 12:57:47 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 /* Print EOF warning message */
 static void	print_eof_warning(char *delimiter)
 {
-	write(STDERR_FILENO, "minishell: warning: here-document delimited by end-of-file (wanted `", 67);
+	write(STDERR_FILENO,
+		"minishell: warning: here-document delimited by end-of-file (wanted `",
+		68);
 	write(STDERR_FILENO, delimiter, ft_strlen(delimiter));
 	write(STDERR_FILENO, "')\n", 3);
 }
