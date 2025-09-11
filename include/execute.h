@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/11 13:18:57 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/11 13:30:58 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		builtin_pwd(void);
 int		builtin_echo(char **args);
 int		builtin_cd(char **args, t_env_list *env_list);
 int		builtin_env(t_env_list *env_list);
-int		builtin_exit(void);
+int	    builtin_exit(char **args);
 int		builtin_unset(t_env_list *env_list, t_cmd_node *cmd_node);
 
 //env.c
