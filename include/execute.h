@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/11 12:48:01 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/11 13:18:57 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,5 +163,6 @@ void			handle_signal_in_msh(void);
 
 int				check_if_fd_open(int fd);
 int				reset_stds(void);
+int	            get_exit_stauts(int status);
 
 #endif
