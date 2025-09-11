@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 19:44:30 by swied             #+#    #+#             */
-/*   Updated: 2025/09/01 00:39:18 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/11 12:47:40 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 int open_redirects(t_cmd_node *cmd_node)
 {
 	t_file_node *current;
+
 	current = cmd_node->file_list->head;
 	check_fd(cmd_node);
 	while (current)
@@ -49,6 +50,8 @@ int open_redirects(t_cmd_node *cmd_node)
 /* If there is a fd_infile or fd_outfile -> close it and set it to -1 (After one pipe done) */
 void	check_fd(t_cmd_node *cmd_node)
 {
+	if (!cmd_node || !cmd_node->file_list)
+		return ;
 	if (cmd_node->file_list->fd_infile != -1)
 	{
 		close(cmd_node->file_list->fd_infile);
@@ -79,18 +82,6 @@ int redirect(t_cmd_node *cmd_node)
 		close(cmd_node->file_list->fd_outfile);
 	}
 	return (0);
-}
-
-int	handle_heredoc(t_cmd_node *cmd_node)
-{
-	t_hd_node	*correct_hd_node;
-	int			fd;
-
-	correct_hd_node = cmd_node->hd_list->head;
-	while (correct_hd_node)
-		correct_hd_node = correct_hd_node->next;
-	fd = create_heredoc_fd(correct_hd_node);
-	return (fd);
 }
 
 int	get_last_hd_fd(t_cmd_node *cmd_node)
