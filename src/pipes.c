@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:19:52 by swied             #+#    #+#             */
-/*   Updated: 2025/09/09 14:12:06 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/11 12:36:33 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	close_pipes(t_cmd_list *cmd_list, t_cmd_node *current,
 		close(pipefd[1]);
 		cmd_list->prev_fd = pipefd[0];
 	}
-	if (current->file_list)
+	if (current && current->file_list)
 	{
 		if (current->file_list->fd_infile != -1)
 			close(current->file_list->fd_infile);
