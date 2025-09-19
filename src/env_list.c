@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:38:41 by swied             #+#    #+#             */
-/*   Updated: 2025/09/09 15:20:28 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/19 23:39:52 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,30 @@ t_env_list	*fill_env_list(char **envp)
 		i++;
 	}
 	return (env_list);
+}
+
+void	shell_lvl_up(t_env_list *env_list)
+{
+	t_env_node	*current;
+	int			level;
+	char		*new_level;
+
+	current = env_list->head;
+	while (current)
+	{
+		if (ft_strcmp(current->variable, "SHLVL") == 0)
+		{
+			level = ft_atoi(current->value) + 1;
+			new_level = ft_itoa(level);
+			if (!new_level)
+				return ;
+			gc_free(current->value);
+			current->value = new_level;
+			add_to_gc(current->value);
+			return ;
+		}
+		current = current->next;
+	}
+	if (!add_env_var(env_list, "SHLVL", "1"))
+		return ;
 }

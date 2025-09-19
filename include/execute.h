@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/11 13:30:58 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/19 23:40:23 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	        is_n_flag(char *arg);
 
 //env_list.c
 t_env_list	*fill_env_list(char **envp);
+void		shell_lvl_up(t_env_list *env_list);
 
 //list_to_dblarray.c
 char		**list_to_dblarray(t_env_list *env_list);
