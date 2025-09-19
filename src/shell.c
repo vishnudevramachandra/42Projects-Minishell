@@ -6,11 +6,11 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/11 13:34:49 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/19 23:47:14 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _POSIX_C_SOURCE 200809L
+// #define _POSIX_C_SOURCE 200809L
 #define _GNU_SOURCE
 #include <signal.h>
 #include <stddef.h>
@@ -21,6 +21,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <termios.h>
 #include "./libft/libft.h"
 #include "../include/minishell.h"
 #include "../include/lexer.h"
@@ -75,6 +76,7 @@ void	init_shell(t_mini *mini, int argc, char **argv, char **envp)
 	handle_signal_in_msh();
 	mini->status = 0;
 	mini->env_list = fill_env_list(envp);
+	shell_lvl_up(mini->env_list);
 }
 
 char	*add_to_history_and_free(char *linebuffer)
