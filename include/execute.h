@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/19 23:40:23 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/20 02:28:46 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include "libft/libft.h"
 # include "garbage_collector.h"
 # include "minishell.h"
+# include "lexer.h"
 
 //execute_utils.c
 int		ft_strcmp(const char *s1, const char *s2);
