@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:19:52 by swied             #+#    #+#             */
-/*   Updated: 2025/09/20 16:34:39 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/20 16:55:34 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,15 @@ static void	execute_child_process(t_cmd_node *current, t_env_list *env_list)
 {
 	signals_for_child();
 	if (redirect(current) != 0)
+	{
+		free_all_garbage();
 		exit(EXIT_FAILURE);
+	}
 	if (execute_cmd_or_builtin(current, env_list) != 0)
+	{
+		free_all_garbage();
 		exit(EXIT_FAILURE);
+	}
 }
 
 /* Wait for all child processes and get last command exit status */
