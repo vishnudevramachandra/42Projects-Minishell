@@ -6,7 +6,7 @@
 #    By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
-#    Updated: 2025/09/10 17:18:42 by swied            ###   ########.fr        #
+#    Updated: 2025/09/20 16:24:26 by swied            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRCS :=			$(SRCD)/execute.c \
 				$(SRCD)/get_path.c \
 				$(SRCD)/redirect.c \
 				$(SRCD)/pipes.c \
+				$(SRCD)/pipes_helper.c \
 				$(SRCD)/main.c \
 				$(SRCD)/heredoc_core.c \
 				$(SRCD)/heredoc_parsing.c \
