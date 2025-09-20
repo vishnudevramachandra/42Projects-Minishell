@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 02:17:26 by swied             #+#    #+#             */
-/*   Updated: 2025/09/09 15:19:55 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/20 05:55:57 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ int	builtin_cd(char **args, t_env_list *env_list)
 	add_to_gc(old_pwd);
 	if (chdir(target_dir))
 	{
-		ft_putstr_fd("minishell: no such file or directory: ", 2);
+		ft_putstr_fd("minishell: no such file or directoryr ", 1);
 		return (ft_putendl_fd(target_dir, 2), 1);
 	}
 	set_env_var(env_list, "OLDPWD", old_pwd);
 	new_pwd = getcwd(NULL, 0);
 	if (!new_pwd)
-		return (ft_putendl_fd("minishell: cd failed", 2), 1);
+		return (ft_putendl_fd("minishell: cd failed", 2), 2);
 	set_env_var(env_list, "PWD", new_pwd);
 	return (add_to_gc(new_pwd), 0);
 }
