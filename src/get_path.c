@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:44:50 by swied             #+#    #+#             */
-/*   Updated: 2025/09/09 15:21:18 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/20 02:51:24 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,43 @@ char	*get_total_path(char **envp)
 	return (correct_path);
 }
 
+/* Helper function to free path array completely */
+static void	free_path_array(char **array)
+{
+	int	i;
+
+	if (!array)
+		return ;
+	i = 0;
+	while (array[i])
+		free(array[i++]);
+	free(array);
+}
+
 /* Joins the suffix to the path | checks for access of the path */
 char	*get_correct_path_second(char **path_array, char *suffix)
 {
 	int		i;
+	char	*full_path;
 	char	*result;
 
 	i = 0;
+	result = NULL;
 	while (path_array[i])
 	{
-		result = ft_strjoin(path_array[i], suffix);
-		free(path_array[i]);
-		path_array[i] = result;
-		if (path_array[i] == NULL)
-			return (free(suffix), free(path_array), NULL);
-		if (access(path_array[i], X_OK) == 0)
-		{
-			result = ft_strdup(path_array[i]);
-			return (free(suffix), result);
-		}
+		full_path = ft_strjoin(path_array[i], suffix);
+		if (!full_path)
+			break ;
+		if (access(full_path, X_OK) == 0)
+			result = ft_strdup(full_path);
+		free(full_path);
+		if (result)
+			break ;
 		i++;
 	}
-	return (free(suffix), free(path_array), free(result), NULL);
+	free_path_array(path_array);
+	free(suffix);
+	return (result);
 }
 
 /* gets the total path, creates suffix and splits the path it with ':' */
@@ -62,14 +77,12 @@ char	*get_correct_path(char *cmd, char **envp)
 	char	**path_array;
 	char	*suffix;
 	char	*correct_path;
-	char	*result;
 
 	if (ft_strchr(cmd, '/'))
 	{
 		if (access(cmd, X_OK) == 0)
 			return (ft_strdup(cmd));
-		else
-			return (NULL);
+		return (NULL);
 	}
 	correct_path = get_total_path(envp);
 	if (!correct_path)
@@ -79,7 +92,9 @@ char	*get_correct_path(char *cmd, char **envp)
 		return (NULL);
 	path_array = ft_split(correct_path, ':');
 	if (!path_array)
-		return (free(suffix), NULL);
-	result = get_correct_path_second(path_array, suffix);
-	return (result);
+	{
+		free(suffix);
+		return (NULL);
+	}
+	return (get_correct_path_second(path_array, suffix));
 }
