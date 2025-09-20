@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/20 02:37:53 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/20 04:22:42 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*add_to_history_and_free(char *linebuffer)
 	return (NULL);
 }
 
-int	main(int argc, char **argv, char **envp)
+void	interactive_shell(int argc, char **argv, char **envp)
 {
 	char		*linebuffer;
 	t_lexer		lex;
@@ -113,4 +113,33 @@ int	main(int argc, char **argv, char **envp)
 		else
 			builtin_exit(NULL);
 	}
+}
+
+void	non_interactive_shell(int argc, char **argv, char **envp)
+{
+	char		*linebuffer;
+	char		*trimmed;
+	t_lexer		lex;
+	t_mini		mini;
+
+	init_shell(&mini, argc, argv, envp);
+	linebuffer = get_next_line(fileno(stdin));
+	if (!linebuffer)
+		exit(mini.status);
+	trimmed = ft_strtrim(linebuffer, "\n");
+	free(linebuffer);
+	if (!trimmed || ft_strlen(trimmed) == 0)
+		exit(mini.status);
+	if (lexer_build(&trimmed, &lex, &mini) && parse(&mini.cmd_list, &lex))
+	{
+		clx(&lex);
+		mini.status = execute_loop(mini.cmd_list, mini.env_list);
+	}
+	else
+	{
+		clx(&lex);
+		mini.status = 2;
+	}
+	reset_stds();
+	exit(mini.status);
 }
