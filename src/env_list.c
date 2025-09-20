@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 17:38:41 by swied             #+#    #+#             */
-/*   Updated: 2025/09/19 23:39:52 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/20 03:20:05 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ void	shell_lvl_up(t_env_list *env_list)
 			new_level = ft_itoa(level);
 			if (!new_level)
 				return ;
-			gc_free(current->value);
 			current->value = new_level;
 			add_to_gc(current->value);
 			return ;
