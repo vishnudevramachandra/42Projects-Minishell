@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:36 by swied             #+#    #+#             */
-/*   Updated: 2025/09/20 03:00:55 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/20 03:02:07 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	execute_cmd(t_cmd_node *cmd_node, t_env_list *env_list)
 	execve(path, cmd_node->cmd, new_envp);
 	free(path);
 	free_all_garbage();
-	rl_clear_history;
 	ft_putstr_fd("execve failed: ", 2);
 	exit(126);
 }
