@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/20 04:15:21 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/20 05:52:19 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,6 @@ void	        non_interactive_shell(int argc, char **argv, char **envp);
 
 int				check_if_fd_open(int fd);
 int				reset_stds(void);
-int	            get_exit_stauts(int status);
+int	            get_exit_status(int status);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 16:34:02 by swied             #+#    #+#             */
-/*   Updated: 2025/09/11 13:18:42 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/20 05:52:25 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	reset_stds(void)
 	return (-1);
 }
 
-int	get_exit_stauts(int status)
+int	get_exit_status(int status)
 {
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
