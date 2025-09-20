@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/19 23:47:14 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/20 02:37:53 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,16 +98,19 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (linebuffer)
 			linebuffer = add_to_history_and_free(linebuffer);
-		linebuffer = readline("msh-1.0$ ");
-		if (linebuffer)
+		if ((linebuffer = readline("msh-1.0$ ")))
 		{
 			if (lexer_build(&linebuffer, &lex, &mini)
 				&& parse(&mini.cmd_list, &lex))
+			{
+				clx(&lex);
 				mini.status = execute_loop(mini.cmd_list, mini.env_list);
-			clx(&lex);
+			}
+			else
+				clx(&lex);
+			reset_stds();
 		}
 		else
 			builtin_exit(NULL);
-		reset_stds();
 	}
 }
