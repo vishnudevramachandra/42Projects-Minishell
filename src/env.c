@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 15:49:51 by swied             #+#    #+#             */
-/*   Updated: 2025/09/10 14:55:02 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/21 16:22:20 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ int	add_env_var(t_env_list *env_list, char *var, char *val)
 	return (0);
 }
 
-/* deletes value if the variable was there before and fills it with val + If no variable there before it calls add_env_var */
+/* deletes value if the variable was there before and fills it with val
++ If no variable there before it calls add_env_var */
 int	set_env_var(t_env_list *env_list, char *var, char *val)
 {
 	t_env_node	*current;

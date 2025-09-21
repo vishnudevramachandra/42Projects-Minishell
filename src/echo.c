@@ -6,13 +6,14 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 01:49:43 by swied             #+#    #+#             */
-/*   Updated: 2025/09/09 15:20:09 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/21 16:21:35 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-/* prints out the argument which is given | when there is a -n then without new line */
+/* prints out the argument which is given | when there is a -n
+then without new line */
 int	builtin_echo(char **args)
 {
 	int	i;
@@ -39,7 +40,7 @@ int	builtin_echo(char **args)
 
 int	is_n_flag(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (arg[0] != '-' || arg[1] != 'n')

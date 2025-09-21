@@ -1,5 +1,3 @@
-#include <stddef.h>
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -8,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 16:45:00 by swied             #+#    #+#             */
-/*   Updated: 2025/08/06 19:28:16 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/21 16:32:01 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +16,7 @@
 int	builtin_export(t_env_list *env_list, t_cmd_node *cmd_node)
 {
 	char	**env_array;
+
 	if (cmd_node->cmd[1] == NULL)
 	{
 		env_array = create_export_list(env_list);
@@ -26,7 +25,7 @@ int	builtin_export(t_env_list *env_list, t_cmd_node *cmd_node)
 	}
 	else
 		if (add_export(env_list, cmd_node) == -1)
-		return (-1);
+			return (-1);
 	return (0);
 }
 
@@ -34,6 +33,7 @@ int	builtin_export(t_env_list *env_list, t_cmd_node *cmd_node)
 void	print_export(t_env_list *env_list, char **env_array, int i)
 {
 	t_env_node	*current;
+
 	while (env_array[i])
 	{
 		current = env_list->head;

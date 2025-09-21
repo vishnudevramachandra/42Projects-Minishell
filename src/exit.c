@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/03 10:58:06 by swied             #+#    #+#             */
-/*   Updated: 2025/09/20 05:41:19 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/21 16:24:41 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	is_numstr(char *str)
 {
-	int i;
+	int	i;
 
 	if (!str || !*str)
 		return (0);

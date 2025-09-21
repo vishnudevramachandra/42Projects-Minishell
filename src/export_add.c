@@ -6,15 +6,17 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 04:09:11 by swied             #+#    #+#             */
-/*   Updated: 2025/09/10 15:00:12 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/21 16:26:30 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-int add_export(t_env_list *env_list, t_cmd_node *cmd_node)
+int	add_export(t_env_list *env_list, t_cmd_node *cmd_node)
 {
-	int i = 1;
+	int	i;
+
+	i = 0;
 	while (cmd_node->cmd[i])
 	{
 		if (process_export_arg(env_list, cmd_node->cmd[i]) == -1)
@@ -24,10 +26,10 @@ int add_export(t_env_list *env_list, t_cmd_node *cmd_node)
 	return (0);
 }
 
-int process_export_arg(t_env_list *env_list, char *arg)
+int	process_export_arg(t_env_list *env_list, char *arg)
 {
-	int var_len;
-	char *var;
+	int		var_len;
+	char	*var;
 
 	var_len = 0;
 	if (!search_for_equal_sign(arg))
@@ -51,7 +53,7 @@ int process_export_arg(t_env_list *env_list, char *arg)
 
 int	handle_export_without_value(t_env_list *env_list, char *var)
 {
-	t_env_node *existing;
+	t_env_node	*existing;
 
 	existing = find_env_var(env_list, var);
 	if (existing)
@@ -83,7 +85,7 @@ int	search_for_equal_sign(char *arg)
 
 int	handle_export_without_equal(t_env_list *env_list, char *arg)
 {
-	t_env_node *existing;
+	t_env_node	*existing;
 
 	existing = find_env_var(env_list, arg);
 	if (existing)

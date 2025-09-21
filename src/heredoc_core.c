@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:15:00 by swied             #+#    #+#             */
-/*   Updated: 2025/09/21 14:56:42 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/21 16:37:32 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	process_heredocs_in_cmd_list(t_cmd_list *cmd_list, t_env_list *env_list)
 }
 
 /* Execute heredoc collection in child process */
-int	execute_heredoc_collection(char *delimiter, t_hd_node *hd_node, t_env_list *env_list)
+int	execute_heredoc_collection(char *delimiter, t_hd_node *hd_node,
+	t_env_list *env_list)
 {
 	int		pipe_fd[2];
 	pid_t	pid;
@@ -57,7 +58,7 @@ int	execute_heredoc_collection(char *delimiter, t_hd_node *hd_node, t_env_list *
 	}
 	close(pipe_fd[1]);
 	if (read_heredoc_content(hd_node, pipe_fd[0]) == -1)
-		return (close(pipe_fd[0]), waitpid(pid, &status, 0), 
+		return (close(pipe_fd[0]), waitpid(pid, &status, 0),
 			handle_signal_in_msh(), -1);
 	close(pipe_fd[0]);
 	waitpid(pid, &status, 0);
@@ -68,7 +69,8 @@ int	execute_heredoc_collection(char *delimiter, t_hd_node *hd_node, t_env_list *
 }
 
 /* Create and process a single heredoc */
-int	create_heredoc(char *delimiter, t_cmd_node *cmd_node, t_file_node *file_node, t_env_list *env_list)
+int	create_heredoc(char *delimiter, t_cmd_node *cmd_node,
+	t_file_node *file_node,	t_env_list *env_list)
 {
 	t_hd_node	*hd_node;
 

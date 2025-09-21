@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:36 by swied             #+#    #+#             */
-/*   Updated: 2025/09/21 14:56:58 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/21 16:24:02 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	execute_cmd_or_builtin(t_cmd_node *cmd_node, t_env_list *env_list)
 	return (1);
 }
 
-/* if only one cmd and its a builtin, then execute in main process | else execute pipes */
+/* if only one cmd and its a builtin, then execute in main process |
+else execute pipes */
 int	execute_loop(t_cmd_list *cmd_list, t_env_list *env_list)
 {
 	int	status;
@@ -50,12 +51,13 @@ int	execute_loop(t_cmd_list *cmd_list, t_env_list *env_list)
 	return (status);
 }
 
-/* creates **new_envp which get filled with list_to_dblarray | gets cmd path from get_correct_path | executes cmd with execve */
+/* creates **new_envp which get filled with list_to_dblarray |
+gets cmd path from get_correct_path | executes cmd with execve */
 int	execute_cmd(t_cmd_node *cmd_node, t_env_list *env_list)
 {
 	char	*path;
 	char	**new_envp;
-	
+
 	if (!cmd_node || !cmd_node->cmd)
 		exit(127);
 	new_envp = list_to_dblarray(env_list);
@@ -73,36 +75,11 @@ int	execute_cmd(t_cmd_node *cmd_node, t_env_list *env_list)
 	exit(126);
 }
 
-// int	collect_heredocs(t_cmd_list *cmd_list, t_env_list *env_list)
-// {
-// 	t_cmd_node	*current_node;
-// 	t_file_node	*current_file_node;
-
-// 	current_node = gc_malloc(sizeof(t_cmd_node));
-// 	if (!current_node)
-// 		return (1);
-// 	current_node = cmd_list->head;
-// 	current_file_node = current_node->file_list->head;
-// 	if (!current_file_node)
-// 		return (0);
-// 	while (current_node)
-// 	{
-// 		while (current_file_node)
-// 		{
-// 			if (current_file_node->redir_type == REDIR_HEREDOC)
-// 				create_heredoc(current_file_node->filename, current_node, current_file_node, env_list);
-// 			current_file_node = current_file_node->next;
-// 		}
-// 		current_node = current_node->next;
-// 	}
-// 	return (0);
-// }
-
 void	signals_for_execution(void)
 {
 	struct sigaction	sa_int;
-	struct sigaction	sa_quit; 
-	
+	struct sigaction	sa_quit;
+
 	sigemptyset(&sa_int.sa_mask);
 	sa_int.sa_handler = SIG_IGN;
 	sa_int.sa_flags = SA_RESTART;

@@ -1,10 +1,12 @@
+/* ************************************************************************** */
+/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   list_to_dblarray.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 18:43:28 by swied             #+#    #+#             */
-/*   Updated: 2025/08/05 20:24:38 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/21 16:41:02 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +28,14 @@ int	create_env(char *var, char *value, char **array, int i)
 	return (1);
 }
 
-/* Creates a double array which gets filled with the env_list and help of create_env */
+/* Creates a double array which gets filled with the env_list
+and help of create_env */
 char	**list_to_dblarray(t_env_list *env_list)
 {
 	char		**new_envp;
 	t_env_node	*current;
 	int			i;
-	
+
 	i = 0;
 	if (!env_list)
 		return (NULL);
@@ -57,7 +60,7 @@ char	**list_to_dblarray(t_env_list *env_list)
 /* Frees the env_double_array */
 char	**free_env_array(char **array, int i)
 {
-	while (--i >= 0)	
+	while (--i >= 0)
 	{
 		gc_free(array[i]);
 	}

@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 03:18:51 by swied             #+#    #+#             */
-/*   Updated: 2025/08/24 03:32:38 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/21 16:47:30 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	builtin_unset(t_env_list *env_list, t_cmd_node *cmd_node)
 	return (0);
 }
 
-void    unset_env_var(t_env_list *env_list, char *var)
+void	unset_env_var(t_env_list *env_list, char *var)
 {
 	t_env_node	*current;
 	t_env_node	*prev;

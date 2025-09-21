@@ -6,13 +6,13 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 16:00:00 by swied             #+#    #+#             */
-/*   Updated: 2025/09/10 15:50:16 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/21 16:39:17 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-static volatile sig_atomic_t g_heredoc_interrupted = 0;
+static volatile sig_atomic_t	g_heredoc_interrupted = 0;
 
 /* Signal handler for heredoc input */
 void	heredoc_signal_handler(int signum)

@@ -3,11 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 18:42:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/05 21:07:54 by vishnudevra      ###   ########.fr       */
-/*                                                                            */ 
+/*   Updated: 2025/09/21 16:17:59 by swied            ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
@@ -15,13 +15,13 @@
 # include <stdbool.h>
 # include <stdio.h>
 
-typedef struct s_file_node t_file_node;
-typedef struct s_cmd_node t_cmd_node;
-typedef	struct s_hd_list t_hd_list;
-typedef struct s_hd_node t_hd_node;
-typedef struct s_hd_line t_hd_line;
-typedef struct s_env_list t_env_list;
-typedef struct s_env_node t_env_node;
+typedef struct s_file_node	t_file_node;
+typedef struct s_cmd_node	t_cmd_node;
+typedef struct s_hd_list	t_hd_list;
+typedef struct s_hd_node	t_hd_node;
+typedef struct s_hd_line	t_hd_line;
+typedef struct s_env_list	t_env_list;
+typedef struct s_env_node	t_env_node;
 
 typedef struct s_env_node {
 	char				*variable;
@@ -97,7 +97,7 @@ typedef struct s_cmd_list
 	t_cmd_node		*tail;
 	ssize_t			size;
 	int				prev_fd;
-	
+
 }	t_cmd_list;
 
 typedef struct s_mini

@@ -6,13 +6,13 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 16:22:46 by swied             #+#    #+#             */
-/*   Updated: 2025/09/20 16:23:25 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/21 16:42:32 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-/* If there is a prev_fd before -> close it and dup2 into standard */ 
+/* If there is a prev_fd before -> close it and dup2 into standard */
 void	setup_pipes(t_cmd_list *cmd_list, int *pipefd, int i)
 {
 	if (cmd_list->prev_fd != -1)

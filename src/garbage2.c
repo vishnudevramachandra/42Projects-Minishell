@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 21:03:13 by swied             #+#    #+#             */
-/*   Updated: 2025/09/09 15:21:15 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/21 16:36:39 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	free_node(t_garbage_list *gc_list, void *ptr)
 		return (0);
 	prev = gc_list->head;
 	current = prev->next;
-	while(current)
+	while (current)
 	{
 		if (current->ptr == ptr)
 		{
@@ -55,7 +55,8 @@ int	free_head_node(t_garbage_list *gc_list)
 	return (1);
 }
 
-/* If the node is the head node free_head_node gets calles | else free_node gets called */
+/* If the node is the head node free_head_node gets calles |
+else free_node gets called */
 int	gc_free(void *ptr)
 {
 	t_garbage_list	*gc_list;
