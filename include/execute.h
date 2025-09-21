@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/20 16:30:12 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/21 15:41:06 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,19 +110,25 @@ void		init_hd_list(t_cmd_node *cmd_node);
 int			is_delimiter_match(char *line, char *delimiter);
 int			is_delimiter(char *line, char *delimiter);
 int			cmd_list_has_heredocs(t_cmd_list *cmd_list);
-int			process_heredocs_in_single_cmd(t_cmd_node *cmd_node);
+int			process_heredocs_in_single_cmd(t_cmd_node *cmd_node, t_env_list *env_list);
 
 //heredoc_output.c
-int			collect_heredoc_input(char *delimiter, int write_fd);
+int			collect_heredoc_input(char *delimiter, int write_fd, t_env_list *env_list);
 int			read_heredoc_content(t_hd_node *hd_node, int read_fd);
 int			write_heredoc_to_pipe(t_hd_node *hd_node, int write_fd);
 int			create_heredoc_fd(t_hd_node *hd_node);
 
 //heredoc_core.c
-int	        handle_cmd_list_heredocs(t_cmd_list *cmd_list);
-int	        process_heredocs_in_cmd_list(t_cmd_list *cmd_list);
-int			execute_heredoc_collection(char *delimiter, t_hd_node *hd_node);
-int         create_heredoc(char *delimiter, t_cmd_node *cmd_node, t_file_node *file_node);
+int	        handle_cmd_list_heredocs(t_cmd_list *cmd_list, t_env_list *env_list);
+int	        process_heredocs_in_cmd_list(t_cmd_list *cmd_list, t_env_list *env_list);
+int			execute_heredoc_collection(char *delimiter, t_hd_node *hd_node, t_env_list *env_list);
+int         create_heredoc(char *delimiter, t_cmd_node *cmd_node, t_file_node *file_node, t_env_list *env_list);
+
+//heredoc_expansion.c
+
+char		*expand_heredoc(char *line, t_env_list *env_list);
+char		*check_for_dollar(char *str, t_env_list *env_list);
+char		*find_env_value(char *var_name, t_env_list *env_list);
 
 //garbage.c
 int				gc_free(void *ptr);
@@ -165,7 +171,6 @@ void	        non_interactive_shell(int argc, char **argv, char **envp);
 
 
 //utils.c
-
 int				check_if_fd_open(int fd);
 int				reset_stds(void);
 int	            get_exit_status(int status);

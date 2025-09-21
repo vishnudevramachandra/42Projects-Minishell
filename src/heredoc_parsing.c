@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:16:00 by swied             #+#    #+#             */
-/*   Updated: 2025/09/11 12:39:03 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/21 14:55:37 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	cmd_list_has_heredocs(t_cmd_list *cmd_list)
 }
 
 /* Process all heredocs in a single command node */
-int	process_heredocs_in_single_cmd(t_cmd_node *cmd_node)
+int	process_heredocs_in_single_cmd(t_cmd_node *cmd_node, t_env_list *env_list)
 {
 	t_file_node	*file_current;
 
@@ -84,7 +84,7 @@ int	process_heredocs_in_single_cmd(t_cmd_node *cmd_node)
 	{
 		if (file_current->redir_type == REDIR_HEREDOC)
 		{
-			if (create_heredoc(file_current->filename, cmd_node, file_current) == -1)
+			if (create_heredoc(file_current->filename, cmd_node, file_current, env_list) == -1)
 				return (-1);
 		}
 		file_current = file_current->next;

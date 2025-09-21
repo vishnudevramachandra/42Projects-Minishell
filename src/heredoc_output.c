@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:17:00 by swied             #+#    #+#             */
-/*   Updated: 2025/09/11 12:57:47 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/21 15:36:33 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ static void	print_eof_warning(char *delimiter)
 }
 
 /* Collect heredoc input with proper signal handling */
-int	collect_heredoc_input(char *delimiter, int write_fd)
+int	collect_heredoc_input(char *delimiter, int write_fd, t_env_list *env_list)
 {
 	char	*line;
+	char	*expanded_line;
 
 	setup_heredoc_signals();
 	while (1)
@@ -41,9 +42,10 @@ int	collect_heredoc_input(char *delimiter, int write_fd)
 			free(line);
 			break ;
 		}
-		write(write_fd, line, ft_strlen(line));
+		expanded_line = check_for_dollar(line, env_list);
+		write(write_fd, expanded_line, ft_strlen(expanded_line));
 		write(write_fd, "\n", 1);
-		free(line);
+		free(expanded_line);
 	}
 	close(write_fd);
 	exit(0);
