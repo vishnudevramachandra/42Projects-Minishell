@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/22 17:07:21 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/22 22:33:18 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #define _POSIX_C_SOURCE 200809L
-#define _GNU_SOURCE
 #include <signal.h>
 #include <stdio.h>
 #include <readline/readline.h>
@@ -20,6 +19,7 @@
 #include "../include/lexer.h"
 #include "../include/parser.h"
 #include "../include/execute.h"
+#define _GNU_SOURCE
 
 void	init_shell(t_mini *mini, int argc, char **argv, char **envp)
 {
