@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/22 15:50:13 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/22 18:04:47 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,12 @@ int				create_heredoc(char *delimiter, t_cmd_node *cmd_node,
 					t_file_node *file_node, t_env_list *env_list);
 
 //heredoc_expansion.c
-
 char			*expand_heredoc(char *line, t_env_list *env_list);
-char			*check_for_dollar(char *str, t_env_list *env_list);
+char			*check_for_dollar(char *str, t_env_list *env_list, int flag);
 char			*find_env_value(char *var_name, t_env_list *env_list);
+
+//heredoc_utils.c
+int				check_del_for_quotes(char **delimiter);
 
 //garbage.c
 int				gc_free(void *ptr);

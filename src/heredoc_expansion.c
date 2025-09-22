@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 14:18:36 by swied             #+#    #+#             */
-/*   Updated: 2025/09/22 16:12:10 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/22 17:47:56 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static char	*process_regular_char(char *str, char *result, int *i)
 
 /* checks for dollar sign in string, if yes -> process_variable.
 if no -> handle normal */
-char	*check_for_dollar(char *str, t_env_list *env_list)
+char	*check_for_dollar(char *str, t_env_list *env_list, int flag)
 {
 	int		i;
 	char	*result;
@@ -84,7 +84,7 @@ char	*check_for_dollar(char *str, t_env_list *env_list)
 	add_to_gc(result);
 	while (str[i])
 	{
-		if (str[i] == '$')
+		if (str[i] == '$' && flag == 0)
 			result = process_variable(str, env_list, result, &i);
 		else
 			result = process_regular_char(str, result, &i);

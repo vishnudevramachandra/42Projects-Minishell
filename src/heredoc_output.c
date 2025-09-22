@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:17:00 by swied             #+#    #+#             */
-/*   Updated: 2025/09/21 15:36:33 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/22 18:08:31 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ int	collect_heredoc_input(char *delimiter, int write_fd, t_env_list *env_list)
 {
 	char	*line;
 	char	*expanded_line;
+	int		flag;
 
+	flag = check_del_for_quotes(&delimiter);
 	setup_heredoc_signals();
 	while (1)
 	{
@@ -42,7 +44,7 @@ int	collect_heredoc_input(char *delimiter, int write_fd, t_env_list *env_list)
 			free(line);
 			break ;
 		}
-		expanded_line = check_for_dollar(line, env_list);
+		expanded_line = check_for_dollar(line, env_list, flag);
 		write(write_fd, expanded_line, ft_strlen(expanded_line));
 		write(write_fd, "\n", 1);
 		free(expanded_line);
