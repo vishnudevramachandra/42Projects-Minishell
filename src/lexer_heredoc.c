@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
+/*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:39:18 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/22 17:02:20 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/22 18:16:57 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ size_t	lb_heredoc(char *buf, size_t len, t_mini *mini, t_lexer *lex)
 	len_sps = ft_strspn(buf + len, " \t");
 	buf = buf + len + len_sps;
 	i = 0;
+	unclosed_quote = 0;
 	while (!ft_strchr(" \t|<>", *(buf + i)))
 	{
 		if (ft_strchr("'\"", *(buf + i)))
