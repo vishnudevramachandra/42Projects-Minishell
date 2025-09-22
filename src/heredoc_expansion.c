@@ -6,13 +6,23 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 14:18:36 by swied             #+#    #+#             */
-/*   Updated: 2025/09/21 15:47:18 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/22 16:12:10 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-/* counts length of potential expansion, calls find_env_value and strjoins the result */
+static char	*get_empty_str(char *expanded_var)
+{
+	expanded_var = ft_strdup("");
+	if (!expanded_var)
+		return (NULL);
+	add_to_gc(expanded_var);
+	return (expanded_var);
+}
+
+/* counts length of potential expansion, calls find_env_value and strjoins
+the result */
 static char	*process_variable(char *str, t_env_list *env_list, char *result,
 	int *i)
 {
@@ -33,12 +43,9 @@ static char	*process_variable(char *str, t_env_list *env_list, char *result,
 	add_to_gc(var_name);
 	expanded_var = find_env_value(var_name, env_list);
 	if (!expanded_var)
-	{
-		expanded_var = ft_strdup("");
-		if (!expanded_var)
-			return (NULL);
-		add_to_gc(expanded_var);
-	}
+		expanded_var = get_empty_str(expanded_var);
+	if (!expanded_var)
+		return (NULL);
 	result = ft_strjoin(result, expanded_var);
 	if (!result)
 		return (NULL);
@@ -63,7 +70,8 @@ static char	*process_regular_char(char *str, char *result, int *i)
 	return (result);
 }
 
-/* checks for dollar sign in string, if yes -> process_variable. if no -> handle normal */
+/* checks for dollar sign in string, if yes -> process_variable.
+if no -> handle normal */
 char	*check_for_dollar(char *str, t_env_list *env_list)
 {
 	int		i;
