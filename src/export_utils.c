@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:48:05 by swied             #+#    #+#             */
-/*   Updated: 2025/09/22 15:52:13 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/22 22:06:26 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,22 @@ t_env_node	*find_env_var(t_env_list *env_list, char *var)
 		current = current->next;
 	}
 	return (NULL);
+}
+
+int	check_valid_export(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] == ' ' && str[i])
+		i++;
+	if (!ft_isalpha(str[i]) && str[i] != '_')
+		return (1);
+	while (str[i] && str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (1);
+		i++;
+	}
+	return (0);
 }
