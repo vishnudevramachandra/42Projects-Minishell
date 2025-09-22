@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 02:17:26 by swied             #+#    #+#             */
-/*   Updated: 2025/09/20 05:57:49 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/23 00:24:54 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	builtin_cd(char **args, t_env_list *env_list)
 
 	if (!args[1])
 		target_dir = get_env_value(env_list, "HOME");
+	if (args[2])
+		return (ft_putendl_fd("minishell: cd: too many arguments", 2), 1);
 	else if (ft_strcmp(args[1], "-") == 0)
 		target_dir = get_env_value(env_list, "OLDPWD");
 	else
