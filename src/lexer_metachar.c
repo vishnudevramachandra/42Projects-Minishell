@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_metachar.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/28 09:51:11 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/06 10:45:10 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/22 16:04:48 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static size_t	lb_redirects(
 	else
 	{
 		if (ft_strnstr(buf + len, "<<", 2))
-			tok->type = HEREDOC;
+			i += lb_heredoc(buf, len + i, mini, lex);
 		else if (ft_strnstr(buf + len, ">>", 2))
 			tok->type = APPEND;
 		else
