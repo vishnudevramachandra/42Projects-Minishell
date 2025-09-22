@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 14:48:05 by swied             #+#    #+#             */
-/*   Updated: 2025/09/10 14:55:49 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/22 15:52:13 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,12 @@ int	count_exported_vars(t_env_list *env_list)
 }
 
 /* Bubble sort for the export variable array */
-void	bubblesort_array(char **env_array)
+void	bubblesort_array(char **env_array, int count)
 {
 	int		swapped;
 	char	*tmp;
-	int		count;
 	int		j;
 
-	count = 0;
 	while (env_array[count] != NULL)
 		count++;
 	swapped = 1;
@@ -47,7 +45,8 @@ void	bubblesort_array(char **env_array)
 		j = 0;
 		while (j < count - 1)
 		{
-			if (ft_strncmp(env_array[j], env_array[j + 1], ft_strlen(env_array[j])) > 0)
+			if (ft_strncmp(env_array[j], env_array[j + 1],
+					ft_strlen(env_array[j])) > 0)
 			{
 				tmp = env_array[j];
 				env_array[j] = env_array[j + 1];
@@ -62,7 +61,7 @@ void	bubblesort_array(char **env_array)
 /* Helper function to find an existing variable in the env_list */
 t_env_node	*find_env_var(t_env_list *env_list, char *var)
 {
-	t_env_node *current;
+	t_env_node	*current;
 
 	current = env_list->head;
 	while (current)
