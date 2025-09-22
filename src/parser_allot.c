@@ -6,11 +6,22 @@
 /*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/05 01:14:48 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/05 15:12:32 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/22 13:07:30 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parser.h"
+
+static char	*str_dup(char *src, size_t len, t_lexer *lex)
+{
+	char	*dst;
+
+	dst = gc_malloc(len + 1);
+	if (!dst)
+		free_and_exit(lex);
+	ft_strlcpy(dst, src, len + 1);
+	return (dst);
+}
 
 static t_file_node	*create_file_node(
 	char *name, t_redir_type typ, t_lexer *lex)
@@ -23,12 +34,7 @@ static t_file_node	*create_file_node(
 	if (!name)
 		file->filename = NULL;
 	else
-	{
-		file->filename = gc_malloc(ft_strlen(name) + 1);
-		if (!file->filename)
-			free_and_exit(lex);
-		ft_strlcpy(file->filename, name, ft_strlen(name) + 1);
-	}
+		file->filename = str_dup(name, ft_strlen(name), lex);
 	file->redir_type = typ;
 	file->next = NULL;
 	return (file);
@@ -53,17 +59,6 @@ void	add_file_to_filelist(
 	}
 	files->tail = file;
 	files->size++;
-}
-
-static char	*str_dup(char *src, size_t len, t_lexer *lex)
-{
-	char	*dst;
-
-	dst = gc_malloc(len + 1);
-	if (!dst)
-		free_and_exit(lex);
-	ft_strlcpy(dst, src, len + 1);
-	return (dst);
 }
 
 /* appends the argument "word" to command array (of strings) */
