@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/21 16:31:12 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/22 15:45:45 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,8 +173,6 @@ void			bubblesort_array(char **env_array);
 t_env_node		*find_env_var(t_env_list *env_list, char *var);
 
 //shell.c
-void			sig_handler(int signum, siginfo_t *info, void *context);
-void			handle_signal_in_msh(void);
 void			interactive_shell(int argc, char **argv, char **envp);
 void			non_interactive_shell(int argc, char **argv, char **envp);
 
@@ -182,5 +180,9 @@ void			non_interactive_shell(int argc, char **argv, char **envp);
 int				check_if_fd_open(int fd);
 int				reset_stds(void);
 int				get_exit_status(int status);
+
+//signals.c
+void			sig_handler(int signum, siginfo_t *info, void *context);
+void			handle_signal_in_msh(void);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
-#    Updated: 2025/09/21 14:57:40 by swied            ###   ########.fr        #
+#    Updated: 2025/09/22 15:34:55 by swied            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,8 @@ SRCS :=			$(SRCD)/execute.c \
 				$(SRCD)/shell.c \
 				$(SRCD)/utils.c \
 				$(SRCD)/env_utils.c \
-				$(SRCD)/export_utils.c
+				$(SRCD)/export_utils.c \
+				$(SRCD)/signals.c
 
 OBJS := $(SRCS:$(SRCD)/%.c=$(OBJD)/%.o)
 
