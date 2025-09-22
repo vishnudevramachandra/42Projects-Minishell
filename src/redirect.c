@@ -6,16 +6,31 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 19:44:30 by swied             #+#    #+#             */
-/*   Updated: 2025/09/11 12:47:40 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/22 16:22:24 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/execute.h"
 
-/* Open every redirect and set fd_infile or fd_outfile | Gets overwritten when multiple redirects */
-int open_redirects(t_cmd_node *cmd_node)
+static int	open_redirects_two(t_cmd_node *cmd_node, t_file_node *current)
 {
-	t_file_node *current;
+	if (current->redir_type == REDIR_APPEND)
+	{
+		cmd_node->file_list->fd_outfile = open(current->filename, O_CREAT
+				| O_WRONLY | O_APPEND, 0644);
+		if (cmd_node->file_list->fd_outfile == -1)
+			return (perror(current->filename), 1);
+	}
+	else if (current->redir_type == REDIR_HEREDOC)
+		cmd_node->file_list->fd_infile = get_last_hd_fd(cmd_node);
+	return (0);
+}
+
+/* Open every redirect and set fd_infile or fd_outfile |
+Gets overwritten when multiple redirects */
+int	open_redirects(t_cmd_node *cmd_node)
+{
+	t_file_node	*current;
 
 	current = cmd_node->file_list->head;
 	check_fd(cmd_node);
@@ -29,25 +44,21 @@ int open_redirects(t_cmd_node *cmd_node)
 		}
 		else if (current->redir_type == REDIR_OUT)
 		{
-			cmd_node->file_list->fd_outfile = open(current->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+			cmd_node->file_list->fd_outfile = open(current->filename, O_CREAT
+					| O_WRONLY | O_TRUNC, 0644);
 			if (cmd_node->file_list->fd_outfile == -1)
 				return (perror(current->filename), 1);
 		}
-		else if (current->redir_type == REDIR_APPEND)
-		{
-			cmd_node->file_list->fd_outfile = open(current->filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
-			if (cmd_node->file_list->fd_outfile == -1)
-				return (perror(current->filename), 1);
-		}
-		else if (current->redir_type == REDIR_HEREDOC)
-			// cmd_node->file_list->fd_infile = create_heredoc_fd(cmd_node->hd_list->head);
-			cmd_node->file_list->fd_infile = get_last_hd_fd(cmd_node);
+		else
+			if ((open_redirects_two(cmd_node, current)))
+				return (1);
 		current = current->next;
 	}
 	return (0);
 }
 
-/* If there is a fd_infile or fd_outfile -> close it and set it to -1 (After one pipe done) */
+/* If there is a fd_infile or fd_outfile -> close it and set it to -1
+(After one pipe done) */
 void	check_fd(t_cmd_node *cmd_node)
 {
 	if (!cmd_node || !cmd_node->file_list)
@@ -64,8 +75,9 @@ void	check_fd(t_cmd_node *cmd_node)
 	}
 }
 
-/* Routine of redirects: Set fd_infile and fd_outfile with open_redirects | if its filled dup2 from STD_IN/STD_OUT to fd_infile/fd_outfile */
-int redirect(t_cmd_node *cmd_node)
+/* Routine of redirects: Set fd_infile and fd_outfile with open_redirects |
+if its filled dup2 from STD_IN/STD_OUT to fd_infile/fd_outfile */
+int	redirect(t_cmd_node *cmd_node)
 {
 	if (!cmd_node || !cmd_node->file_list)
 		return (0);
