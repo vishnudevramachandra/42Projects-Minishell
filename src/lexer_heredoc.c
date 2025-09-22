@@ -6,10 +6,9 @@
 /*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:39:18 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/22 16:46:46 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/22 17:02:20 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../include/lexer.h"
 #include "./libft/libft.h"
@@ -34,10 +33,10 @@ size_t	lb_heredoc(char *buf, size_t len, t_mini *mini, t_lexer *lex)
 	}
 	if (unclosed_quote)
 	{
-		ft_putstr_fd("msh: syntax error due to unclosed quote", 2);
+		ft_putendl_fd("msh: syntax error due to unclosed quote", 2);
 		return (set_status(mini, 258), clx(lex), len_sps + ft_strlen(buf));
 	}
 	incr_lex(lex);
-	add_work_to_tok(buf, i, get_last_token(lex));
+	add_word_to_tok(buf, i, get_last_token(lex));
 	return (len_sps + i);
 }

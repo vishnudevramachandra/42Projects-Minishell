@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+         #
+#    By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
-#    Updated: 2025/09/22 15:34:55 by swied            ###   ########.fr        #
+#    Updated: 2025/09/22 16:55:07 by vramacha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ SRCS :=			$(SRCD)/execute.c \
 				$(SRCD)/lexer_helper.c \
 				$(SRCD)/lexer_inits.c \
 				$(SRCD)/lexer_metachar.c \
+				$(SRCD)/lexer_heredoc.c \
 				$(SRCD)/lexer.c \
 				$(SRCD)/parser.c \
 				$(SRCD)/parser_helper.c \
