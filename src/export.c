@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 16:45:00 by swied             #+#    #+#             */
-/*   Updated: 2025/09/22 15:50:28 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/22 21:22:49 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int	builtin_export(t_env_list *env_list, t_cmd_node *cmd_node)
 		free_export_array(env_array, 0);
 	}
 	else
-		if (add_export(env_list, cmd_node) == -1)
-			return (-1);
+		return (add_export(env_list, cmd_node));
 	return (0);
 }
 
