@@ -6,11 +6,10 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:25:00 by swied             #+#    #+#             */
-/*   Updated: 2025/09/22 15:35:28 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/22 22:32:30 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _GNU_SOURCE
 #include <signal.h>
 #include <stddef.h>
 #include <stdlib.h>
@@ -25,6 +24,7 @@
 #include "../include/lexer.h"
 #include "../include/parser.h"
 #include "../include/execute.h"
+#define _GNU_SOURCE
 
 void	sig_handler(int signum, siginfo_t *info, void *context)
 {
