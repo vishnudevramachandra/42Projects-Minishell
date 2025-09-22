@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+         #
+#    By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
-#    Updated: 2025/09/22 16:55:07 by vramacha         ###   ########.fr        #
+#    Updated: 2025/09/22 17:41:25 by swied            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,8 @@ SRCS :=			$(SRCD)/execute.c \
 				$(SRCD)/utils.c \
 				$(SRCD)/env_utils.c \
 				$(SRCD)/export_utils.c \
-				$(SRCD)/signals.c
+				$(SRCD)/signals.c \
+				$(SRCD)/heredoc_utils.c
 
 OBJS := $(SRCS:$(SRCD)/%.c=$(OBJD)/%.o)
 
