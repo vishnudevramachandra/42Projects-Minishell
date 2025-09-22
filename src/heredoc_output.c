@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/10 17:17:00 by swied             #+#    #+#             */
-/*   Updated: 2025/09/22 18:08:31 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/22 23:03:16 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,7 @@ int	collect_heredoc_input(char *delimiter, int write_fd, t_env_list *env_list)
 		write(write_fd, "\n", 1);
 		free(expanded_line);
 	}
-	close(write_fd);
-	exit(0);
+	return (close(write_fd), exit(0), 0);
 }
 
 /* Read heredoc content from pipe and store in lines */
