@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 18:42:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/21 16:17:59 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/22 15:48:03 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ typedef struct s_hd_line	t_hd_line;
 typedef struct s_env_list	t_env_list;
 typedef struct s_env_node	t_env_node;
 
-typedef struct s_env_node {
+typedef struct s_env_node
+{
 	char				*variable;
 	char				*value;
 	bool				is_export;
