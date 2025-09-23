@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_heredoc.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:39:18 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/22 18:16:57 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/23 10:46:46 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,15 @@ size_t	lb_heredoc(char *buf, size_t len, t_mini *mini, t_lexer *lex)
 	while (!ft_strchr(" \t|<>", *(buf + i)))
 	{
 		if (ft_strchr("'\"", *(buf + i)))
-			unclosed_quote = (unclosed_quote + 1) % 2;
+			unclosed_quote++;
 		i++;
 	}
-	if (unclosed_quote)
+	if (unclosed_quote % 2)
 	{
 		ft_putendl_fd("msh: syntax error due to unclosed quote", 2);
 		return (set_status(mini, 258), clx(lex), len_sps + ft_strlen(buf));
 	}
 	incr_lex(lex);
-	add_word_to_tok(buf, i, get_last_token(lex));
+	add_word_to_tok(buf, i, lex);
 	return (len_sps + i);
 }

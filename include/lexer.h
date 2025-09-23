@@ -6,7 +6,7 @@
 /*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 19:05:06 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/22 16:53:43 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/23 10:46:17 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stddef.h>
 # include "minishell.h"
+# include "execute.h"
 
 typedef struct s_token
 {
@@ -54,14 +55,14 @@ void	cleanup_print_error_and_exit(t_lexer *lex);
 t_token	*get_last_token(t_lexer *lex);
 int		incr_lex(t_lexer *lex);
 char	*buf_cat(char *old_buf, char *delim, char *str);
-void	add_word_to_tok(const char *linebuffer, size_t len, t_token *tok);
-size_t	insert_plain_text(const char *linebuffer, t_token *tok,
+void	add_word_to_tok(const char *linebuffer, size_t len, t_lexer *lex);
+size_t	insert_plain_text(const char *linebuffer, t_lexer *lex,
 			char *end_of_word);
 size_t	lb_on_metachar(char **buf, size_t len, t_mini *mini,
 			t_lexer *lex);
 size_t	lb_heredoc(char *buf, size_t len, t_mini *mini, t_lexer *lex);
 size_t	lexer_build(char **linebuffer, t_lexer *lex, t_mini *mini);
-size_t	expand_tilde(t_token *tok, const char *home);
+size_t	expand_tilde(t_token *tok, const char *home, t_lexer *lex);
 size_t	expand_p_v(const char *linebuffer, t_lexer *lex, t_mini *mini,
 			int sep_fields_into_words);
 void	set_status(t_mini *mini, int nbr);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_inits.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:44:39 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/06 10:44:31 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/22 17:46:28 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	clx(t_lexer *lex)
 void	cleanup_print_error_and_exit(t_lexer *lex)
 {
 	clx(lex);
+	free_all_garbage();
 	perror("Malloc error: ");
 	exit (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
+/*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:31:01 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/09 14:41:35 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/23 10:40:13 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,8 @@ static void	prt_err(char c)
 static size_t	lb_on_dquote(
 	char **buf, size_t len, t_mini *mini, t_lexer *lex)
 {
-	t_token	*tok;
 	char	*str;
 
-	tok = get_last_token(lex);
 	++len;
 	while (*(*buf + len) != '"')
 	{
@@ -47,7 +45,7 @@ static size_t	lb_on_dquote(
 			if (!*buf)
 				cleanup_print_error_and_exit(lex);
 		}
-		len += insert_plain_text(*buf + len, tok, "$\"");
+		len += insert_plain_text(*buf + len, lex, "$\"");
 		if (*(*buf + len) == '$')
 			len += expand_p_v(*buf + len, lex, mini, 0);
 	}
@@ -57,10 +55,8 @@ static size_t	lb_on_dquote(
 static size_t	lb_on_squote(
 	char **buf, size_t len, t_mini *mini, t_lexer *lex)
 {
-	t_token	*tok;
 	char	*str;
 
-	tok = get_last_token(lex);
 	++len;
 	while (!strchr(*buf + len, '\''))
 	{
@@ -75,7 +71,7 @@ static size_t	lb_on_squote(
 		if (!*buf)
 			cleanup_print_error_and_exit(lex);
 	}
-	len += 1 + insert_plain_text(*buf + len, tok, "'");
+	len += 1 + insert_plain_text(*buf + len, lex, "'");
 	return (len);
 }
 
@@ -90,9 +86,9 @@ static size_t	lb_on_normchar(
 		if (*(*buf + len) == '~'
 			&& ft_strchr(" \t\n|<>/", *(*buf + len + 1))
 			&& tok->type == CHAR_NULL)
-			len += expand_tilde(tok, get_env_value(mini->env_list, "HOME"));
+			len += expand_tilde(tok, get_env_value(mini->env_list, "HOME"), lex);
 		if (ft_strcspn(*buf + len, " \t\n|<>$\"'"))
-			len += insert_plain_text(*buf + len, tok, " \t\n|<>$\"'");
+			len += insert_plain_text(*buf + len, lex, " \t\n|<>$\"'");
 		if (*(*buf + len) == '$')
 		{
 			len += expand_p_v(*buf + len, lex, mini, 1);
