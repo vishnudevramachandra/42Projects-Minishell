@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+         #
+#    By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/07/14 23:36:23 by swied             #+#    #+#              #
-#    Updated: 2025/09/22 17:41:25 by swied            ###   ########.fr        #
+#    Updated: 2025/09/23 15:24:52 by vramacha         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ SRCS :=			$(SRCD)/execute.c \
 				$(SRCD)/export_add.c \
 				$(SRCD)/lexer_basicfcns.c \
 				$(SRCD)/lexer_exp.c \
+				$(SRCD)/lexer_exp_helper.c \
 				$(SRCD)/lexer_helper.c \
 				$(SRCD)/lexer_inits.c \
 				$(SRCD)/lexer_metachar.c \

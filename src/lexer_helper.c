@@ -6,7 +6,7 @@
 /*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 13:51:59 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/23 10:36:42 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:28:22 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*buf_cat(char *old_buf, char *delim, char *str)
 	return (buf);
 }
 
-void	add_word_to_tok(const char *linebuffer, size_t len, t_lexer *lex)
+t_token	*add_word_to_tok(const char *linebuffer, size_t len, t_lexer *lex)
 {
 	t_token	*tok;
 	size_t	prev_len;
@@ -46,7 +46,7 @@ void	add_word_to_tok(const char *linebuffer, size_t len, t_lexer *lex)
 	{
 		tok->data = malloc((len + 1) * sizeof(char));
 		if (!tok->data)
-			cleanup_print_error_and_exit(lex);
+			return (NULL);
 		ft_strlcpy(tok->data, linebuffer, len + 1);
 	}
 	else
@@ -54,22 +54,30 @@ void	add_word_to_tok(const char *linebuffer, size_t len, t_lexer *lex)
 		prev_len = ft_strlen(tok->data);
 		ptr = malloc((prev_len + len + 1) * sizeof(char));
 		if (!ptr)
-			cleanup_print_error_and_exit(lex);
+			return (NULL);
 		ft_strlcpy(ptr, tok->data, prev_len + 1);
 		ft_strlcpy(ptr + prev_len, linebuffer, len + 1);
 		free(tok->data);
 		tok->data = ptr;
 	}
 	tok->type = WORD;
+	return (tok);
 }
 
-size_t	insert_plain_text(
-			const char *linebuffer, t_lexer *lex, char *end_of_word)
+size_t	insert_plain_text(const char *linebuffer,
+			t_lexer *lex, char *end_of_word, int exit_flag)
 {
 	size_t	len;
+	t_token	*tok;
 
 	len = ft_strcspn(linebuffer, end_of_word);
-	add_word_to_tok(linebuffer, len, lex);
+	tok = add_word_to_tok(linebuffer, len, lex);
+	if (!tok)
+	{
+		if (exit_flag)
+			cleanup_print_error_and_exit(lex);
+		return (-1);
+	}
 	return (len);
 }
 

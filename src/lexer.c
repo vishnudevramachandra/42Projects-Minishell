@@ -6,7 +6,7 @@
 /*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 16:31:01 by vishnudevra       #+#    #+#             */
-/*   Updated: 2025/09/23 10:40:13 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/23 15:09:05 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static size_t	lb_on_dquote(
 			if (!*buf)
 				cleanup_print_error_and_exit(lex);
 		}
-		len += insert_plain_text(*buf + len, lex, "$\"");
+		len += insert_plain_text(*buf + len, lex, "$\"", 1);
 		if (*(*buf + len) == '$')
 			len += expand_p_v(*buf + len, lex, mini, 0);
 	}
@@ -71,7 +71,7 @@ static size_t	lb_on_squote(
 		if (!*buf)
 			cleanup_print_error_and_exit(lex);
 	}
-	len += 1 + insert_plain_text(*buf + len, lex, "'");
+	len += 1 + insert_plain_text(*buf + len, lex, "'", 1);
 	return (len);
 }
 
@@ -86,9 +86,10 @@ static size_t	lb_on_normchar(
 		if (*(*buf + len) == '~'
 			&& ft_strchr(" \t\n|<>/", *(*buf + len + 1))
 			&& tok->type == CHAR_NULL)
-			len += expand_tilde(tok, get_env_value(mini->env_list, "HOME"), lex);
+			len += expand_tilde(
+					tok, get_env_value(mini->env_list, "HOME"), lex);
 		if (ft_strcspn(*buf + len, " \t\n|<>$\"'"))
-			len += insert_plain_text(*buf + len, lex, " \t\n|<>$\"'");
+			len += insert_plain_text(*buf + len, lex, " \t\n|<>$\"'", 1);
 		if (*(*buf + len) == '$')
 		{
 			len += expand_p_v(*buf + len, lex, mini, 1);
@@ -118,7 +119,8 @@ size_t	lexer_build(char **buf, t_lexer *lex, t_mini *mini)
 	len = ft_strspn(*buf, " \t");
 	while (*(*buf + len))
 	{
-		incr_lex(lex);
+		if (!incr_lex(lex))
+			cleanup_print_error_and_exit(lex);
 		if (ft_strchr("|<>\n", *(*buf + len)))
 			len = lb_on_metachar(buf, len, mini, lex);
 		else
