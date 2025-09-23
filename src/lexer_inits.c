@@ -6,7 +6,7 @@
 /*   By: vramacha <vramacha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/27 15:44:39 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/23 13:55:40 by vramacha         ###   ########.fr       */
+/*   Updated: 2025/09/23 16:16:59 by vramacha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_token	*incr_lex(t_lexer *lex)
 	{
 		lex->toks = malloc(sizeof(t_token));
 		if (!lex->toks)
-			return NULL;
+			return (NULL);
 		tok = lex->toks;
 	}
 	else
@@ -75,7 +75,7 @@ t_token	*incr_lex(t_lexer *lex)
 		tok = get_last_token(lex);
 		tok->next = malloc(sizeof(t_token));
 		if (!tok->next)
-			return NULL;
+			return (NULL);
 		tok = tok->next;
 	}
 	init_token(tok);
