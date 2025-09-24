@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
+/*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:25:00 by swied             #+#    #+#             */
-/*   Updated: 2025/09/24 14:22:17 by vishnudevra      ###   ########.fr       */
+/*   Updated: 2025/09/24 15:51:44 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ void	sig_handler(int signum, siginfo_t *info, void *context)
 		rl_redisplay();
 	else
 	{
-		rl_replace_line("\n", 0);
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
 		tcgetattr(0, &term);
 		term.c_lflag &= ~ECHO;
 		tcsetattr(0, TCSANOW, &term);
