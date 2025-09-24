@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:38 by swied             #+#    #+#             */
-/*   Updated: 2025/09/22 21:17:59 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/24 15:14:50 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int				execute_cmd_or_builtin(t_cmd_node *cmd_node,
 					t_env_list *env_list);
 int				execute_loop(t_cmd_list *cmd_list, t_env_list *env_list);
 int				collect_heredocs(t_cmd_list *cmd_list);
-void			signals_for_execution(void);
 
 //redirect.c
 int				redirect(t_cmd_node *cmd_node);

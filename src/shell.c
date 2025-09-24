@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/22 22:33:18 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/24 15:13:07 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	interactive_shell(int argc, char **argv, char **envp)
 	linebuffer = NULL;
 	while (1)
 	{
+		reset_stds();
 		linebuffer = handle_rdline_input(linebuffer);
 		if (linebuffer)
 		{
@@ -67,7 +68,6 @@ void	interactive_shell(int argc, char **argv, char **envp)
 			}
 			else
 				clx(&lex);
-			reset_stds();
 		}
 		else
 			builtin_exit(NULL);
