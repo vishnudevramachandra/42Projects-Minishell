@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/14 23:04:36 by swied             #+#    #+#             */
-/*   Updated: 2025/09/23 00:30:59 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/24 15:20:04 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	execute_loop(t_cmd_list *cmd_list, t_env_list *env_list)
 {
 	int	status;
 
-	signals_for_execution();
 	if (handle_cmd_list_heredocs(cmd_list, env_list) == -1)
 		return (1);
 	if (cmd_list->size == 1 && cmd_list->head->cmd_type == 1)
@@ -75,19 +74,4 @@ int	execute_cmd(t_cmd_node *cmd_node, t_env_list *env_list)
 	free_all_garbage();
 	ft_putstr_fd("execve failed: ", 2);
 	exit(126);
-}
-
-void	signals_for_execution(void)
-{
-	struct sigaction	sa_int;
-	struct sigaction	sa_quit;
-
-	sigemptyset(&sa_int.sa_mask);
-	sa_int.sa_handler = SIG_IGN;
-	sa_int.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa_int, NULL);
-	sigemptyset(&sa_quit.sa_mask);
-	sa_quit.sa_handler = SIG_IGN;
-	sa_quit.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &sa_quit, NULL);
 }

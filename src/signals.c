@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:25:00 by swied             #+#    #+#             */
-/*   Updated: 2025/09/22 22:32:30 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/24 14:22:17 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,7 @@ void	sig_handler(int signum, siginfo_t *info, void *context)
 		rl_redisplay();
 	else
 	{
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
+		rl_replace_line("\n", 0);
 		tcgetattr(0, &term);
 		term.c_lflag &= ~ECHO;
 		tcsetattr(0, TCSANOW, &term);
@@ -65,4 +62,5 @@ void	handle_signal_in_msh(void)
 	act.sa_sigaction = sig_handler;
 	sigaction(SIGINT, &act, NULL);
 	sigaction(SIGQUIT, &act, NULL);
+	signal(SIGTTOU, SIG_IGN);
 }

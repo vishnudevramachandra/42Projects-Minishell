@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:19:52 by swied             #+#    #+#             */
-/*   Updated: 2025/09/20 16:55:34 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/24 15:20:28 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 /* Execute a single command in a child process */
 static void	execute_child_process(t_cmd_node *current, t_env_list *env_list)
 {
-	signals_for_child();
 	if (redirect(current) != 0)
 	{
 		free_all_garbage();
@@ -48,26 +47,46 @@ static int	wait_for_children(pid_t last_pid)
 	}
 	if (last_pid > 0)
 		waitpid(last_pid, &last_status, 0);
+	tcsetpgrp(STDOUT_FILENO, getpid());
 	return (last_status);
+}
+
+static pid_t	tcsetpgrp_in_child(int i, pid_t pgid)
+{
+	if (i < 1)
+	{
+		pgid = getpid();
+		if (tcsetpgrp(STDOUT_FILENO, pgid) != 0)
+			perror("tcsetpgrp() error");
+	}
+	return (pgid);
 }
 
 /* Process single command in pipe */
 static pid_t	process_pipe_cmd(t_cmd_list *cmd_list, t_env_list *env_list,
-	t_cmd_node *current, int i)
+					t_cmd_node *current, int i)
 {
-	pid_t	pid;
-	int		pipefd[2];
+	pid_t			pid;
+	int				pipefd[2];
+	static pid_t	pgid;
 
 	if (i < (cmd_list->size - 1))
 		pipe(pipefd);
 	pid = fork();
 	if (pid == 0)
 	{
+		pgid = tcsetpgrp_in_child(i, pgid);
+		setpgid(pid, pgid);
 		setup_pipes(cmd_list, pipefd, i);
 		execute_child_process(current, env_list);
 	}
 	else
+	{
+		if (i < 1)
+			pgid = pid;
+		setpgid(pid, pgid);
 		close_pipes(cmd_list, current, pipefd, i);
+	}
 	return (pid);
 }
 
@@ -88,6 +107,5 @@ int	execute_pipes(t_cmd_list *cmd_list, t_env_list *env_list)
 		i++;
 		current = current->next;
 	}
-	handle_signal_in_msh();
 	return (get_exit_status(wait_for_children(last_pid)));
 }
