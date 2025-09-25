@@ -6,11 +6,10 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 11:40:09 by vramacha          #+#    #+#             */
-/*   Updated: 2025/09/25 10:35:28 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/25 10:39:13 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #define _POSIX_C_SOURCE 200809L
 #include <signal.h>
 #include <stdio.h>
 #include <readline/readline.h>
