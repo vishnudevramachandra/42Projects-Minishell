@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/22 15:25:00 by swied             #+#    #+#             */
-/*   Updated: 2025/09/22 22:32:30 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/24 15:51:44 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,5 @@ void	handle_signal_in_msh(void)
 	act.sa_sigaction = sig_handler;
 	sigaction(SIGINT, &act, NULL);
 	sigaction(SIGQUIT, &act, NULL);
+	signal(SIGTTOU, SIG_IGN);
 }

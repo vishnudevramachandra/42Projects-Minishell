@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
+/*   By: vishnudevramachandra <vishnudevramachan    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/20 16:22:46 by swied             #+#    #+#             */
-/*   Updated: 2025/09/21 16:42:32 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/24 15:19:24 by vishnudevra      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,4 @@ void	close_pipes(t_cmd_list *cmd_list, t_cmd_node *current,
 		if (current->file_list->fd_outfile != -1)
 			close(current->file_list->fd_outfile);
 	}
-}
-
-void	signals_for_child(void)
-{
-	struct sigaction	sa_int;
-	struct sigaction	sa_quit;
-
-	sigemptyset(&sa_int.sa_mask);
-	sa_int.sa_handler = SIG_DFL;
-	sa_int.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa_int, NULL);
-	sigemptyset(&sa_quit.sa_mask);
-	sa_quit.sa_handler = SIG_DFL;
-	sa_quit.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &sa_quit, NULL);
 }
