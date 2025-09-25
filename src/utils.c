@@ -6,7 +6,7 @@
 /*   By: swied <swied@student.42heilbronn.de>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 16:34:02 by swied             #+#    #+#             */
-/*   Updated: 2025/09/20 05:52:25 by swied            ###   ########.fr       */
+/*   Updated: 2025/09/25 11:50:57 by swied            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	check_if_fd_open(int fd)
 int	reset_stds(void)
 {
 	int	i;
-	int	fd;
 
 	i = 3;
 	while (i < 1023)
@@ -33,16 +32,7 @@ int	reset_stds(void)
 			close(i);
 		i++;
 	}
-	fd = open("/dev/tty", O_RDONLY);
-	dup2(fd, STDIN_FILENO);
-	close(fd);
-	fd = open("/dev/tty", O_WRONLY);
-	dup2(fd, STDOUT_FILENO);
-	close(fd);
-	fd = open("/dev/tty", O_WRONLY);
-	dup2(fd, STDERR_FILENO);
-	close(fd);
-	return (-1);
+	return (0);
 }
 
 int	get_exit_status(int status)
